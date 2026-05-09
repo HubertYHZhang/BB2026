@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第一讲 · 关于市场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg:        #faf8f3;
+    --bg-warm:   #f4efe2;
+    --bg-cream:  #f7f2e6;
+    --ink:       #1f1d1a;
+    --ink-soft:  #5a554d;
+    --ink-faint: #a39d8f;
+    --rule:      #ddd6c4;
+    --terracotta:#d97757;
+    --blue:      #3b6e8f;
+    --gold:      #c9a961;
+    --green:     #5a8a6a;
+
+    --serif: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    --sans:  "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", sans-serif;
+    --display: "EB Garamond", "Noto Serif SC", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(31,29,26,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(31,29,26,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  main { position: relative; z-index: 1; }
+
+  /* ---- header ---- */
+  .top-bar {
+    border-bottom: 1px solid var(--rule);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .top-bar .brand {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--ink); font-weight: 500;
+  }
+  .top-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta); }
+
+  /* ---- hero ---- */
+  .hero {
+    padding: 100px 48px 80px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 36px;
+  }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; }
+  .eyebrow .dash { width: 32px; height: 1.5px; background: var(--ink-soft); }
+
+  .hero h1 {
+    font-family: var(--serif-cn);
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 1.15;
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+  }
+  .hero .subtitle {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--terracotta);
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: 0;
+    display: block;
+    margin-bottom: 32px;
+  }
+
+  /* learning goals */
+  .goals {
+    background: var(--bg-cream);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 32px 32px;
+    margin-top: 36px;
+  }
+  .goals .goals-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .goals ul {
+    list-style: none;
+    padding: 0;
+  }
+  .goals li {
+    font-family: var(--serif-cn);
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    padding: 6px 0 6px 24px;
+    position: relative;
+  }
+  .goals li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 14px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--terracotta);
+  }
+
+  /* ---- content ---- */
+  .content {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+  }
+
+  /* section divider */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 64px 0 36px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .section-divider .line { flex: 1; height: 1px; background: var(--rule); }
+
+  /* headings */
+  h2 {
+    font-family: var(--serif-cn);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+  h2 .accent {
+    color: var(--terracotta);
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  h3 {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.4;
+    margin: 36px 0 14px;
+  }
+
+  /* body text */
+  p {
+    font-family: var(--serif-cn);
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  p.secondary {
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* inline examples list */
+  .examples {
+    margin: 20px 0;
+    padding: 0;
+    list-style: none;
+  }
+  .examples li {
+    font-family: var(--serif-cn);
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: var(--ink);
+    padding: 4px 0 4px 20px;
+    position: relative;
+  }
+  .examples li::before {
+    content: "·";
+    position: absolute;
+    left: 4px;
+    color: var(--ink-faint);
+    font-weight: 700;
+  }
+
+  /* tag badges */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 13px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .tag .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .tag.ask { color: var(--green); border: 1px solid var(--green); }
+  .tag.ask .dot { background: var(--green); }
+  .tag.show { color: var(--blue); border: 1px solid var(--blue); }
+  .tag.show .dot { background: var(--blue); }
+  .tag.discuss { color: var(--terracotta); border: 1px solid var(--terracotta); }
+  .tag.discuss .dot { background: var(--terracotta); }
+
+  /* activity blocks */
+  .block {
+    background: var(--bg-cream);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 32px 30px;
+    margin: 28px 0;
+  }
+  .block h4 {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .block p {
+    font-size: 15.5px;
+    color: var(--ink-soft);
+  }
+  .block p:last-child { margin-bottom: 0; }
+
+  /* question highlight */
+  .question {
+    font-family: var(--serif-cn);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 16px 0;
+    padding-left: 20px;
+    border-left: 3px solid var(--terracotta);
+  }
+
+  /* showcase cards — for interesting market examples */
+  .showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 28px 0;
+  }
+  .showcase-card {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    transition: transform .2s;
+  }
+  .showcase-card:hover { transform: translateY(-3px); }
+  .showcase-card .sc-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .showcase-card h4 {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--bg);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .showcase-card p {
+    font-family: var(--sans-cn);
+    font-size: 13.5px;
+    color: rgba(250,248,243,0.6);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* absent-market list */
+  .absent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .absent-item {
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 22px 22px;
+    background: var(--bg);
+  }
+  .absent-item .a-title {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 17px;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .absent-item .a-desc {
+    font-family: var(--sans-cn);
+    font-size: 14px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* formula block */
+  .formula-block {
+    text-align: center;
+    padding: 36px 0;
+    margin: 24px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .formula-block .formula-note {
+    font-family: var(--serif-cn);
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+  }
+
+  /* conditions framework grid */
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .cond-item {
+    background: var(--bg-cream);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 24px 22px;
+  }
+  .cond-item .cond-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+  .cond-item .cond-title {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .cond-item .cond-body {
+    font-family: var(--sans-cn);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0;
+  }
+  .cond-item .cond-sub {
+    margin-top: 10px;
+    padding-left: 14px;
+    border-left: 2px solid var(--rule);
+  }
+  .cond-item .cond-sub li {
+    font-family: var(--sans-cn);
+    font-size: 13px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+    list-style: none;
+    padding: 1px 0;
+  }
+  .cond-item .cond-sub li::before {
+    content: "— ";
+    color: var(--rule);
+  }
+
+  /* case study grid */
+  .case-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 28px 0;
+  }
+  .case-item {
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 26px 24px;
+    border-top: 3px solid var(--terracotta);
+  }
+  .case-item .case-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 10px;
+  }
+  .case-item .case-title {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 19px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .case-item .case-body {
+    font-family: var(--sans-cn);
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .case-item .case-q {
+    margin-top: 12px;
+    font-family: var(--serif-cn);
+    font-size: 14px;
+    color: var(--ink);
+    padding-left: 14px;
+    border-left: 2px solid var(--terracotta);
+    line-height: 1.65;
+  }
+
+  /* pull quote */
+  .pull-quote {
+    padding: 48px 0;
+    margin: 40px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .pull-quote p {
+    font-family: var(--serif-cn);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .pull-quote .mark {
+    color: var(--terracotta);
+    font-family: var(--display);
+    font-size: 1.5em;
+    line-height: 0;
+    vertical-align: -0.15em;
+  }
+
+  /* note */
+  .side-note {
+    font-family: var(--sans-cn);
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding-left: 20px;
+    border-left: 2px solid var(--rule);
+    margin: 20px 0;
+    line-height: 1.7;
+  }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 36px 48px;
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+</style>
+</head>
+<body>
+<main>
+
+<div class="top-bar">
+  <div class="brand"><span class="dot"></span> 市场的力量与边界</div>
+  <span>Building Bridges · 经济学选修课</span>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">
+    <span class="num">01</span>
+    <span class="dash"></span>
+    <span>Day 1</span>
+  </div>
+  <h1>关于市场</h1>
+  <span class="subtitle">What is a market — and where does it end?</span>
+
+  <div class="goals">
+    <div class="goals-label">学习目标</div>
+    <ul>
+      <li>对「市场」的概念和特征形成直觉上的体会</li>
+      <li>思考市场存在和不存在的情况，以及各自的原因</li>
+      <li>初步感受市场的好处和局限</li>
+    </ul>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ====== Part 1: 引入 ====== -->
+  <div class="section-divider">
+    <span>Part 1</span>
+    <span class="line"></span>
+    <span>什么是市场？</span>
+  </div>
+
+  <h2>从<span class="accent"> 熟悉 </span>的地方开始</h2>
+
+  <div class="block">
+    <div class="tag ask"><span class="dot"></span> 提问</div>
+    <h4>什么是市场？</h4>
+    <p>直接问学生。这个问题比看起来难回答——它足够简单以至于你从来没想过。先收集他们的直觉回答，不急着给定义。然后从大家都熟悉的例子开始：</p>
+  </div>
+
+  <p>我们先从最日常的说起。以下这些你一定见过或参与过：</p>
+
+  <ul class="examples">
+    <li>菜市场——最「字面意义」上的市场</li>
+    <li>股票市场——你可能没参与过，但你爸妈可能参与了</li>
+    <li>房地产市场——你住的地方就是某次市场交易的结果</li>
+    <li>二手车市场、二手教材市场</li>
+    <li>辅导班、家教的市场——你可能就是这个市场里的消费者</li>
+  </ul>
+
+  <p>再想想一些你可能没想到也是「市场」的东西：</p>
+
+  <ul class="examples">
+    <li>黄牛——演唱会、医院挂号、甚至食堂占座</li>
+    <li>帮排队的服务</li>
+    <li>考试卷的交易——各种真题、模拟卷的流通</li>
+  </ul>
+
+  <img src="../resources/shijuan.png" alt="考试卷的市场" style="width: 100%; border-radius: 12px; display: block; margin: 20px 0;">
+
+  <p class="secondary">这些例子的共同点是什么？都有买方和卖方，都有某种「价格」在起作用。但这就够了吗？接下来我们看几个更奇怪的例子。</p>
+
+  <!-- ====== Part 2: 有趣的市场 ====== -->
+  <div class="section-divider">
+    <span>Part 2</span>
+    <span class="line"></span>
+    <span>你没想到的市场</span>
+  </div>
+
+  <h2>有趣的<span class="accent"> 市场 </span></h2>
+
+  <p>以下这些市场确实存在。它们各自在交易一些你可能觉得「这也能卖？」的东西。</p>
+
+  <div class="showcase">
+    <div class="showcase-card">
+      <div>
+        <div class="sc-label">案例一</div>
+        <h4>域名市场</h4>
+      </div>
+      <p>互联网上的每个网站都需要一个域名（比如 baidu.com）。域名先到先得——谁先注册就是谁的。</p>
+    </div>
+    <div class="showcase-card">
+      <div>
+        <div class="sc-label">案例二</div>
+        <h4>明星祝福视频</h4>
+      </div>
+      <p>一些平台让你直接向明星付费，请他们录一段视频。你生日的时候想让偶像叫你的名字？可以，付钱就行。</p>
+    </div>
+    <div class="showcase-card">
+      <div>
+        <div class="sc-label">案例三</div>
+        <h4><a href="https://polymarket.com" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 1px;">Polymarket</a></h4>
+      </div>
+      <p>一个让你用真金白银对未来事件「定价」的平台。你认为某件事会发生？买入。不会？卖出。最终由现实揭晓。</p>
+    </div>
+  </div>
+
+  <h3>域名：一串字符值多少钱？</h3>
+
+  <p>
+    域名本身没有任何物理实体——它只是一串字母。但因为好记、好听的域名是有限的，它就变成了一种稀缺资源。有人专门低价注册大量域名，等别人需要的时候高价转卖，就像互联网上的「黄牛」。
+  </p>
+  <p>
+    近几年人工智能大热，.ai 后缀的域名价格暴涨。cars.ai 在2023年卖出了 $4.8M。买家购买的不是一个「东西」，而是一个「位置」——互联网上独一无二的门牌号。
+  </p>
+
+  <h3>明星的时间：注意力也有市场价</h3>
+
+  <p>
+    在 Cameo 这样的平台上，你可以花钱让明星或网红录一段个性化的短视频——比如生日祝福、求婚助阵、甚至让他们说一句你指定的话。不同明星的价格完全不同：过气明星可能只要几十美元，当红的可以到几千美元。
+  </p>
+  <p>
+    这意味着「一个人的15秒注意力」是有明确市场价格的。你在买的不是视频本身，而是「这个人专门为我花了15秒」这件事。时间、注意力、甚至「专属感」，都可以被定价。
+  </p>
+
+  <h3><a href="https://polymarket.com" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 2px solid var(--terracotta); padding-bottom: 1px;">Polymarket</a>：给未来定价</h3>
+
+  <p>
+    Polymarket 是一个「预测市场」平台。对于一个未来事件（比如「2024年谁会赢得美国大选？」），你可以用真钱买入「会」或「不会」。判断对了赚钱，错了亏钱。所有人的买卖行为汇总在一起，形成一个「价格」——这个价格反映的是市场对这件事发生概率的集体判断。
+  </p>
+  <p>
+    2024年美国大选期间，Polymarket 上的价格变动比民调更准确地预测了选举结果。
+  </p>
+
+  <div class="block">
+    <div class="tag show"><span class="dot"></span> 展示</div>
+    <h4>Polymarket 趣事</h4>
+    <p>Polymarket 上有一个真实的市场：<strong>「耶稣会在2027年之前重返人间吗？」</strong></p>
+    <p>目前的市场价格（即人们用真金白银表达的概率）大约是……3%。</p>
+    <img src="../resources/polymarket.png" alt="Polymarket 耶稣市场截图" style="width: 100%; border-radius: 10px; display: block; margin: 16px 0;">
+    <p style="color: var(--ink); margin-top: 12px;">这引出两个好问题：</p>
+    <p class="question" style="border-left-color: var(--blue);">为什么会有人创造这种市场？和赌博的区别是什么？</p>
+  </div>
+
+
+  <!-- ====== Part 3: 不存在的市场 ====== -->
+  <div class="section-divider">
+    <span>Part 3</span>
+    <span class="line"></span>
+    <span>不存在的市场</span>
+  </div>
+
+  <h2>什么东西<span class="accent"> 没有 </span>市场？</h2>
+
+  <p>我们看了很多「这也能卖？」的例子。但反过来想——有些东西你觉得理应可以交易，却没有市场；有些东西从来没有人想过要交易。</p>
+
+  <div class="absent-grid">
+    <div class="absent-item">
+      <div class="a-title">考试排名</div>
+      <div class="a-desc">你考了第一名，能卖给别人吗？双方都愿意的话呢？</div>
+    </div>
+    <div class="absent-item">
+      <div class="a-title">谁做我的同桌</div>
+      <div class="a-desc">如果可以出价选同桌，你觉得会发生什么？</div>
+    </div>
+    <div class="absent-item">
+      <div class="a-title">朋友</div>
+      <div class="a-desc">你可以花钱请人陪你吃饭（这个服务真的存在），但那是友谊吗？</div>
+    </div>
+    <div class="absent-item">
+      <div class="a-title">求根公式的使用权</div>
+      <div class="a-desc">每次用这个公式都要付费，你能接受吗？</div>
+    </div>
+  </div>
+
+  <div class="formula-block">
+    <span style="font-size: 32px;">$x = \dfrac{-b \pm \sqrt{b^{2} - 4ac}}{2a}$</span>
+    <div class="formula-note">
+      这个公式你大概用过无数次。它是免费的。但为什么？
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="tag discuss"><span class="dot"></span> 讨论</div>
+    <h4>知识的市场边界</h4>
+    <p>求根公式免费，但专利是有市场的。版权也是有市场的。一首歌要收费，一条数学定理不收费——两个都是「知识」，区别在哪里？</p>
+    <p style="color: var(--ink); margin-top: 12px;">
+    这里不需要标准答案。引导学生注意到：有些知识「你用了不影响别人用」（求根公式），有些知识的生产需要巨大的投入，如果不收费就没人愿意生产（一首歌、一个新药）。市场在这里的角色是：通过定价来激励生产。没有市场，有些东西可能根本不会被创造出来。
+    </p>
+  </div>
+
+
+  <!-- ====== Part 4: 讨论 ====== -->
+  <div class="section-divider">
+    <span>Part 4</span>
+    <span class="line"></span>
+    <span>开放讨论</span>
+  </div>
+
+  <h2>市场在什么条件下<span class="accent"> 可以 </span>存在？</h2>
+
+  <p>
+    我们看了存在的市场，也看了不存在的市场。现在试着总结一下：一个市场要成立，需要什么条件？
+  </p>
+
+  <div class="block">
+    <div class="tag discuss"><span class="dot"></span> 讨论</div>
+    <h4>核心问题</h4>
+    <p class="question">市场「可以存在」是否意味着它「必然产生」？如果不是，还需要什么条件？</p>
+    <p>先收集学生的答案，再结合下面的框架梳理。不需要全部覆盖，视讨论走向而定。</p>
+  </div>
+
+  <h3>一个市场需要什么？</h3>
+
+  <div class="conditions-grid">
+    <div class="cond-item">
+      <div class="cond-label">商品</div>
+      <div class="cond-title">稀缺性 + 可交易性</div>
+      <p class="cond-body">没有稀缺性，就没有定价的必要。空气从前不是商品，但雾霾让洁净空气的价值嵌入了房价和人口流动中。</p>
+      <ul class="cond-sub">
+        <li>稀缺性：让定价变得有必要</li>
+        <li>可排他性：「你用了影响我用」才能交易；求根公式用了不影响别人用，很难形成市场</li>
+      </ul>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">动机</div>
+      <div class="cond-title">交易的收益（Gains from Trade）</div>
+      <p class="cond-body">如果每个人自己做和找别人做一样好，就没有交易的必要。市场存在的前提是：交易能让双方都变得更好。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">参与者</div>
+      <div class="cond-title">足够的买卖双方</div>
+      <p class="cond-body">市场需要有足够多的买家和卖家（thickness）。互联网大幅降低了这个门槛——闲鱼上再冷门的东西都可能找到买家。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">价格</div>
+      <div class="cond-title">价格形成机制</div>
+      <p class="cond-body">价格怎么定？拍卖、协商、还是竞争？供给和需求如何塑造价格是核心问题。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">制度</div>
+      <div class="cond-title">基础设施</div>
+      <p class="cond-body">支撑交易可信赖地发生所需的制度安排。</p>
+      <ul class="cond-sub">
+        <li>产权制度：谁拥有什么？如何强制执行？（土地使用权、碳排放权）</li>
+        <li>信息披露：二手车验车报告、淘宝评价系统——降低信任成本</li>
+        <li>准入门槛：为什么不是谁都能开药店？防止逆选择，保护高质量卖家</li>
+      </ul>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">技术</div>
+      <div class="cond-title">搜索、匹配与执行</div>
+      <p class="cond-body">技术降低了交易成本，让原本不可能的市场成为可能。</p>
+      <ul class="cond-sub">
+        <li>搜索和匹配：淘宝、京东把零散商家和买家匹配在一起；抖音、B站让创作者和消费者直接交易</li>
+        <li>执行和监管：Polymarket 需要区块链确保不可篡改；碳排放权需要监测技术</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="side-note">
+    <strong>讨论延伸</strong><br>
+    肾脏市场在伊朗合法、在中国不合法。碳排放权需要政府「发明」排放权这个东西才有东西可卖。为什么大多数人觉得买卖友谊不可接受？为什么不拍卖大学录取名额？这些边界是谁画的？——道德和文化条件也是市场存在的一部分，但往往被忽视。
+  </div>
+
+  <div class="side-note">
+    <strong>备课提醒</strong><br>
+    这堂课的核心不是给出答案，而是让学生自己感受到「市场的存在不是理所当然的，市场的缺席也不是理所当然的」。如果讨论热烈，可以延长讨论时间，压缩展示环节。Polymarket 如果有网络条件，可以直接打开网站给他们看实时数据。
+  </div>
+
+
+  <!-- ====== Part 5: 如果不用市场，还能怎么分配？ ====== -->
+  <div class="section-divider">
+    <span>Part 5</span>
+    <span class="line"></span>
+    <span>如果不用市场，还能怎么分配？</span>
+  </div>
+
+  <h2>市场不是唯一的<span class="accent"> 分配方式 </span></h2>
+
+  <p>
+    市场可以分配稀缺资源——但不用市场，还有很多其他方式。每种方式都有自己的效率和公平问题，没有一种是完美的。
+  </p>
+
+  <div class="conditions-grid">
+    <div class="cond-item">
+      <div class="cond-label">排队（先到先得）</div>
+      <div class="cond-title">用时间替代金钱</div>
+      <p class="cond-body">春运火车票、医院挂号、食堂打饭。成本不是钱而是时间，对时间充裕的人有利。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">抽签（随机分配）</div>
+      <div class="cond-title">看似最公平</div>
+      <p class="cond-body">车牌摇号、某些学校的入学名额。看似最「公平」，但也最不考虑谁更需要。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">行政分配（按标准）</div>
+      <div class="cond-title">按规则分配</div>
+      <p class="cond-body">医院急诊按病情严重程度排序，保障房按收入水平分配。需要有人制定标准，而标准本身可以被博弈。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">按权力 / 关系</div>
+      <div class="cond-title">非正式但普遍存在</div>
+      <p class="cond-body">「找人帮忙」「走后门」。难以用制度彻底消除。</p>
+    </div>
+    <div class="cond-item">
+      <div class="cond-label">考试 / 竞争</div>
+      <div class="cond-title">按能力分配</div>
+      <p class="cond-body">高考分配大学名额。按能力（或至少按考试成绩）分配，但考试本身也可以被金钱影响（补习、学区房）。</p>
+    </div>
+    <div class="cond-item" style="background: var(--ink); color: var(--bg);">
+      <div class="cond-label" style="color: var(--gold);">关键洞察</div>
+      <div class="cond-title" style="color: var(--bg);">没有一种方式是完美的</div>
+      <p class="cond-body" style="color: rgba(250,248,243,0.6);">选择不用市场，不意味着市场不会自己冒出来。只要稀缺性存在，市场就有动力从缝隙里生长出来。</p>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <p><span class="mark">"</span> 只要稀缺性存在，市场就有动力从缝隙里生长出来。<span class="mark">"</span></p>
+  </div>
+
+  <p>
+    火车票用排队分配 → 黄牛出现了，用金钱替代了时间。医院挂号用行政分配 → 号贩子出现了。车牌用摇号分配 → 租牌市场出现了。这本身就说明了市场力量的顽强。
+  </p>
+
+  <div class="side-note">
+    <strong>讨论引导</strong><br>
+    可以问学生：这些非市场分配方式，最后是不是都某种程度上「长出了市场」？「走后门」是不是也是一种市场？它的「价格」是什么？
+  </div>
+
+
+  <!-- ====== Part 6: 市场带来了什么？ ====== -->
+  <div class="section-divider">
+    <span>Part 6</span>
+    <span class="line"></span>
+    <span>市场带来了什么？</span>
+  </div>
+
+  <h2>市场<span class="accent"> 存在 </span>的利与弊</h2>
+
+  <p>
+    市场可以存在，并不意味着它带来的一定是好事。我们来看一些真实案例，试着判断：这个市场是「解决了问题」还是「制造了问题」？
+  </p>
+
+  <div class="block">
+    <div class="tag discuss"><span class="dot"></span> 讨论</div>
+    <h4>核心问题</h4>
+    <p class="question">市场存在 vs 不存在——各有什么利弊？举出一些实际的例子，论述它的正面或负面影响。</p>
+    <p>以下案例可选择性使用，也可请学生自己举例。核心是引导学生注意到：市场通常能提高效率，但也可能制造不平等、利用信息不对称，或让某些本应公平分配的资源变成可买卖的商品。</p>
+  </div>
+
+  <div class="side-note">
+    <strong>Slides 备注</strong><br>
+    六个参考案例在 slides 中放在同一页，注明「如果想不到例子，同学们可以参考以下新闻」。不要在学生讨论前主动展示，等学生想不出来再翻到这页。
+  </div>
+
+  <div class="case-grid">
+    <div class="case-item">
+      <div class="case-label">案例 A</div>
+      <div class="case-title">口罩的二级市场</div>
+      <p class="case-body">疫情期间，药店和工厂的口罩被抢购一空后，二手转卖、代购、囤积居奇的市场迅速形成。价格暴涨几十倍。</p>
+      <p class="case-q">这个市场是「解决了问题」（让口罩流向最需要的人）还是「制造了问题」（让买不起的人更买不到）？</p>
+    </div>
+    <div class="case-item">
+      <div class="case-label">案例 B</div>
+      <div class="case-title">学区房</div>
+      <p class="case-body">学位本身无法直接买卖，但通过房产市场，优质教育资源事实上被定价了。买一套学区房，实质上是在买一个入学资格。</p>
+      <p class="case-q">市场的存在让教育不平等变得更加可见，还是加剧了不平等？</p>
+    </div>
+    <div class="case-item">
+      <div class="case-label">案例 C</div>
+      <div class="case-title">演唱会黄牛</div>
+      <p class="case-body">官方售价几百元的票被炒到几千元。有人认为这是市场效率的体现（最想去的人得到了票），有人认为这是对普通消费者的剥夺。</p>
+      <p class="case-q">两种说法各有什么道理？黄牛创造了价值吗？</p>
+    </div>
+    <div class="case-item">
+      <div class="case-label">案例 D</div>
+      <div class="case-title">医疗市场化</div>
+      <p class="case-body">莆田系医院的问题。当医疗变成一个充分市场化的领域，医院有动力夸大病情、过度治疗。信息严重不对称的情况下，患者没有能力判断医生的建议是否真实必要。</p>
+      <p class="case-q">医疗适合完全交给市场吗？如果不适合，原因是什么？</p>
+    </div>
+    <div class="case-item">
+      <div class="case-label">案例 E</div>
+      <div class="case-title">外卖平台</div>
+      <p class="case-body">外卖平台让小餐馆触达了以前接触不到的客户，大幅扩大了市场规模。但算法的派单逻辑把骑手困在越来越紧的时间压力里，事故率随之上升。</p>
+      <p class="case-q">市场扩大了，但谁受益谁受损？平台算法是市场力量，还是一种新的管控？</p>
+    </div>
+    <div class="case-item">
+      <div class="case-label">案例 F</div>
+      <div class="case-title">名校参观预约黄牛</div>
+      <p class="case-body">北大清华暑假参观名额秒没，黄牛几百块一个名额。本来免费开放的公共资源，因为需求太大变成了稀缺品，市场自动从缝隙里冒出来了。</p>
+      <p class="case-q">这个市场的出现说明了什么？大学应该直接卖参观票吗？</p>
+    </div>
+  </div>
+
+  <div class="side-note">
+    <strong>课堂引导方向</strong><br>
+    这部分不需要得出「市场好」或「市场不好」的结论。核心洞察是：市场是一种工具，它的效果取决于具体的情境——谁参与、信息是否对称、有没有外部性、资源本身的性质是什么。同一个逻辑，在口罩市场里可能提高效率，在医疗市场里可能带来危害。
+  </div>
+
+</div>
+
+<footer>
+  <span>Day 1 · 关于市场</span>
+  <span>市场的力量与边界 · Lecture Notes v3</span>
+</footer>
+
+</main>
+</body>
+</html>
