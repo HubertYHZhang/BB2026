@@ -1,6 +1,7 @@
 # 第一讲：关于市场
 
 > Day 1 · What is a market — and where does it end?
+> created by 张煜豪 and Claude
 
 ## 学习目标
 - 市场的概念和特征（不需要标准定义，但大致有一个体会）
@@ -43,6 +44,9 @@
 
 ### 案例二：明星祝福视频
 在 Cameo 这样的平台上，花钱让明星录一段个性化的祝福视频——生日祝福、求婚助阵、甚至让他们说一句你指定的话。不同明星的价格完全不同：过气明星可能只要几十美元，当红的可以到几千美元。你在买的不是视频本身，而是「这个人专门为我花了15秒」这件事。时间、注意力、「专属感」都可以被定价。
+
+**示例视频：**
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112540625405890&bvid=BV1gSTsewEPf&cid=500001567588682&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
 ### 案例三：Polymarket（预测市场）
 > slides里附点击链接
