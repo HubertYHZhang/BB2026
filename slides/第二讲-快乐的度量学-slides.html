@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第二讲 · 快乐的度量学</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+  :root {
+    --bg:        #faf8f3;
+    --bg-warm:   #f4efe2;
+    --bg-cream:  #f7f2e6;
+    --ink:       #1f1d1a;
+    --ink-soft:  #5a554d;
+    --ink-faint: #a39d8f;
+    --rule:      #ddd6c4;
+    --terracotta:#d97757;
+    --blue:      #3b6e8f;
+    --gold:      #c9a961;
+    --green:     #5a8a6a;
+
+    --serif: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+    --sans:  "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", sans-serif;
+    --display: "EB Garamond", "Noto Serif SC", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .deck {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 100px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .slide-inner {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+  }
+
+  .slide.light { background: var(--bg); color: var(--ink); }
+  .slide.cream { background: var(--bg-cream); color: var(--ink); }
+  .slide.warm  { background: var(--bg-warm); color: var(--ink); }
+  .slide.dark  { background: var(--ink); color: var(--bg); }
+  .slide.terracotta { background: var(--terracotta); color: #fff; }
+  .slide.blue  { background: var(--blue); color: #fff; }
+
+  .slide h1 {
+    font-family: var(--serif-cn);
+    font-weight: 700;
+    font-size: 96px;
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+  }
+  .slide h2 {
+    font-family: var(--serif-cn);
+    font-weight: 600;
+    font-size: 64px;
+    line-height: 1.15;
+    letter-spacing: 0.03em;
+  }
+  .slide h3 {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+  }
+  .slide p {
+    font-family: var(--serif-cn);
+    font-size: 28px;
+    line-height: 1.7;
+  }
+  .slide p.large {
+    font-size: 36px;
+    line-height: 1.55;
+  }
+  .slide p.small {
+    font-size: 22px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .dark p.small { color: rgba(250,248,243,0.5); }
+  .terracotta p.small, .blue p.small { color: rgba(255,255,255,0.6); }
+
+  .slide .subtitle {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--terracotta);
+    margin-top: 16px;
+    letter-spacing: 0;
+  }
+  .dark .subtitle { color: var(--gold); }
+
+  .slide .eyebrow {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .dark .eyebrow { color: rgba(250,248,243,0.35); }
+  .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,0.45); }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; }
+  .dark .eyebrow .num { color: var(--gold); }
+  .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+  .eyebrow .dash { width: 28px; height: 1.5px; background: currentColor; }
+
+  .accent { color: var(--terracotta); }
+  .dark .accent { color: var(--gold); }
+
+  .slide .spacer { height: 24px; }
+  .slide .spacer-lg { height: 48px; }
+
+  .slide ul {
+    list-style: none;
+    padding: 0;
+  }
+  .slide ul li {
+    font-family: var(--serif-cn);
+    font-size: 28px;
+    line-height: 1.65;
+    padding: 10px 0 10px 36px;
+    position: relative;
+  }
+  .slide ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 22px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--terracotta);
+  }
+  .dark ul li::before { border-color: var(--gold); }
+
+  .slide-question {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.4;
+    padding-left: 32px;
+    border-left: 5px solid var(--terracotta);
+    margin: 32px 0;
+  }
+  .dark .slide-question { border-left-color: var(--gold); }
+  .terracotta .slide-question { border-left-color: #fff; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .three-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .card {
+    background: rgba(31,29,26,0.06);
+    border-radius: 16px;
+    padding: 32px 28px;
+  }
+  .dark .card { background: rgba(250,248,243,0.08); }
+  .card .card-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+  .dark .card .card-label { color: var(--gold); }
+  .card h4 {
+    font-family: var(--serif-cn);
+    font-weight: 500;
+    font-size: 26px;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .card p {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .dark .card p { color: rgba(250,248,243,0.55); }
+
+  .formula-center {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .big-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 200px;
+    line-height: 0.85;
+    color: var(--terracotta);
+    opacity: 0.12;
+    position: absolute;
+    right: -20px;
+    top: -30px;
+  }
+  .dark .big-num { color: var(--gold); opacity: 0.15; }
+
+  .progress {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--terracotta);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  .counter {
+    position: fixed;
+    bottom: 20px; right: 40px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    z-index: 100;
+    letter-spacing: 0.1em;
+    mix-blend-mode: difference;
+  }
+
+  .nav-hint {
+    position: fixed;
+    bottom: 20px; left: 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    z-index: 100;
+    mix-blend-mode: difference;
+    opacity: 0.5;
+    transition: opacity 2s;
+  }
+
+  .slide-rule {
+    width: 80px;
+    height: 2px;
+    background: var(--rule);
+    margin: 28px 0;
+  }
+  .dark .slide-rule { background: rgba(250,248,243,0.15); }
+
+  .callout {
+    border-left: 4px solid var(--gold);
+    padding: 24px 32px;
+    margin: 32px 0;
+    background: rgba(250,248,243,0.06);
+    border-radius: 0 12px 12px 0;
+  }
+  .light .callout, .cream .callout {
+    border-left-color: var(--terracotta);
+    background: rgba(217,119,87,0.07);
+  }
+  .callout p {
+    font-size: 22px;
+    font-style: italic;
+    font-family: var(--display);
+    line-height: 1.6;
+  }
+  .light .callout p, .cream .callout p { color: var(--ink); }
+
+  .contrast-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .contrast-item {
+    padding: 32px 28px;
+    border-radius: 16px;
+    background: rgba(250,248,243,0.07);
+  }
+  .contrast-item .ci-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .contrast-item p {
+    font-size: 22px;
+    line-height: 1.65;
+    color: rgba(250,248,243,0.8);
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 0: Title -->
+  <div class="slide dark active">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">02</span>
+        <span class="dash"></span>
+        <span>Day 2</span>
+      </div>
+      <h1>快乐的<br>度量学</h1>
+      <div class="subtitle">How do economists measure choices, welfare, and happiness?</div>
+      <div class="spacer-lg"></div>
+      <p class="small">日常制度的经济学 · Building Bridges 经济学选修课</p>
+      <div class="spacer"></div>
+      <p class="small" style="font-size: 16px; opacity: 0.5;">张煜豪 &amp; Claude</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 1: Opening question -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">
+        生活中你如何做一个决定？<br>你会考虑哪些变量？
+      </div>
+      <div class="spacer"></div>
+      <p class="small">比如：今天晚上要不要熬夜写作业。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: What goes into a decision -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 1</span>
+        <span class="dash"></span>
+        <span>决策的变量</span>
+      </div>
+      <h3>熬夜写作业？你可能会想到……</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li><strong>后果：</strong>作业能不能完成，明天会不会被批评</li>
+        <li><strong>感受：</strong>完成后的轻松，熬夜时的痛苦，拖延时的焦虑</li>
+        <li><strong>成本：</strong>时间、精力、机会成本</li>
+        <li><strong>风险：</strong>万一明天查得不严呢？万一有小测呢？</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Transition to utility -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <h2>经济学把这些复杂的权衡，<br>压缩成一个概念：</h2>
+      <div class="spacer"></div>
+      <h2 style="font-style: italic; font-family: var(--display); font-weight: 400; font-size: 96px;">效用</h2>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: What is utility -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 2</span>
+        <span class="dash"></span>
+        <span>效用 Utility</span>
+      </div>
+      <h3>效用不是「功利」的日常含义</h3>
+      <div class="spacer"></div>
+      <p>它更接近于：一个选择给你带来的<span class="accent">主观满足、偏好实现或福利变化</span>。</p>
+      <div class="spacer"></div>
+      <p class="small">不是说一个人势利、现实、只看钱。</p>
+      <div class="spacer"></div>
+      <p class="small">它是经济学家试图把「我想要什么」写成一个可以分析的模型的方式。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Cookie on the podium -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 2</span>
+        <span class="dash"></span>
+        <span>讲台上的饼干</span>
+      </div>
+      <h3>🍪 一个现场实验</h3>
+      <div class="spacer"></div>
+      <p>讲台上放了一袋饼干，想拿的同学可以自己上来拿。</p>
+      <div class="spacer"></div>
+      <p>如果你起身来拿了，说明至少在那一刻：</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Cookie formula -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="formula-center">
+        <div style="font-family: var(--serif-cn); font-size: 32px; color: rgba(250,248,243,0.5); margin-bottom: 32px;">你的决策逻辑</div>
+        <div class="katex-display" style="font-size: 36px;">$$\text{拿到饼干的收益} \;>\; \text{起身、被看见、走过去的成本}$$</div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small" style="text-align: center;">如果你没有起身，不一定说明你不喜欢饼干——也许成本更高。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Question - no choice ≠ don't want -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">
+        如果一个人没有选择某件事，<br>是否说明他不想要这件事？
+      </div>
+      <div class="spacer"></div>
+      <p class="small">选择行为包含的信息比它表面看起来的更多——也更少。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Transition to uncertainty -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <h2>现实的选择，往往在<br>不确定性下发生。</h2>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Expected utility setup -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="big-num">?</div>
+      <div class="eyebrow">
+        <span class="num">Part 3</span>
+        <span class="dash"></span>
+        <span>不确定性下的选择</span>
+      </div>
+      <h3>你会怎么选？</h3>
+      <div class="spacer"></div>
+      <div class="contrast-box" style="background: transparent;">
+        <div style="border: 1px solid var(--rule); border-radius: 16px; padding: 32px 28px;">
+          <div style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px;">选项 A</div>
+          <p style="font-size: 32px; font-weight: 600;">确定得到 <span style="color: var(--terracotta);">50元</span></p>
+        </div>
+        <div style="border: 1px solid var(--rule); border-radius: 16px; padding: 32px 28px;">
+          <div style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 16px;">选项 B</div>
+          <p style="font-size: 28px; line-height: 1.5;">50% 概率得到 <strong>100元</strong><br>50% 概率得到 <strong>0元</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Expected value calculation -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 3</span>
+        <span class="dash"></span>
+        <span>期望值</span>
+      </div>
+      <h3>数学上，两者一样</h3>
+      <div class="spacer"></div>
+      <div class="formula-center">
+        $$E(A) = 50$$
+        $$E(B) = 0.5 \times 100 + 0.5 \times 0 = 50$$
+      </div>
+      <div class="spacer"></div>
+      <p class="small" style="text-align: center;">但你会怎么选？为什么不同的人可能做出不同的选择？</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: Risk preference -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 3</span>
+        <span class="dash"></span>
+        <span>风险偏好</span>
+      </div>
+      <h3>同样的期望收益，不同的选择</h3>
+      <div class="spacer"></div>
+      <div class="three-cards" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div class="card">
+          <div class="card-label">偏好 A</div>
+          <h4>风险厌恶</h4>
+          <p>宁愿要确定的50元，不愿冒险。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">无所谓</div>
+          <h4>风险中性</h4>
+          <p>期望值相同，两者无差别。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">偏好 B</div>
+          <h4>风险偏好</h4>
+          <p>喜欢冒险，享受可能的大收益。</p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">效用函数不只捕捉「我想要什么」，也捕捉「我如何对待不确定性」。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: Transition to utilitarianism -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <h2>如果每个人都有自己的效用，<br>社会如何判断什么是「好」？</h2>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: Utilitarianism intro -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 4</span>
+        <span class="dash"></span>
+        <span>功利主义 Utilitarianism</span>
+      </div>
+      <h3>让总效用最大</h3>
+      <div class="spacer"></div>
+      <p>功利主义试图用一个简单标准判断社会选择：<span class="accent">让所有人的快乐总和最大化</span>。</p>
+      <div class="spacer"></div>
+      <p class="small">直觉上，这很有吸引力。如果一个政策让大多数人更快乐，而且总快乐增加了，似乎它就是好的。</p>
+      <div class="spacer"></div>
+      <p class="small">但问题马上出现……</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: Trolley problem -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 4</span>
+        <span class="dash"></span>
+        <span>电车难题</span>
+      </div>
+      <h3>同样的计算，不同的直觉</h3>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 48px;">
+        <div>
+          <div style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 14px;">情境 A</div>
+          <p style="font-size: 22px; line-height: 1.65;">一辆失控的电车将撞上5人。拉一个开关可以让它转向，但会撞死1人。<br><br><strong>你会拉吗？</strong></p>
+        </div>
+        <div>
+          <div style="font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 14px;">情境 B</div>
+          <p style="font-size: 22px; line-height: 1.65;">你是一个医生。杀死1个健康的人可以用他的器官救活5个病人。<br><br><strong>你会做吗？</strong></p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">同样的计算（5&gt;1），但大多数人对两者的直觉完全不同。功利主义无法解释这个差异。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: Cardinal utility problem -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 4</span>
+        <span class="dash"></span>
+        <span>基数效用的问题</span>
+      </div>
+      <h3>快乐可以相加吗？</h3>
+      <div class="spacer"></div>
+      <p>如果我们说小明的快乐是 <span class="accent">100</span>，小红的快乐是 <span class="accent">10</span>，这个数字从哪里来？</p>
+      <div class="spacer"></div>
+      <p class="small">它不是身高，也不是体重。它很难被直接测量，更难在人和人之间比较。</p>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 36px;">
+        如果快乐无法被准确测量，<br>社会还可以如何判断一个政策「好不好」？
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 16: All models are wrong -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">插曲</span>
+        <span class="dash"></span>
+        <span>社会科学中的模型</span>
+      </div>
+      <div class="callout" style="border-left-color: var(--terracotta); background: rgba(217,119,87,0.07);">
+        <p style="font-size: 36px; font-family: var(--display); font-style: italic; color: var(--ink);">All models are wrong,<br>but some are useful.</p>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">模型不是现实，但没有模型我们很难思考现实。模型的作用是刻画世界，进而解释世界和预测世界。</p>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 32px;">
+        如果一个理论可以解释所有事情，<br>你为什么反而应该小心？
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 17: Transition to conservative good -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <h2>如果不能直接加总快乐，<br>我们能不能用更保守的标准？</h2>
+    </div>
+  </div>
+
+  <!-- SLIDE 18: Pareto improvement -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="big-num">P</div>
+      <div class="eyebrow">
+        <span class="num">Part 5</span>
+        <span class="dash"></span>
+        <span>帕累托改进</span>
+      </div>
+      <h3>更保守的「好」</h3>
+      <div class="spacer"></div>
+      <p>如果一件事让<span class="accent">至少一个人变好</span>，同时<span class="accent">没有让任何人变坏</span>，我们称它为<strong>帕累托改进</strong>。</p>
+      <div class="spacer"></div>
+      <p class="small">这个标准不要求我们比较不同人之间的快乐大小，只需要知道「有没有人变差」。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 19: Pareto optimality -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 5</span>
+        <span class="dash"></span>
+        <span>帕累托最优</span>
+      </div>
+      <h3>没有空间再做帕累托改进</h3>
+      <div class="spacer"></div>
+      <p>如果已经不存在任何帕累托改进的空间，即<span style="color: var(--terracotta);">想让某个人更好，就必然要让另一个人更差</span>，那么这个状态就是<strong>帕累托最优</strong>。</p>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 34px;">
+        一个社会如果已经达到帕累托最优，<br>它就一定是「好」的社会吗？
+      </div>
+      <div class="spacer"></div>
+      <p class="small">一个极端不平等的社会，也可能是帕累托最优。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 20: Hicksian improvement -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 5</span>
+        <span class="dash"></span>
+        <span>希克斯改进</span>
+      </div>
+      <h3>可以转移的效用</h3>
+      <div class="spacer"></div>
+      <p>希克斯改进的思路：如果一个政策的受益者<span style="color: var(--terracotta);">理论上可以补偿受损者</span>，并且补偿后仍然有剩余，那么这个政策可能是值得做的。</p>
+      <div class="spacer"></div>
+      <p class="small">关键在于：钱或物质可以在一定程度上转移效用。</p>
+      <div class="spacer"></div>
+      <p class="small">但：补偿真的会发生吗？谁来决定补偿多少？</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 21: 先富带动后富 -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 5</span>
+        <span class="dash"></span>
+        <span>一个中国案例</span>
+      </div>
+      <h3>「先富带动后富」</h3>
+      <div class="spacer"></div>
+      <p>假设某个政策让一部分人先变得非常富有，同时整体经济规模扩大。</p>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 36px;">
+        如果一个政策让社会总财富增加，<br>但也扩大了不平等，<br>你会如何评价它？
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 22: Conclusion -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">小结</span>
+        <span class="dash"></span>
+        <span>这一讲的收获</span>
+      </div>
+      <h3>三个层次</h3>
+      <div class="spacer"></div>
+      <div class="three-cards">
+        <div class="card">
+          <div class="card-label">个人</div>
+          <h4>效用与权衡</h4>
+          <p>成本收益，风险偏好，选择背后的逻辑。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">社会</div>
+          <h4>比较的困难</h4>
+          <p>不同人的快乐很难加总，也很难比较。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">制度</div>
+          <h4>模型有用但有限</h4>
+          <p>效用模型帮助我们思考，但不能替代价值判断。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 23: Two sentences -->
+  <div class="slide dark">
+    <div class="slide-inner" style="text-align: center;">
+      <p style="font-family: var(--display); font-style: italic; font-size: 64px; color: var(--gold); line-height: 1.3; margin-bottom: 40px;">Trade-off is everywhere.</p>
+      <div class="slide-rule" style="margin: 0 auto 40px;"></div>
+      <p style="font-family: var(--display); font-style: italic; font-size: 64px; color: var(--gold); line-height: 1.3;">People respond to incentives.</p>
+      <div class="spacer-lg"></div>
+      <p class="small">这两句话会贯穿后面的每一讲。</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- progress -->
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint" id="nav-hint">← → 切换幻灯片</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navHint = document.getElementById('nav-hint');
+  let current = 0;
+  const total = slides.length;
+
+  function show(n) {
+    slides.forEach(s => s.classList.remove('active'));
+    current = Math.max(0, Math.min(n, total - 1));
+    slides[current].classList.add('active');
+    progress.style.width = ((current + 1) / total * 100) + '%';
+    counter.textContent = (current + 1) + ' / ' + total;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+      e.preventDefault(); show(current + 1);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); show(current - 1);
+    }
+    if (e.key === 'Home') { e.preventDefault(); show(0); }
+    if (e.key === 'End') { e.preventDefault(); show(total - 1); }
+    navHint.style.opacity = '0';
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].screenX - touchStartX;
+    if (diff < -50) show(current + 1);
+    if (diff > 50) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+
+  document.addEventListener('click', e => {
+    const x = e.clientX / window.innerWidth;
+    if (x > 0.65) show(current + 1);
+    else if (x < 0.35) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+
+  show(0);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三讲 · 外部性</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+<style>
+
+  :root{--bg:#faf8f3;--bg-warm:#f4efe2;--bg-cream:#f7f2e6;--ink:#1f1d1a;--ink-soft:#5a554d;--ink-faint:#a39d8f;--rule:#ddd6c4;--terracotta:#d97757;--blue:#3b6e8f;--gold:#c9a961;--green:#5a8a6a;--serif:"Source Serif 4","Noto Serif SC",Georgia,serif;--sans:"Work Sans","Noto Sans SC",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--serif-cn:"Noto Serif SC","Source Han Serif SC",serif;--sans-cn:"Noto Sans SC",system-ui,sans-serif;--display:"EB Garamond","Noto Serif SC",serif}
+  *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;-webkit-font-smoothing:antialiased}body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(to right,rgba(31,29,26,.02) 1px,transparent 1px),linear-gradient(to bottom,rgba(31,29,26,.02) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}main{position:relative;z-index:1}.top-bar{border-bottom:1px solid var(--rule);padding:20px 48px;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-soft)}.brand{display:flex;align-items:center;gap:10px;color:var(--ink);font-weight:500}.dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta)}.hero{padding:100px 48px 80px;max-width:880px;margin:0 auto}.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:12px;margin-bottom:36px}.eyebrow .num{color:var(--terracotta);font-weight:500}.dash{width:32px;height:1.5px;background:var(--ink-soft)}h1{font-family:var(--serif-cn);font-weight:600;font-size:64px;line-height:1.15;letter-spacing:.06em;margin-bottom:20px}.subtitle{font-family:var(--display);font-style:italic;color:var(--terracotta);font-size:28px;display:block;margin-bottom:32px}.goals{background:var(--bg-cream);border:1px solid var(--rule);border-radius:16px;padding:32px;margin-top:36px}.goals-label{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}.content{max-width:880px;margin:0 auto;padding:0 48px 100px}.section-divider{display:flex;align-items:center;gap:16px;margin:64px 0 36px;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}.section-divider .line{flex:1;height:1px;background:var(--rule)}h2{font-family:var(--serif-cn);font-weight:600;font-size:32px;line-height:1.3;letter-spacing:.02em;margin-bottom:24px}h2 .accent{color:var(--terracotta);font-family:var(--display);font-style:italic;font-weight:400}h3{font-family:var(--serif-cn);font-weight:500;font-size:22px;line-height:1.4;margin:36px 0 14px}p{font-family:var(--serif-cn);font-size:16.5px;line-height:1.85;color:var(--ink);margin-bottom:14px}.secondary{color:var(--ink-soft);font-size:15px}ul{margin:20px 0;padding:0;list-style:none}li{font-family:var(--serif-cn);font-size:16.5px;line-height:1.85;color:var(--ink);padding:4px 0 4px 20px;position:relative}li:before{content:"·";position:absolute;left:4px;color:var(--ink-faint);font-weight:700}.question{font-family:var(--serif-cn);font-size:20px;font-weight:500;line-height:1.65;color:var(--ink);margin:18px 0;padding-left:20px;border-left:3px solid var(--terracotta)}.block{background:var(--bg-cream);border:1px solid var(--rule);border-radius:16px;padding:30px;margin:28px 0}.tag{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:4px 13px;border-radius:999px;margin-bottom:16px;color:var(--terracotta);border:1px solid var(--terracotta)}.tag .dot{width:6px;height:6px}.note{font-family:var(--sans-cn);font-size:14px;color:var(--ink-soft);padding-left:20px;border-left:2px solid var(--rule);margin:20px 0;line-height:1.7}.pull-quote{padding:36px 0;margin:32px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}.pull-quote p{font-size:24px;line-height:1.6}.formula-block{text-align:center;padding:32px 0;margin:24px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}img{width:100%;border-radius:12px;display:block;margin:20px 0}iframe{width:100%;height:430px;border:0;border-radius:12px;background:#000;margin:20px 0}footer{border-top:1px solid var(--rule);padding:36px 48px;max-width:880px;margin:0 auto;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}@media(max-width:720px){.top-bar{padding:16px 22px;font-size:10px;gap:16px}.hero{padding:64px 24px 48px}.content{padding:0 24px 80px}h1{font-size:44px}h2{font-size:27px}footer{padding:28px 24px;display:block}}
+
+</style>
+</head>
+<body>
+<main>
+<div class="top-bar">
+  <div class="brand"><span class="dot"></span> 日常制度的经济学</div>
+  <span>Building Bridges · 经济学选修课</span>
+</div>
+<div class="hero">
+  <div class="eyebrow"><span class="num">03</span><span class="dash"></span><span>Day 3</span></div>
+  <h1>外部性</h1>
+  <span class="subtitle">When my choice becomes your problem</span>
+  <div class="goals">
+    <div class="goals-label">学习目标</div>
+    <ul>
+      <li>理解外部性的含义：我的行动如何影响其他人的福利</li>
+      <li>区分正外部性和负外部性</li>
+      <li>用博弈论的视角理解为什么个体理性可能导致集体困境</li>
+      <li>比较外部性的几种解决方式：税、产权、交易、管制和社会规范</li>
+    </ul>
+  </div>
+</div>
+<div class="content">
+  <div class="block">
+    <div class="tag"><span class="dot"></span> 课堂主线</div>
+    <p>这一讲最好不要从定义开始。先让学生观察「坏结果」和 1/3 平均数游戏，再引出外部性：很多社会问题不是因为参与者不理性，而是因为他们各自理性时，成本和收益没有落在同一个人身上。</p>
+    <p>讲到治理工具时，可以不断追问同一个问题：这个方案改变了谁的激励？它又会不会制造新的不公平或新的信息问题？</p>
+  </div>
+  <div class="section-divider">
+    <span>Part 1</span><span class="line"></span><span>从现实中的坏结果开始</span>
+  </div>
+  <h2>从现实中的坏结果开始</h2>
+  <p>你一定在现实中观察到这些现象：</p>
+  <ul>
+    <li>环境污染</li>
+    <li>资源过度开采</li>
+    <li>噪音扰民</li>
+    <li>公共空间被过度占用</li>
+    <li>学习、工作中的「内卷」</li>
+  </ul>
+  <p>这些问题是不是因为某些人「利欲熏心」？是不是因为他们「自私自利」？</p>
+  <p>是，也不是。</p>
+  <p>更重要的问题可能是：<strong>激励结构不对</strong>。在某些环境下，一个只考虑自己利益的人，无法被自身的成本收益权衡约束住，因为一部分成本被转嫁给了别人。</p>
+  <p class="question">如果一个人的行动成本由别人承担，他会如何改变自己的行为？</p>
+  <div class="section-divider">
+    <span>Part 2</span><span class="line"></span><span>一个小游戏</span>
+  </div>
+  <h2>一个小游戏</h2>
+  <div class="note"><strong>过渡</strong><br>先不急着定义外部性。这个小游戏是一个插入工具，帮助我们看到个体选择之间如何互相影响。</div>
+  <h3>1/3 平均数游戏</h3>
+  <p>每个人写出一个 0 到 100 之间的整数。所有数字取平均数后，谁的答案最接近平均数的 1/3，谁得到奖励。</p>
+  <p>先让学生独立写下答案，不要讨论。</p>
+  <h3>讨论</h3>
+  <ul>
+    <li>如果所有人随机写，平均数可能接近 50，那么目标数是 16.7。</li>
+    <li>如果大家都想到这一层，就不会写 50，而会写 16 或 17。</li>
+    <li>但如果大家都写 16 或 17，目标数又变成 5 左右。</li>
+    <li>如果继续推理，最后会走向 0。</li>
+  </ul>
+  <p>这个游戏不是为了让大家学会猜数字，而是为了展示：你的最优选择取决于你认为别人会怎么选。</p>
+  <p class="question">你是在和规则博弈，还是在和其他人的预期博弈？</p>
+  <div class="block">
+    <div class="tag"><span class="dot"></span> 补充</div>
+    <h4>博弈论视角：Game theory perspective on the world</h4>
+    <p>在讨论一个社会现象之前，可以先问几个问题：</p>
+    <ul>
+      <li>这件事相关的 players 有谁？如果你提到国家、政府、男性、女性、学校、资产阶级，是否有必要进一步考虑构成它们的个体？</li>
+      <li>这些 players 有什么可能的 actions？</li>
+      <li>他们各自拥有什么信息？</li>
+      <li>所有人的 actions 最后导致什么结果？每个 player 的收益是什么？</li>
+      <li>基于每个人拥有的信息，他们会作出什么决策？最后可能达成什么均衡？</li>
+    </ul>
+  </div>
+  <h3>占优策略和纳什均衡</h3>
+  <p>如果无论别人怎么做，你做某个选择都更好，那么这个选择就是占优策略。</p>
+  <p>如果每个人在看到别人选择后，都没有动力单方面改变自己的选择，那么这个状态就是纳什均衡。</p>
+  <p>问题在于：纳什均衡不一定是社会最好的结果。</p>
+  <div class="section-divider">
+    <span>Part 3</span><span class="line"></span><span>外部性</span>
+  </div>
+  <h2>外部性</h2>
+  <div class="note"><strong>过渡</strong><br>外部性就是：我的选择，进入了你的福利函数。</div>
+  <p><strong>外部性（externality）</strong>：一个人的行动对其他个体的福利造成影响，但这种影响没有完全体现在市场价格或私人决策成本中。</p>
+  <h3>负外部性</h3>
+  <p>我的行为让别人变差，但我不需要为全部成本付费。</p>
+  <p>例子：</p>
+  <ul>
+    <li>工厂排污降低附近居民的生活质量。</li>
+    <li>开车造成拥堵和尾气。</li>
+    <li>晚上大声外放音乐影响室友休息。</li>
+    <li>过度竞争让所有人都更累，但排名未必改变。</li>
+  </ul>
+  <h3>正外部性</h3>
+  <p>我的行为让别人变好，但我无法获得全部收益。</p>
+  <p>例子：</p>
+  <ul>
+    <li>接种疫苗降低传染风险。</li>
+    <li>教育提高社会整体信任和合作能力。</li>
+    <li>基础研究产生知识溢出。</li>
+    <li>一个人保持公共空间干净，会降低其他人的使用成本。</li>
+  </ul>
+  <p class="question">如果收益不能完全归自己，成本也不用完全自己承担，个体选择会怎样偏离社会最优？</p>
+  <div class="section-divider">
+    <span>Part 4</span><span class="line"></span><span>内卷作为外部性</span>
+  </div>
+  <h2>内卷作为外部性</h2>
+  <p>「内卷」是一个很适合讨论外部性的例子。</p>
+  <p>假设所有学生都只学习 8 小时，排名由能力和效率决定。现在有一个人开始学 10 小时，他可能获得优势。其他人为了不落后，也开始学 10 小时。最后所有人都更累，但排名结构可能没有明显改变。</p>
+  <p>每个人延长学习时间，对自己来说可能是理性的；但它给别人施加了压力，迫使别人也提高投入。这就是一种负外部性。</p>
+  <p class="question">如果每个人都在做「对自己最优」的选择，为什么整体结果可能变坏？</p>
+  <div class="section-divider">
+    <span>Part 5</span><span class="line"></span><span>如何解决外部性？</span>
+  </div>
+  <h2>如何解决外部性？</h2>
+  <div class="note"><strong>过渡</strong><br>如果问题来自激励结构，就要重新设计激励结构。</div>
+  <h3>庇古税</h3>
+  <p>对产生负外部性的行为征税，让行动者承担更多社会成本。</p>
+  <p>例子：碳税、拥堵费、烟草税。</p>
+  <p>问题：</p>
+  <ul>
+    <li>税率应该是多少？</li>
+    <li>社会成本如何测量？</li>
+    <li>税会不会产生新的不公平？</li>
+  </ul>
+  <h3>产权</h3>
+  <p>如果权利边界清楚，相关方可以通过谈判解决问题。</p>
+  <p>比如：谁有权排放？谁有权享受安静？谁拥有某片草场的使用权？</p>
+  <h3>科斯定理</h3>
+  <p>如果产权清晰，交易成本足够低，那么无论产权最初分配给谁，双方都可能通过谈判达到有效结果。</p>
+  <p>但现实里交易成本经常很高：</p>
+  <ul>
+    <li>人太多，谈判困难。</li>
+    <li>信息不对称。</li>
+    <li>权力不平等。</li>
+    <li>执行协议需要成本。</li>
+  </ul>
+  <div class="section-divider">
+    <span>Part 6</span><span class="line"></span><span>更多工具</span>
+  </div>
+  <h2>更多工具</h2>
+  <h3>Cap and trade</h3>
+  <p>先设定总排放上限，再允许排放权交易。这样既控制总量，又让减排成本低的人多减排、成本高的人购买排放权。</p>
+  <h3>直接管制</h3>
+  <p>政府直接规定哪些行为可以做、哪些不能做。</p>
+  <p>优点是清晰，缺点是可能僵化，也可能忽略不同个体的成本差异。</p>
+  <h3>社会规范</h3>
+  <p>有些外部性不是靠价格或法律解决，而是靠羞耻感、声誉、习惯和共同体规范。</p>
+  <p>比如：排队、不在图书馆大声说话、公共空间保持安静。</p>
+  <p class="question">哪些外部性适合用价格解决？哪些更适合用规范或法律解决？</p>
+  <div class="section-divider">
+    <span>Part 7</span><span class="line"></span><span>小结</span>
+  </div>
+  <h2>小结</h2>
+  <p>外部性提醒我们：社会问题不一定来自坏人，也可能来自坏的激励结构。</p>
+  <p>一个制度如果只看到个体选择，而看不到选择之间的相互影响，就很容易误判问题。</p>
+  <p>下一讲我们会继续讨论另一种市场失灵：信息不对称。很多时候，问题不是成本被转嫁给别人，而是你根本不知道别人是什么类型、在做什么事。</p>
+</div>
+<footer>
+  <span>Day 3 · 外部性</span>
+  <span>张煜豪 &amp; Claude · 日常制度的经济学</span>
+</footer>
+</main>
+</body>
+</html>

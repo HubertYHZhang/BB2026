@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第四讲 · 信息不对称</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#faf8f3; --bg-cream:#f7f2e6; --ink:#1f1d1a; --ink-soft:#5a554d; --ink-faint:#a39d8f; --rule:#ddd6c4; --terracotta:#d97757; --blue:#3b6e8f; --gold:#c9a961; --green:#5a8a6a; --serif-cn:"Noto Serif SC",serif; --sans:"Work Sans","Noto Sans SC",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"EB Garamond","Noto Serif SC",serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+  .deck { width: 100%; height: 100%; position: relative; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 60px 100px; opacity: 0; pointer-events: none; transition: opacity .5s ease; overflow: hidden; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide-inner { max-width: 1100px; width: 100%; position: relative; }
+  .dark { background: var(--ink); color: var(--bg); } .light { background: var(--bg); color: var(--ink); } .cream { background: var(--bg-cream); color: var(--ink); } .terracotta { background: var(--terracotta); color: #fff; } .blue { background: var(--blue); color: #fff; }
+  h1 { font-family: var(--serif-cn); font-size: 96px; line-height: 1.08; letter-spacing: .04em; }
+  h2 { font-family: var(--serif-cn); font-size: 64px; line-height: 1.15; letter-spacing: .03em; }
+  h3 { font-family: var(--serif-cn); font-size: 44px; line-height: 1.25; font-weight: 500; letter-spacing: .02em; }
+  p { font-family: var(--serif-cn); font-size: 28px; line-height: 1.7; }
+  p.small { font-family: var(--sans); font-size: 21px; color: var(--ink-soft); }
+  .dark p.small { color: rgba(250,248,243,.55); }
+  .subtitle { font-family: var(--display); font-style: italic; font-size: 36px; color: var(--gold); margin-top: 16px; }
+  .eyebrow { font-family: var(--mono); font-size: 15px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+  .dark .eyebrow { color: rgba(250,248,243,.35); } .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.45); }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; } .dark .eyebrow .num { color: var(--gold); } .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+  .dash { width: 28px; height: 1.5px; background: currentColor; }
+  .accent { color: var(--terracotta); } .dark .accent { color: var(--gold); }
+  .spacer { height: 24px; } .spacer-lg { height: 48px; }
+  ul { list-style: none; padding: 0; }
+  li { font-family: var(--serif-cn); font-size: 28px; line-height: 1.6; padding: 10px 0 10px 36px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 22px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--terracotta); }
+  .dark li::before { border-color: var(--gold); }
+  .slide-question { font-family: var(--serif-cn); font-size: 48px; line-height: 1.4; padding-left: 32px; border-left: 5px solid var(--terracotta); }
+  .dark .slide-question { border-left-color: var(--gold); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .three-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+  .card { background: rgba(31,29,26,.06); border-radius: 16px; padding: 30px 26px; }
+  .dark .card { background: rgba(250,248,243,.08); }
+  .card-label { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 12px; }
+  .dark .card-label { color: var(--gold); }
+  .card h4 { font-family: var(--serif-cn); font-weight: 500; font-size: 26px; line-height: 1.3; margin-bottom: 12px; }
+  .card p { font-size: 18px; line-height: 1.65; color: var(--ink-soft); }
+  .dark .card p { color: rgba(250,248,243,.58); }
+  .big-word { font-family: var(--display); font-style: italic; font-size: 86px; line-height: 1; color: var(--gold); }
+  .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--terracotta); transition: width .4s ease; z-index: 100; }
+  .counter { position: fixed; bottom: 20px; right: 40px; font-family: var(--mono); font-size: 13px; color: var(--ink-faint); z-index: 100; letter-spacing: .1em; mix-blend-mode: difference; }
+  .nav-hint { position: fixed; bottom: 20px; left: 40px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); z-index: 100; mix-blend-mode: difference; opacity: .5; transition: opacity 2s; }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="slide dark active">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">04</span><span class="dash"></span><span>Day 4</span></div>
+      <h1>信息<br>不对称</h1>
+      <div class="subtitle">What you do not know can shape the market</div>
+      <div class="spacer-lg"></div>
+      <p class="small">日常制度的经济学 · Building Bridges 经济学选修课</p>
+      <div class="spacer"></div>
+      <p class="small" style="font-size:16px; opacity:.5;">张煜豪 &amp; Claude</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Opening</span><span class="dash"></span><span>Unknowns</span></div>
+      <h3>市场里最麻烦的事情之一：</h3>
+      <div class="spacer"></div>
+      <p>你买东西时，不知道卖家有没有隐瞒质量问题。</p>
+      <p>你找人合作时，不知道对方是否可靠。</p>
+      <p>你雇人工作时，不知道他是不是真的努力。</p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="slide-question">你在生活中什么时候会因为「不知道对方是什么样的人」而改变自己的行为？</div>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Two unknowns</span><span class="dash"></span><span>信息不对称</span></div>
+      <div class="two-col">
+        <div><p class="big-word">type</p><h3>隐藏的类型</h3><p class="small">交易之前，我不知道你是谁。</p></div>
+        <div><p class="big-word">action</p><h3>隐藏的行动</h3><p class="small">交易之后，我不知道你在干什么。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>交易之前，<br>你不知道对方是什么「类型」。</h2></div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>Adverse Selection</span></div>
+      <h3>逆向选择</h3>
+      <div class="spacer"></div>
+      <p>在交易发生之前，一方掌握了另一方不知道的重要信息，导致市场选择出更差的交易对象。</p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>二手手机市场</span></div>
+      <h3>好手机为什么会退出市场？</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>卖家知道手机有没有问题，买家不知道。</li>
+        <li>买家只能按照「平均质量」出价。</li>
+        <li>这个价格对好手机卖家太低，他们选择退出。</li>
+        <li>剩下的手机质量越来越差，价格进一步下降。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Akerlof</span><span class="dash"></span><span>Lemons</span></div>
+      <p class="big-word">lemons market</p>
+      <div class="spacer-lg"></div>
+      <p>最后，市场上可能只剩下最差的商品。</p>
+      <p class="small">这就是 Akerlof（1970）描述的「柠檬市场」问题。</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">如果买家无法区分好卖家和坏卖家，最终谁会留在市场里？</div>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Examples</span><span class="dash"></span><span>隐藏的类型</span></div>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">陌生人</div><h4>网上认识的人</h4><p>你不知道对方是否可靠。</p></div>
+        <div class="card"><div class="card-label">招聘</div><h4>学历和面试</h4><p>企业不知道谁能力强，只能找信号。</p></div>
+        <div class="card"><div class="card-label">平台</div><h4>评分和评价</h4><p>把不可见的质量变得稍微可见。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>交易之后，<br>你看不到对方在做什么。</h2></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 2</span><span class="dash"></span><span>Moral Hazard</span></div>
+      <h3>道德风险</h3>
+      <div class="spacer"></div>
+      <p>在交易发生之后，一方的行动难以被观察，而行动后果部分由别人承担，于是激励被扭曲。</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>保险</span></div>
+      <h3>保险改变了你承担后果的方式</h3>
+      <div class="spacer"></div>
+      <p>你买了保险之后，可能就不那么小心了。反正出事有人赔。</p>
+      <p class="small">这不意味着买保险的人一定会故意制造事故；但只要责任结构改变，行为就可能改变。</p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>装修工和上班族</span></div>
+      <h3>看不到行动，比看不到结果更难处理</h3>
+      <div class="spacer"></div>
+      <div class="two-col">
+        <p>你雇了装修工，没法知道他每天认真干了八小时，还是摸了四小时鱼。</p>
+        <p>你的老板也不一定知道你上班时到底在工作，还是在刷手机。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner"><div class="slide-question">为什么「看不见行动」会比「看不见结果」更难处理？</div></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner" style="text-align:center;">
+      <div class="eyebrow"><span class="num">One sentence</span><span class="dash"></span><span>一句话区分</span></div>
+      <p style="font-size:54px; line-height:1.45;">逆向选择：<span class="accent">我不知道你是谁</span></p>
+      <div class="spacer"></div>
+      <p style="font-size:54px; line-height:1.45;">道德风险：<span class="accent">我不知道你在干什么</span></p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Compare</span><span class="dash"></span><span>交易前 vs 交易后</span></div>
+      <div class="two-col">
+        <ul>
+          <li>买二手车之前不知道车况</li>
+          <li>公司招聘时不知道谁能力强</li>
+        </ul>
+        <ul>
+          <li>买保险之后开车更不小心</li>
+          <li>员工入职后是否努力难以观察</li>
+        </ul>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">很多现实问题同时包含两者，比如贷款。</p>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>解决信息问题，<br>不是靠一句「大家诚实一点」。</h2></div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Solution 1</span><span class="dash"></span><span>Signaling</span></div>
+      <h3>信号机制：信息多的一方主动发信号</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">学历</div><h4>能力/纪律/筛选</h4><p>学历不只传递知识，也可能传递类型。</p></div>
+        <div class="card"><div class="card-label">品牌</div><h4>质量承诺</h4><p>保修、品牌声誉让质量稍微可见。</p></div>
+        <div class="card"><div class="card-label">作品集</div><h4>直接展示</h4><p>让别人看到你过去真实做过什么。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner"><div class="slide-question">学历是在传递知识，还是在传递某种信号？两者有什么区别？</div></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Solution 2</span><span class="dash"></span><span>Screening</span></div>
+      <h3>筛选机制：信息少的一方设计选项</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>保险公司设计不同免赔额和保费组合。</li>
+        <li>企业通过试用期、笔试、面试筛选员工。</li>
+        <li>平台通过押金、实名制、信用分筛选用户。</li>
+        <li>银行通过抵押物和利率筛选借款人。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Solution 3</span><span class="dash"></span><span>Contracts</span></div>
+      <h3>合约设计：什么能写进合约？</h3>
+      <div class="spacer"></div>
+      <p>如果某件事可以被观察、被验证、被执行，就可以写进合约。</p>
+      <p>如果某件事很重要但无法观察或无法验证，它就很难写进合约。</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner"><div class="slide-question">学校、公司和政府为什么经常喜欢用可量化指标？这些指标会带来什么问题？</div></div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>合约和指标能缓解信息问题，<br>也会制造新的扭曲。</h2></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Goodhart</span><span class="dash"></span><span>指标陷阱</span></div>
+      <p class="big-word">When a measure becomes a target, it ceases to be a good measure.</p>
+      <div class="spacer-lg"></div>
+      <p class="small">当一个指标变成目标，人们会开始优化指标本身，而不是真正实现原来的目标。</p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Examples</span><span class="dash"></span><span>Goodhart's Law</span></div>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">GDP</div><h4>数字增长</h4><p>可能忽视环境和民生。</p></div>
+        <div class="card"><div class="card-label">作业</div><h4>写满</h4><p>完成度可能替代理解。</p></div>
+        <div class="card"><div class="card-label">考试</div><h4>刷题</h4><p>分数可能替代真实学习。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner"><div class="slide-question">你能想到哪些「指标被当成目标」的例子？</div></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism Design</span><span class="dash"></span><span>两个约束</span></div>
+      <div class="two-col">
+        <div><h3>激励相容</h3><p>参与者按制度希望的方式行动，必须符合他们自己的利益。</p></div>
+        <div><h3>参与约束</h3><p>参与者愿意进入这个制度，而不是退出、逃避或进入灰色市场。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">总结</span><span class="dash"></span><span>信息不对称</span></div>
+      <h3>市场不只是买卖关系</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">交易前</div><h4>逆向选择</h4><p>不知道对方是什么类型。</p></div>
+        <div class="card"><div class="card-label">交易后</div><h4>道德风险</h4><p>看不到对方在做什么。</p></div>
+        <div class="card"><div class="card-label">制度</div><h4>信号、筛选、合约</h4><p>现实市场依赖评价、认证、法律、平台规则和社会信任。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint" id="nav-hint">← → 切换幻灯片</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navHint = document.getElementById('nav-hint');
+  let current = 0;
+  const total = slides.length;
+  function show(n) { slides.forEach(s => s.classList.remove('active')); current = Math.max(0, Math.min(n, total - 1)); slides[current].classList.add('active'); progress.style.width = ((current + 1) / total * 100) + '%'; counter.textContent = (current + 1) + ' / ' + total; }
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(current + 1); } if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(current - 1); } if (e.key === 'Home') { e.preventDefault(); show(0); } if (e.key === 'End') { e.preventDefault(); show(total - 1); } navHint.style.opacity = '0'; });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => { const diff = e.changedTouches[0].screenX - touchStartX; if (diff < -50) show(current + 1); if (diff > 50) show(current - 1); navHint.style.opacity = '0'; });
+  document.addEventListener('click', e => { const x = e.clientX / window.innerWidth; if (x > 0.65) show(current + 1); else if (x < 0.35) show(current - 1); navHint.style.opacity = '0'; });
+  show(0);
+</script>
+</body>
+</html>

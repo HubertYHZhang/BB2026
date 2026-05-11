@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三讲 · 外部性</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#faf8f3; --bg-cream:#f7f2e6; --bg-warm:#f4efe2; --ink:#1f1d1a; --ink-soft:#5a554d; --ink-faint:#a39d8f; --rule:#ddd6c4; --terracotta:#d97757; --blue:#3b6e8f; --gold:#c9a961; --green:#5a8a6a; --serif-cn:"Noto Serif SC",serif; --sans:"Work Sans","Noto Sans SC",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace; --display:"EB Garamond","Noto Serif SC",serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+  .deck { width: 100%; height: 100%; position: relative; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 60px 100px; opacity: 0; pointer-events: none; transition: opacity .5s ease; overflow: hidden; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide-inner { max-width: 1100px; width: 100%; position: relative; }
+  .dark { background: var(--ink); color: var(--bg); } .light { background: var(--bg); color: var(--ink); } .cream { background: var(--bg-cream); color: var(--ink); } .terracotta { background: var(--terracotta); color: #fff; } .blue { background: var(--blue); color: #fff; }
+  h1 { font-family: var(--serif-cn); font-size: 96px; line-height: 1.08; letter-spacing: .04em; }
+  h2 { font-family: var(--serif-cn); font-size: 64px; line-height: 1.15; letter-spacing: .03em; }
+  h3 { font-family: var(--serif-cn); font-size: 44px; line-height: 1.25; font-weight: 500; letter-spacing: .02em; }
+  p { font-family: var(--serif-cn); font-size: 28px; line-height: 1.7; }
+  p.small { font-family: var(--sans); font-size: 21px; color: var(--ink-soft); }
+  .dark p.small { color: rgba(250,248,243,.55); }
+  .subtitle { font-family: var(--display); font-style: italic; font-size: 36px; color: var(--gold); margin-top: 16px; }
+  .eyebrow { font-family: var(--mono); font-size: 15px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+  .dark .eyebrow { color: rgba(250,248,243,.35); } .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.45); }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; } .dark .eyebrow .num { color: var(--gold); } .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+  .dash { width: 28px; height: 1.5px; background: currentColor; }
+  .accent { color: var(--terracotta); } .dark .accent { color: var(--gold); }
+  .spacer { height: 24px; } .spacer-lg { height: 48px; }
+  ul { list-style: none; padding: 0; }
+  li { font-family: var(--serif-cn); font-size: 28px; line-height: 1.6; padding: 10px 0 10px 36px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 22px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--terracotta); }
+  .dark li::before { border-color: var(--gold); }
+  .slide-question { font-family: var(--serif-cn); font-size: 48px; line-height: 1.4; padding-left: 32px; border-left: 5px solid var(--terracotta); }
+  .dark .slide-question { border-left-color: var(--gold); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .three-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+  .card { background: rgba(31,29,26,.06); border-radius: 16px; padding: 30px 26px; }
+  .dark .card { background: rgba(250,248,243,.08); }
+  .card-label { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 12px; }
+  .dark .card-label { color: var(--gold); }
+  .card h4 { font-family: var(--serif-cn); font-weight: 500; font-size: 26px; line-height: 1.3; margin-bottom: 12px; }
+  .card p { font-size: 18px; line-height: 1.65; color: var(--ink-soft); }
+  .dark .card p { color: rgba(250,248,243,.58); }
+  .big-word { font-family: var(--display); font-style: italic; font-size: 88px; line-height: 1; color: var(--gold); }
+  .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--terracotta); transition: width .4s ease; z-index: 100; }
+  .counter { position: fixed; bottom: 20px; right: 40px; font-family: var(--mono); font-size: 13px; color: var(--ink-faint); z-index: 100; letter-spacing: .1em; mix-blend-mode: difference; }
+  .nav-hint { position: fixed; bottom: 20px; left: 40px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); z-index: 100; mix-blend-mode: difference; opacity: .5; transition: opacity 2s; }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="slide dark active">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">03</span><span class="dash"></span><span>Day 3</span></div>
+      <h1>外部性</h1>
+      <div class="subtitle">When my choice becomes your problem</div>
+      <div class="spacer-lg"></div>
+      <p class="small">日常制度的经济学 · Building Bridges 经济学选修课</p>
+      <div class="spacer"></div>
+      <p class="small" style="font-size:16px; opacity:.5;">张煜豪 &amp; Claude</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Opening</span><span class="dash"></span><span>Bad outcomes</span></div>
+      <h3>很多坏结果，不一定来自坏人</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">环境</div><h4>污染与过度开采</h4><p>成本被排到空气、河流，或者未来的人身上。</p></div>
+        <div class="card"><div class="card-label">生活</div><h4>噪音与公共空间</h4><p>一个人的方便，变成许多人的不方便。</p></div>
+        <div class="card"><div class="card-label">学校</div><h4>内卷</h4><p>每个人都更累，但排名未必改变。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="slide-question">如果一个人的行动成本由别人承担，他会如何改变自己的行为？</div>
+      <div class="spacer"></div>
+      <p class="small">先收集直觉，不急着给定义。</p>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>先不要定义概念。<br>先玩一个游戏。</h2></div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>1/3 Average Game</span></div>
+      <h3>1/3 平均数游戏</h3>
+      <div class="spacer"></div>
+      <p>每个人写出一个 0 到 100 之间的整数。</p>
+      <p>所有数字取平均数后，谁的答案最接近平均数的 <span class="accent">1/3</span>，谁得到奖励。</p>
+      <div class="spacer"></div>
+      <p class="small">课堂操作：独立写下答案，不要讨论。</p>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>Reasoning</span></div>
+      <h3>这个游戏在考什么？</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>如果所有人随机写，平均数可能接近 50，目标数是 16.7。</li>
+        <li>如果大家都想到这一层，就会写 16 或 17。</li>
+        <li>但如果大家都写 16 或 17，目标数又变成 5 左右。</li>
+        <li>如果继续推理，最后会走向 0。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">你是在和规则博弈，还是在和其他人的预期博弈？</div>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>Game Theory Lens</span></div>
+      <h3>讨论社会现象时，先问五个问题</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>相关 players 有谁？需要继续拆成个体吗？</li>
+        <li>他们有什么可能的 actions？</li>
+        <li>他们各自拥有什么信息？</li>
+        <li>行动组合会导致什么结果？每个人的收益是什么？</li>
+        <li>每个人理性选择后，可能达成什么均衡？</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>Equilibrium</span></div>
+      <div class="two-col">
+        <div><h3>占优策略</h3><p>无论别人怎么做，你做某个选择都更好。</p></div>
+        <div><h3>纳什均衡</h3><p>每个人看到别人选择后，都没有动力单方面改变。</p></div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">关键：纳什均衡不一定是社会最好的结果。</p>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>外部性就是：<br>我的选择，进入了你的福利函数。</h2></div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 2</span><span class="dash"></span><span>Externality</span></div>
+      <p class="big-word">my choice → your welfare</p>
+      <div class="spacer-lg"></div>
+      <p>一个人的行动对其他个体的福利造成影响，但这种影响没有完全体现在市场价格或私人决策成本中。</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="two-col">
+        <div>
+          <div class="eyebrow"><span class="num">负</span><span class="dash"></span><span>Negative</span></div>
+          <h3>我让别人变差</h3>
+          <p>但我不需要为全部成本付费。</p>
+        </div>
+        <div>
+          <div class="eyebrow"><span class="num">正</span><span class="dash"></span><span>Positive</span></div>
+          <h3>我让别人变好</h3>
+          <p>但我无法获得全部收益。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Examples</span><span class="dash"></span><span>负外部性 vs 正外部性</span></div>
+      <div class="two-col">
+        <ul>
+          <li>工厂排污</li>
+          <li>开车造成拥堵和尾气</li>
+          <li>晚上大声外放音乐</li>
+          <li>过度竞争带来的疲惫</li>
+        </ul>
+        <ul>
+          <li>接种疫苗</li>
+          <li>教育提高社会信任</li>
+          <li>基础研究产生知识溢出</li>
+          <li>保持公共空间干净</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">如果收益不能完全归自己，成本也不用完全自己承担，个体选择会怎样偏离社会最优？</div>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 3</span><span class="dash"></span><span>内卷</span></div>
+      <h3>内卷作为负外部性</h3>
+      <div class="spacer"></div>
+      <div class="two-col">
+        <div><p><span class="accent">起点：</span>所有学生学习 8 小时，排名由能力和效率决定。</p></div>
+        <div><p><span class="accent">偏离：</span>一个人学 10 小时，其他人为了不落后也跟进。</p></div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">最后所有人都更累，但排名结构可能没有明显改变。</p>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">如果每个人都在做「对自己最优」的选择，为什么整体结果可能变坏？</div>
+    </div>
+  </div>
+
+  <div class="slide terracotta">
+    <div class="slide-inner"><h2>如果问题来自激励结构，<br>就要重新设计激励结构。</h2></div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Tool 1</span><span class="dash"></span><span>Pigouvian tax</span></div>
+      <h3>庇古税：让行动者承担更多社会成本</h3>
+      <div class="spacer"></div>
+      <p>例子：碳税、拥堵费、烟草税。</p>
+      <div class="spacer"></div>
+      <ul>
+        <li>税率应该是多少？</li>
+        <li>社会成本如何测量？</li>
+        <li>税会不会产生新的不公平？</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Tool 2</span><span class="dash"></span><span>Property rights</span></div>
+      <h3>产权：先问「谁有权？」</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">排放</div><h4>谁有权排放？</h4><p>污染权如果清楚，就可以被限制、交易或补偿。</p></div>
+        <div class="card"><div class="card-label">安静</div><h4>谁有权享受安静？</h4><p>噪音纠纷本质上也是权利边界问题。</p></div>
+        <div class="card"><div class="card-label">草场</div><h4>谁拥有使用权？</h4><p>无主资源更容易被过度使用。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Coase</span><span class="dash"></span><span>交易成本</span></div>
+      <h3>科斯定理的重点不只是「谈判」</h3>
+      <div class="spacer"></div>
+      <p>如果产权清晰、交易成本足够低，双方可能通过谈判达到有效结果。</p>
+      <div class="spacer"></div>
+      <p class="small">但现实里交易成本经常很高：人太多、信息不对称、权力不平等、执行协议需要成本。</p>
+    </div>
+  </div>
+
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Tool 3</span><span class="dash"></span><span>更多工具</span></div>
+      <h3>三种不同的治理语言</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">交易</div><h4>Cap and trade</h4><p>设总量，再允许排放权交易。</p></div>
+        <div class="card"><div class="card-label">命令</div><h4>直接管制</h4><p>规定哪些行为可以做、哪些不能做。</p></div>
+        <div class="card"><div class="card-label">共同体</div><h4>社会规范</h4><p>靠声誉、羞耻感和习惯处理日常外部性。</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="slide-question">哪些外部性适合用价格解决？哪些更适合用规范或法律解决？</div>
+    </div>
+  </div>
+
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">总结</span><span class="dash"></span><span>Externality</span></div>
+      <h3>外部性提醒我们：</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">诊断</div><h4>谁影响了谁？</h4><p>成本和收益有没有落在同一个人身上？</p></div>
+        <div class="card"><div class="card-label">均衡</div><h4>个体理性不够</h4><p>每个人最优，整体可能不是最优。</p></div>
+        <div class="card"><div class="card-label">治理</div><h4>重设激励</h4><p>税、产权、交易、管制和规范各有边界。</p></div>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">下一讲：信息不对称。问题不再只是成本被转嫁，而是你根本不知道别人是什么类型、在做什么。</p>
+    </div>
+  </div>
+</div>
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint" id="nav-hint">← → 切换幻灯片</div>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navHint = document.getElementById('nav-hint');
+  let current = 0;
+  const total = slides.length;
+  function show(n) { slides.forEach(s => s.classList.remove('active')); current = Math.max(0, Math.min(n, total - 1)); slides[current].classList.add('active'); progress.style.width = ((current + 1) / total * 100) + '%'; counter.textContent = (current + 1) + ' / ' + total; }
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(current + 1); } if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(current - 1); } if (e.key === 'Home') { e.preventDefault(); show(0); } if (e.key === 'End') { e.preventDefault(); show(total - 1); } navHint.style.opacity = '0'; });
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+  document.addEventListener('touchend', e => { const diff = e.changedTouches[0].screenX - touchStartX; if (diff < -50) show(current + 1); if (diff > 50) show(current - 1); navHint.style.opacity = '0'; });
+  document.addEventListener('click', e => { const x = e.clientX / window.innerWidth; if (x > 0.65) show(current + 1); else if (x < 0.35) show(current - 1); navHint.style.opacity = '0'; });
+  show(0);
+</script>
+</body>
+</html>
