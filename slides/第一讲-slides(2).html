@@ -207,12 +207,12 @@
   }
   .dark .card { background: rgba(250,248,243,0.08); }
   .card .card-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     color: var(--terracotta);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
   .dark .card .card-label { color: var(--gold); }
   .card h4 {
@@ -243,12 +243,12 @@
   }
   .dark .mini-card { background: rgba(250,248,243,0.08); }
   .mini-card .mc-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     color: var(--terracotta);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .dark .mini-card .mc-label { color: var(--gold); }
   .mini-card h4 {
@@ -279,12 +279,12 @@
     border-top: 3px solid var(--gold);
   }
   .case-card .cc-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     color: var(--gold);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .case-card h4 {
     font-family: var(--serif-cn);
@@ -325,7 +325,7 @@
     right: -20px;
     top: -30px;
   }
-  .dark .big-num { color: var(--gold); opacity: 0.08; }
+  .dark .big-num { color: var(--gold); opacity: 0.15; }
 
   /* ---- progress bar ---- */
   .progress {
@@ -458,13 +458,16 @@
           <p>互联网上的每个网站需要一个域名。域名先到先得——谁先注册就是谁的。</p>
           <div class="spacer"></div>
           <p>有人专门低价注册大量域名，等别人需要的时候高价转卖——互联网上的「黄牛」。</p>
+          <div class="spacer"></div>
+          <p class="small">claude.ai &nbsp;·&nbsp; perplexity.ai &nbsp;·&nbsp; x.ai &nbsp;·&nbsp; meta.ai</p>
         </div>
         <div>
-          <p class="small">近年人工智能大热，.ai 后缀的域名价格暴涨。</p>
+          <p class="small" style="margin-bottom: 16px;">.ai 域名属于安圭拉（Anguilla）——加勒比海上一个人口只有一万多人的小岛。1995年纯属巧合分配到这个后缀。</p>
+          <p style="font-family: var(--display); font-style: italic; font-size: 56px; color: var(--gold); line-height: 1;">$85M</p>
+          <p class="small">2025年 .ai 注册费收入</p>
           <div class="spacer"></div>
-          <p style="font-size: 22px;">cars.ai</p>
-          <p style="font-family: var(--display); font-style: italic; font-size: 56px; color: var(--gold);">$4.8M</p>
-          <p class="small">2023年成交</p>
+          <p style="font-family: var(--display); font-style: italic; font-size: 56px; color: var(--gold); line-height: 1;">47%</p>
+          <p class="small">占安圭拉全年国家预算</p>
         </div>
       </div>
     </div>
@@ -543,6 +546,32 @@
     </div>
   </div>
 
+
+    <!-- ======== SLIDE 6b: Insurance and Polymarket ======== -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">案例三</span>
+        <span class="dash"></span>
+        <span>延伸：预测市场与保险</span>
+      </div>
+      <h3>和赌博有什么区别？</h3>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 64px; align-items: start;">
+        <div>
+          <p>现实中有另一类市场和 Polymarket 有相似之处——<span style="color: var(--gold); font-weight: 500;">保险</span>。</p>
+          <div class="spacer"></div>
+          <p>二者交易的商品都是基于未来事件的发生与否而决定是否产生收益的一种<span style="color: var(--gold);">资产</span>。</p>
+        </div>
+        <div>
+          <p>这种资产的一个重要功能，就是帮助人们在面对风险的时候有可以提前缓解风险的工具。</p>
+          <div class="spacer"></div>
+          <p class="small">→ 这种商品是天然就有的吗？它是怎么产生的？</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ======== SLIDE 8: Transition to absent ======== -->
   <div class="slide terracotta">
     <div class="slide-inner">
@@ -596,6 +625,7 @@
   <!-- ======== SLIDE 11: Discussion ======== -->
   <div class="slide dark">
     <div class="slide-inner">
+      <div class="big-num">IV</div>
       <div class="eyebrow">
         <span class="num">Part 4</span>
         <span class="dash"></span>
@@ -649,6 +679,15 @@
           <h4>搜索与执行</h4>
           <p>淘宝做匹配；区块链让 Polymarket 的交易不可篡改</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 12b: Market conditions summary ======== -->
+  <div class="slide dark">
+    <div class="slide-inner" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+      <div class="slide-question" style="font-size: 40px; max-width: 900px; border-left-color: var(--gold);">
+        市场并不是自然而然地存在的，而是一系列社会条件的产物，甚至商品本身也需要被社会建构。
       </div>
     </div>
   </div>
@@ -808,6 +847,23 @@
           <p>北大清华暑假名额秒没，黄牛几百块一个。免费的公共资源，市场自动冒出来了。</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 18b: 市场的力量 ======== -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 6</span>
+        <span class="dash"></span>
+        <span>市场的力量</span>
+      </div>
+      <h3>为什么市场这么顽强？</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>一个很有趣的、时常有效的人类间的协调机制</li>
+        <li>价格的信息力量——价格不只是数字，它携带着无数人头脑中分散的信息</li>
+      </ul>
     </div>
   </div>
 
