@@ -199,12 +199,12 @@
   }
   .dark .card { background: rgba(250,248,243,0.08); }
   .card .card-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     color: var(--terracotta);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
   .dark .card .card-label { color: var(--gold); }
   .card h4 {
@@ -312,12 +312,12 @@
     background: rgba(250,248,243,0.07);
   }
   .contrast-item .ci-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     color: var(--gold);
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
   .contrast-item p {
     font-size: 22px;
@@ -607,9 +607,41 @@
         <p style="font-size: 36px; font-family: var(--display); font-style: italic; color: var(--ink);">All models are wrong,<br>but some are useful.</p>
       </div>
       <div class="spacer"></div>
-      <p class="small">模型不是现实，但没有模型我们很难思考现实。模型的作用是刻画世界，进而解释世界和预测世界。</p>
+      <p class="small">模型不是复制现实，而是有意识地简化现实。现实里变量太多，如果什么都放进来，我们反而什么都看不清。</p>
       <div class="spacer"></div>
-      <div class="slide-question" style="font-size: 32px;">
+      <p class="small">一个好模型不一定「真实」，但它应该帮助我们提出问题、看见机制、产生可以被讨论甚至被反驳的预测。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 16b: How models help and fail -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">插曲</span>
+        <span class="dash"></span>
+        <span>模型像地图</span>
+      </div>
+      <h3>地图不是城市，但地图有用</h3>
+      <div class="spacer"></div>
+      <div class="three-cards">
+        <div class="card">
+          <div class="card-label">简化</div>
+          <h4>删掉细节</h4>
+          <p>正因为地铁图删掉了噪音、气味和行人，你才能看清路线。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">假设</div>
+          <h4>Ceteris paribus</h4>
+          <p>「其他条件不变」不是现实描述，而是一种分离变量的方法。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">危险</div>
+          <h4>忘记边界</h4>
+          <p>把「某些条件下成立」误以为「永远成立」，模型就会误导人。</p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 30px;">
         如果一个理论可以解释所有事情，<br>你为什么反而应该小心？
       </div>
     </div>
@@ -731,8 +763,6 @@
       <p style="font-family: var(--display); font-style: italic; font-size: 64px; color: var(--gold); line-height: 1.3; margin-bottom: 40px;">Trade-off is everywhere.</p>
       <div class="slide-rule" style="margin: 0 auto 40px;"></div>
       <p style="font-family: var(--display); font-style: italic; font-size: 64px; color: var(--gold); line-height: 1.3;">People respond to incentives.</p>
-      <div class="spacer-lg"></div>
-      <p class="small">这两句话会贯穿后面的每一讲。</p>
     </div>
   </div>
 
