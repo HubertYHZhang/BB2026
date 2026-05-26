@@ -92,3 +92,11 @@ Generate an HTML slide deck following the template's design exactly.
 - Big numbers and formulas centered, with context below
 - Questions always have the left-border treatment
 - Eyebrows use mono font, uppercase, with colored number
+
+## Lecture Notes PDF Export
+
+Lecture-note HTML files should include a dedicated `@media print` layout instead of relying on the screen layout. Use a restrained LaTeX article-like format: A4 pages, white background, roughly 25mm margins, 10pt serif body text, normal line height, modest heading sizes, and `break-inside: avoid` for goals, notes, questions, quotes, images, and embedded media. Hide decorative web-only UI such as top bars, footers, background grids, and navigation controls in print.
+
+Questions should print as discussion callouts with a terracotta left border. Notes and supplement blocks should print as light boxed callouts. Section dividers and headings should avoid breaking at the bottom of a page.
+
+For high-quality PDF lecture notes, prefer a dedicated LaTeX source over HTML print CSS. Map markdown markers to semantic LaTeX environments: `[question]` → `questionbox`, `[transition]` → `transitionnote`, `[note]` → `notebox`, learning goals → `goalsbox`, and overview/highlight content → `keybox`. Compile Chinese notes with XeLaTeX or LuaLaTeX through `ctexart`.

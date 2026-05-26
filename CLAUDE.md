@@ -18,6 +18,8 @@ To generate a new slide deck or lecture notes HTML file:
 2. Read the relevant `markdown/<lecture>-content.md` for content.
 3. Produce a self-contained HTML file following the template exactly.
 
+Use `TEMPLATE.md` as the canonical project spec. Do not add a separate OpenSpec/spec system unless the project starts changing shared behavior, build tooling, or the content format itself.
+
 Prompt shorthand (put in your message):
 ```
 Read TEMPLATE.md for the design system and markdown/<lecture>-content.md for content.
@@ -33,6 +35,28 @@ Generate an HTML slide deck following the template's design exactly.
 - Images referenced as `resources/<filename>` — copy the path as-is into the HTML
 - `<iframe>` embeds (Bilibili videos) — preserve verbatim
 - `$$...$$` display math, `$...$` inline math → render with KaTeX CDN
+
+## Generation checklist
+
+Before considering generated output complete:
+
+1. Confirm every markdown section has been represented, preserving the lecture's order and emphasis.
+2. Keep one main idea per slide and split dense content into multiple slides.
+3. Preserve `resources/<filename>` image paths and `<iframe>` embeds exactly as written.
+4. Render math with KaTeX CDN when math appears in the source content.
+5. Include the template navigation behavior: keyboard, click/touch navigation, and bottom progress bar.
+6. Verify the output file name matches the established lecture naming pattern.
+
+## When to write a spec
+
+Write a short design note or proposal only for changes that affect the project structure or repeated workflow, such as:
+
+- Changing the slide visual system in `TEMPLATE.md`
+- Changing markdown conventions or required metadata
+- Adding automation, build scripts, validation, or shared assets
+- Restructuring generated output locations or file naming
+
+For routine lecture generation, follow the checklist above instead of creating a separate spec.
 
 ## Template design rules (key points)
 
