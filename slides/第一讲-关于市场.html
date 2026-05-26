@@ -40,11 +40,25 @@
     background: var(--ink);
   }
 
-  /* ---- slide engine ---- */
-  .deck {
-    width: 100%; height: 100%;
-    position: relative;
+  /* ---- stage scales deck to viewport while preserving 16:9 ---- */
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
   }
+
+  /* ---- slide engine (fixed canvas, transform-scaled by JS) ---- */
+  .deck {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    transform-origin: center center;
+    visibility: hidden;
+  }
+  .deck.ready { visibility: visible; }
 
   .slide {
     position: absolute;
@@ -129,19 +143,19 @@
 
   .slide .eyebrow {
     font-family: var(--mono);
-    font-size: 15px;
-    letter-spacing: 0.2em;
+    font-size: 18px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink-faint);
-    margin-bottom: 28px;
-    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 30px;
+    display: flex; align-items: center; gap: 14px;
   }
   .dark .eyebrow { color: rgba(250,248,243,0.35); }
   .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,0.45); }
   .eyebrow .num { color: var(--terracotta); font-weight: 500; }
   .dark .eyebrow .num { color: var(--gold); }
   .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
-  .eyebrow .dash { width: 28px; height: 1.5px; background: currentColor; }
+  .eyebrow .dash { width: 42px; height: 2px; background: currentColor; }
 
   .accent { color: var(--terracotta); }
   .dark .accent { color: var(--gold); }
@@ -372,10 +386,55 @@
     margin: 28px 0;
   }
   .dark .slide-rule { background: rgba(250,248,243,0.15); }
+
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body {
+      width: auto;
+      height: auto;
+      overflow: visible;
+      background: white;
+    }
+    .stage {
+      position: static;
+      display: block;
+      width: auto;
+      height: auto;
+      background: white;
+    }
+    .deck,
+    .deck.ready {
+      width: 1280px;
+      height: auto;
+      transform: none !important;
+      visibility: visible !important;
+    }
+    .slide {
+      position: relative !important;
+      inset: auto !important;
+      width: 1280px;
+      height: 720px;
+      opacity: 1 !important;
+      pointer-events: none;
+      break-after: page;
+      page-break-after: always;
+      transition: none;
+    }
+    .slide:last-child {
+      break-after: auto;
+      page-break-after: auto;
+    }
+    .progress,
+    .counter,
+    .nav-hint {
+      display: none !important;
+    }
+  }
 </style>
 </head>
 <body>
 
+<div class="stage">
 <div class="deck" id="deck">
 
   <!-- ======== SLIDE 0: Title ======== -->
@@ -392,6 +451,133 @@
       <p class="small">日常制度的经济学 · Building Bridges 经济学选修课</p>
       <div class="spacer"></div>
       <p class="small" style="font-size: 16px; opacity: 0.5;">张煜豪 &amp; Claude</p>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1a: 教育 contrast ======== -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">引入</span>
+        <span class="dash"></span>
+        <span>同样是为了考好……</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 48px; align-items: stretch;">
+        <div style="padding: 36px 32px; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--rule);">
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px;">情景 A · 月考前</div>
+          <p style="font-size: 28px; line-height: 1.5;">你花 <strong>80 元</strong> 买了一套<strong>五三模拟题</strong>。</p>
+          <div class="spacer"></div>
+          <p class="small" style="color: var(--ink-soft);">没人觉得奇怪。</p>
+        </div>
+        <div style="padding: 36px 32px; border-radius: 16px; background: var(--bg-cream); border: 2px solid var(--terracotta);">
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 18px;">情景 B · 月考后</div>
+          <p style="font-size: 28px; line-height: 1.5;">你花 <strong>500 元</strong> 跟班里第一名说：<br><strong>「把你的排名让给我。」</strong></p>
+          <div class="spacer"></div>
+          <p class="small" style="color: var(--ink-soft);">对方也愿意。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1b: 时间 contrast ======== -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">引入</span>
+        <span class="dash"></span>
+        <span>同样是别人的时间……</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 48px; align-items: stretch;">
+        <div style="padding: 36px 32px; border-radius: 16px; background: var(--bg); border: 1px solid var(--rule);">
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px;">情景 A · 晚自习</div>
+          <p style="font-size: 28px; line-height: 1.5;">你花 <strong>15 元</strong> 叫外卖，骑手用 <strong>20 分钟</strong> 替你跑了一趟。</p>
+          <div class="spacer"></div>
+          <p class="small" style="color: var(--ink-soft);">别人的时间被定价了——多数人不会因此感到不适。</p>
+        </div>
+        <div style="padding: 36px 32px; border-radius: 16px; background: var(--bg); border: 2px solid var(--terracotta);">
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 18px;">情景 B · 18 岁生日</div>
+          <p style="font-size: 28px; line-height: 1.5;">你花 <strong>300 元</strong> 让一个陌生人<strong>陪你过生日</strong>。</p>
+          <div class="spacer"></div>
+          <p class="small" style="color: var(--ink-soft);">别人的时间还是被定价了——为什么这一次让人犹豫？</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1c: Ask students ======== -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">想一想</span>
+        <span class="dash"></span>
+        <span>你的第一反应</span>
+      </div>
+      <h3>A 很日常，B 却让人有所保留。</h3>
+      <div class="spacer-lg"></div>
+      <p>同样是花钱、同样是「双方自愿」，而后者的需求似乎也并不算小——<br>为什么我们对 A 习以为常，却对 B 有所保留？</p>
+      <div class="spacer-lg"></div>
+      <p class="small">不用急着说对，先把第一感觉说出来。</p>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1d: Discussion prompt ======== -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">讨论</span>
+        <span class="dash"></span>
+        <span>3 分钟</span>
+      </div>
+      <h3>说说你的想法</h3>
+      <div class="spacer-lg"></div>
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="padding: 28px 32px; border-radius: 12px; background: var(--bg-cream); border-left: 4px solid var(--terracotta);">
+          <p style="font-size: 24px; line-height: 1.6;">A 和 B 之间，到底差在哪？<br><span style="color: var(--ink-soft);">是什么让 B 显得「不合适」？</span></p>
+        </div>
+        <div style="padding: 28px 32px; border-radius: 12px; background: var(--bg-cream); border-left: 4px solid var(--ink-faint);">
+          <p style="font-size: 24px; line-height: 1.6;">你觉得，哪些事物适合用钱交换，哪些不适合？<br><span style="color: var(--ink-soft);">你判断的依据是什么？</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1e: Two questions ======== -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">两个问题</span>
+        <span class="dash"></span>
+        <span>贯穿这一讲</span>
+      </div>
+      <div class="spacer-lg"></div>
+      <div style="margin-bottom: 40px;">
+        <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 14px;">问题一</div>
+        <p style="font-size: 26px; line-height: 1.6; max-width: 860px;">市场协调并不依赖统一指挥——<br>却能在许多场景中满足大量人的需求。<br><strong>这种协调如何发生？</strong></p>
+      </div>
+      <div>
+        <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 14px;">问题二</div>
+        <p style="font-size: 26px; line-height: 1.6; max-width: 860px;">如果市场机制如此有效，<br>为什么仍有许多事物不交给市场分配？<br><strong>它的边界在哪里？</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 1f: Introduce market ======== -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <p style="font-family: var(--mono); font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 32px;">今天这一讲，我们来聊聊</p>
+      <div style="font-family: var(--display); font-style: italic; font-weight: 500; font-size: 108px; line-height: 1; margin-bottom: 48px;">市场</div>
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 800px;">
+        <div style="display: flex; align-items: baseline; gap: 20px;">
+          <span style="font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); flex-shrink: 0;">Q1</span>
+          <p style="font-size: 26px; line-height: 1.5; color: #fff;">市场是如何在没有人指挥的情况下，协调千千万万人的需求的？</p>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 20px;">
+          <span style="font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); flex-shrink: 0;">Q2</span>
+          <p style="font-size: 26px; line-height: 1.5; color: rgba(255,255,255,0.85);">如果市场机制如此有效，为什么有些事物不能交给市场决定？</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -475,7 +661,7 @@
       <div class="spacer"></div>
       <p>在 Cameo 这样的平台上，花钱让明星录一段个性化的祝福视频——生日祝福、求婚助阵、甚至让他们说一句你指定的话。</p>
       <div class="spacer"></div>
-      <p>不同明星，不同价格。过气明星几十美元，当红的几千美元。</p>
+      <p>知名度不同，价格也不同：有人几十美元，有人几千美元。</p>
       <div class="spacer"></div>
       <p class="small">你在买的不是视频本身，而是「这个人专门为我花了15秒」这件事。<br>时间、注意力、「专属感」——都可以被定价。</p>
     </div>
@@ -491,7 +677,7 @@
       </div>
       <div style="position: relative; width: 100%; padding-top: 56.25%; margin-top: 16px;">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=112540625405890&bvid=BV1gSTsewEPf&cid=500001567588682&p=1"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=112540625405890&bvid=BV1gSTsewEPf&cid=500001567588682&p=1&autoplay=0"
           scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
           style="position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 12px;">
         </iframe>
@@ -511,7 +697,7 @@
       <div class="spacer"></div>
       <p>Polymarket：对一个未来事件，你可以用真钱买入「会」或「不会」。判断对了赚钱，错了亏钱。所有人的买卖汇总在一起，形成一个「价格」——市场对这件事发生概率的集体判断。</p>
       <div class="spacer"></div>
-      <p class="small">2024年美国大选期间，Polymarket 的价格变动比民调更准确地预测了选举结果。</p>
+      <p class="small">2024 年美国大选期间，Polymarket 的价格一度被认为比部分民调更敏感地反映了选举预期。</p>
       <div class="spacer"></div>
       <p class="small">→ <a href="https://polymarket.com" target="_blank" style="color: var(--gold); font-family: var(--mono); font-size: 14px; letter-spacing: 0.08em; text-decoration: none; border-bottom: 1px solid rgba(201,169,97,0.5); padding-bottom: 2px;">polymarket.com ↗</a></p>
     </div>
@@ -527,7 +713,7 @@
           <div class="spacer"></div>
           <p style="font-family: var(--display); font-style: italic; font-size: 80px; color: var(--terracotta); line-height: 1;">≈ 2%</p>
           <div class="spacer"></div>
-          <p class="small">这和赌博有什么区别？</p>
+          <p class="small">这个例子的重点不是宗教判断，而是：连极端事件也可以被包装成可交易的合约。</p>
         </div>
         <div>
           <img src="../resources/polymarket.png" alt="Polymarket 截图" style="width: 100%; border-radius: 12px; display: block;">
@@ -545,16 +731,16 @@
         <span class="dash"></span>
         <span>延伸：预测市场与保险</span>
       </div>
-      <h3>和赌博有什么区别？</h3>
+      <h3>是在转移风险，还是制造风险？</h3>
       <div class="spacer"></div>
       <div class="two-col" style="gap: 64px; align-items: start;">
         <div>
           <p>现实中有另一类市场和 Polymarket 有相似之处——<span style="color: var(--gold); font-weight: 500;">保险</span>。</p>
           <div class="spacer"></div>
-          <p>二者交易的商品都是基于未来事件的发生与否而决定是否产生收益的一种<span style="color: var(--gold);">资产</span>。</p>
+          <p>二者都和未来事件有关：你今天付出一笔钱，未来某件事发生或不发生时，这份<span style="color: var(--gold);">合约</span>才产生收益。</p>
         </div>
         <div>
-          <p>这种资产的一个重要功能，就是帮助人们在面对风险的时候有可以提前缓解风险的工具。</p>
+          <p>关键区别在于：它是在帮助人们转移和分担风险，还是在额外制造风险？</p>
           <div class="spacer"></div>
           <p class="small">→ 这种商品是天然就有的吗？它是怎么产生的？</p>
         </div>
@@ -565,7 +751,7 @@
   <!-- ======== SLIDE 8: Transition to absent ======== -->
   <div class="slide terracotta">
     <div class="slide-inner">
-      <h2 style="max-width: 800px;">什么东西<br><em style="font-family: var(--display); font-weight: 400;">没有</em>市场？</h2>
+      <h2 style="max-width: 800px;">哪些事物<br><em style="font-family: var(--display); font-weight: 400;">没有</em>市场？</h2>
     </div>
   </div>
 
@@ -577,7 +763,7 @@
         <span class="dash"></span>
         <span>不存在的市场</span>
       </div>
-      <h3>这些东西能买卖吗？</h3>
+      <h3>这些事物能买卖吗？</h3>
       <div class="three-cards">
         <div class="card">
           <div class="card-label">排名</div>
@@ -642,7 +828,7 @@
         <div class="mini-card">
           <div class="mc-label">商品</div>
           <h4>稀缺 + 可交易</h4>
-          <p>有稀缺性才需要定价；物品的性质需要允许交易（「你用了影响我」）</p>
+          <p>有稀缺性才需要定价；有些知识「你用了不影响我用」，很难排他和收费</p>
         </div>
         <div class="mini-card">
           <div class="mc-label">动机</div>
@@ -662,7 +848,7 @@
         <div class="mini-card">
           <div class="mc-label">制度</div>
           <h4>基础设施</h4>
-          <p>产权保护、信息披露（评价系统）、准入门槛——防止劣币驱逐良币</p>
+          <p>产权保护、信息披露（评价系统）、准入门槛——避免低质量卖家挤出高质量卖家</p>
         </div>
         <div class="mini-card">
           <div class="mc-label">技术</div>
@@ -677,7 +863,7 @@
   <div class="slide dark">
     <div class="slide-inner" style="display: flex; align-items: center; justify-content: center; height: 100%;">
       <div class="slide-question" style="font-size: 40px; max-width: 900px; border-left-color: var(--gold);">
-        市场并不是自然而然地存在的，而是一系列社会条件的产物，甚至商品本身也需要被社会建构。
+        市场并不是自然而然地存在的。很多时候，连「什么可以成为商品」本身，也要由制度、技术和社会观念共同塑造。
       </div>
     </div>
   </div>
@@ -742,7 +928,7 @@
         <span class="dash"></span>
         <span>关键洞察</span>
       </div>
-      <h3 style="font-size: 36px;">只要稀缺性存在，<br>市场就有动力从缝隙里生长出来。</h3>
+      <h3 style="font-size: 36px;">只要稀缺性存在，<br>新的交易形式就可能从缝隙里出现。</h3>
       <div class="spacer"></div>
       <div class="two-col" style="gap: 48px; align-items: start;">
         <div>
@@ -761,7 +947,7 @@
             <p style="font-size: 17px; color: var(--ink-soft); line-height: 1.6; margin: 0;">→ 租牌市场出现</p>
           </div>
           <div style="padding: 14px 0;">
-            <p style="font-size: 17px; color: var(--ink-soft); line-height: 1.7; margin: 0;">这本身就说明了市场力量的顽强。每一种「禁止市场」的设计，最终都催生了一个新市场。</p>
+            <p style="font-size: 17px; color: var(--ink-soft); line-height: 1.7; margin: 0;">这本身就说明了市场力量的顽强。许多「限制市场」的设计，反而会在缝隙里催生新的交易形式。</p>
           </div>
         </div>
       </div>
@@ -782,7 +968,7 @@
   </div>
 
   <!-- ======== SLIDE 17: Part 6 Question ======== -->
-  <div class="slide dark">
+  <div class="slide cream">
     <div class="slide-inner">
       <div class="eyebrow">
         <span class="num">Part 6</span>
@@ -824,7 +1010,7 @@
         <div class="case-card" style="padding: 18px 16px;">
           <div class="cc-label">案例 D</div>
           <h4>医疗市场化</h4>
-          <p>当医疗变成充分市场化的领域，信息不对称会带来什么后果？（莆田系）</p>
+          <p>当医疗服务高度依赖市场交易，而患者又很难判断质量时，会发生什么？（莆田系）</p>
         </div>
         <div class="case-card" style="padding: 18px 16px;">
           <div class="cc-label">案例 E</div>
@@ -834,30 +1020,222 @@
         <div class="case-card" style="padding: 18px 16px;">
           <div class="cc-label">案例 F</div>
           <h4>名校参观黄牛</h4>
-          <p>北大清华暑假名额秒没，黄牛几百块一个。免费的公共资源，市场自动冒出来了。</p>
+          <p>北大清华暑假名额很快被抢空，黄牛以数百元转卖预约名额。免费的公共资源因为需求过大变成了稀缺品。</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ======== SLIDE 18b: 市场的力量 ======== -->
-  <div class="slide dark">
+  <!-- ======== SLIDE 18b: Evaluation framework ======== -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 6</span>
+        <span class="dash"></span>
+        <span>怎么评价一个市场？</span>
+      </div>
+      <h3>不要只问：市场好不好。</h3>
+      <div class="spacer"></div>
+      <div class="three-cards">
+        <div class="card">
+          <div class="card-label">效率</div>
+          <h4>资源有没有被更好地使用？</h4>
+          <p>价格能不能帮助人们发现谁更需要、哪里更短缺、什么更值得生产？</p>
+        </div>
+        <div class="card">
+          <div class="card-label">分配</div>
+          <h4>谁得到了，谁被排除？</h4>
+          <p>市场通常按支付能力分配，但支付能力不一定等于真实需要。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">边界</div>
+          <h4>交易会不会改变事物的意义？</h4>
+          <p>有些事物一旦被定价，关系、信任或公共价值本身就可能发生变化。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 18c: 市场的力量 ======== -->
+  <div class="slide light">
     <div class="slide-inner">
       <div class="eyebrow">
         <span class="num">Part 6</span>
         <span class="dash"></span>
         <span>市场的力量</span>
       </div>
-      <h3>为什么市场这么顽强？</h3>
+      <h3>为什么市场力量如此顽强？</h3>
       <div class="spacer"></div>
       <ul>
-        <li>一个很有趣的、时常有效的人类间的协调机制</li>
+        <li>一种常常有效、但并不万能的人类协调机制</li>
         <li>价格的信息力量——价格不只是数字，它携带着无数人头脑中分散的信息</li>
+        <li>利润和亏损提供激励：哪里短缺，资源就更容易流向哪里</li>
+        <li>竞争形成约束：卖家必须不断回应买家的需求，否则就会被替代</li>
       </ul>
     </div>
   </div>
 
-  <!-- ======== SLIDE 17: End ======== -->
+  <!-- ======== SLIDE 18d: 市场的代价 ======== -->
+  <div class="slide warm">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 6</span>
+        <span class="dash"></span>
+        <span>市场的代价</span>
+      </div>
+      <h3>市场不是没有成本的。</h3>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 56px; align-items: start;">
+        <div>
+          <div style="padding: 18px 0; border-bottom: 1px solid var(--rule);">
+            <p style="font-size: 24px; font-weight: 600; color: var(--terracotta); margin-bottom: 6px;">支付能力 ≠ 真实需要</p>
+            <p style="font-size: 19px; color: var(--ink-soft); line-height: 1.65; margin: 0;">学区房、口罩、演唱会门票都可能把资源分给出价最高的人，而不是最需要的人。</p>
+          </div>
+          <div style="padding: 18px 0;">
+            <p style="font-size: 24px; font-weight: 600; color: var(--terracotta); margin-bottom: 6px;">信息不对称</p>
+            <p style="font-size: 19px; color: var(--ink-soft); line-height: 1.65; margin: 0;">医疗、二手车、教育服务中，买家往往很难判断质量，价格也未必代表真实价值。</p>
+          </div>
+        </div>
+        <div>
+          <div style="padding: 18px 0; border-bottom: 1px solid var(--rule);">
+            <p style="font-size: 24px; font-weight: 600; color: var(--terracotta); margin-bottom: 6px;">外部成本</p>
+            <p style="font-size: 19px; color: var(--ink-soft); line-height: 1.65; margin: 0;">外卖更方便，但时间压力可能被转嫁给骑手；交易双方之外的人也会承担后果。</p>
+          </div>
+          <div style="padding: 18px 0;">
+            <p style="font-size: 24px; font-weight: 600; color: var(--terracotta); margin-bottom: 6px;">意义被改变</p>
+            <p style="font-size: 19px; color: var(--ink-soft); line-height: 1.65; margin: 0;">友谊、荣誉、公共资源一旦被买卖，原本的社会意义可能会被价格重新定义。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 19: Part 7 Transition ======== -->
+  <div class="slide terracotta">
+    <div class="slide-inner">
+      <div class="big-num" style="color: #fff; opacity: 0.1;">VII</div>
+      <div class="eyebrow">
+        <span class="num">Part 7</span>
+        <span class="dash"></span>
+        <span>后面的问题</span>
+      </div>
+      <h2 style="max-width: 900px;">市场的边界，<br>也引出后面课程的问题。</h2>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 20: Market boundary ======== -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 7</span>
+        <span class="dash"></span>
+        <span>边界问题</span>
+      </div>
+      <h3>可以交易，不等于应该交易。</h3>
+      <div class="spacer"></div>
+      <div class="two-col" style="gap: 56px; align-items: start;">
+        <div>
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px;">功能边界</div>
+          <p>有些事物市场很难处理：质量难以观察、信息严重不对称、影响会扩散到交易双方之外。</p>
+        </div>
+        <div>
+          <div style="font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px;">道德边界</div>
+          <p>有些事物即使可以交易，我们也会觉得不应该交易：友谊、尊严、投票权、学位、公共荣誉。</p>
+        </div>
+      </div>
+      <div class="spacer-lg"></div>
+      <p class="small">这不是本讲的终点，而是后面所有问题的起点。</p>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 21: Measurement questions ======== -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">你肯定想问</span>
+        <span class="dash"></span>
+        <span>怎么判断总体好坏？</span>
+      </div>
+      <h3>很多利弊，不能直接数出来。</h3>
+      <div class="spacer"></div>
+      <p>市场带来的好处和坏处，往往不是钱本身：时间、风险、尊严、机会、公平感、幸福感。</p>
+      <div class="spacer"></div>
+      <div class="slide-question" style="font-size: 34px;">
+        如果这些价值不能简单相加，<br>我们凭什么说一种制度「总体更好」？
+      </div>
+      <p class="small">下一讲：快乐的度量学——效用、福利，以及衡量标准本身的问题。</p>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 22: Interaction questions ======== -->
+  <div class="slide warm">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">你肯定也想问</span>
+        <span class="dash"></span>
+        <span>复杂互动如何研究？</span>
+      </div>
+      <h3>人的互动可以被分析吗？</h3>
+      <div class="spacer"></div>
+      <p style="font-size: 25px; max-width: 960px;">经济学并不是把现实简单化到失真，而是先把复杂互动整理成一个可以分析的结构。</p>
+      <div class="spacer"></div>
+      <div class="six-grid">
+        <div class="mini-card">
+          <div class="mc-label">Players</div>
+          <h4>谁在互动？</h4>
+          <p>消费者、商家、平台、政府、旁观者</p>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Actions</div>
+          <h4>他们能做什么？</h4>
+          <p>买、不买、涨价、排队、绕开规则</p>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Payoffs</div>
+          <h4>他们在乎什么？</h4>
+          <p>钱、时间、风险、声誉、公平感</p>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Rules</div>
+          <h4>规则是什么？</h4>
+          <p>价格、法律、平台算法、学校制度</p>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Information</div>
+          <h4>谁知道什么？</h4>
+          <p>质量、成本、风险、真实意图</p>
+        </div>
+        <div class="mini-card">
+          <div class="mc-label">Outcome</div>
+          <h4>结果如何产生？</h4>
+          <p>不是某个人设计出来的，而是在互动中形成的</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 23: Course question map ======== -->
+  <div class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">后面几讲</span>
+        <span class="dash"></span>
+        <span>问题地图</span>
+      </div>
+      <h3>这门课会反复追问：</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>如果快乐、风险和公平很难被直接统计，我们如何比较不同制度的好坏？</li>
+        <li>如果一个人的交易会影响第三方，市场价格还能完整反映真实成本吗？</li>
+        <li>如果买卖双方掌握的信息不同，市场还会稳定地产生好结果吗？</li>
+        <li>如果社会结果来自许多人的互动，我们需要怎样的模型来理解它？</li>
+      </ul>
+      <div class="spacer"></div>
+      <p class="small">模型不是现实本身，而是帮助我们有纪律地思考现实。</p>
+    </div>
+  </div>
+
+  <!-- ======== SLIDE 24: End ======== -->
   <div class="slide dark">
     <div class="slide-inner" style="text-align: center;">
       <p class="small" style="margin-bottom: 36px;">DAY 1</p>
@@ -868,6 +1246,7 @@
   </div>
 
 </div>
+</div>
 
 <!-- progress -->
 <div class="progress" id="progress"></div>
@@ -875,12 +1254,22 @@
 <div class="nav-hint" id="nav-hint">← → 切换幻灯片</div>
 
 <script>
+  const deck = document.getElementById('deck');
   const slides = document.querySelectorAll('.slide');
   const progress = document.getElementById('progress');
   const counter = document.getElementById('counter');
   const navHint = document.getElementById('nav-hint');
   let current = 0;
   const total = slides.length;
+
+  // scale 1280x720 canvas to viewport (preserves 16:9, letterboxes other ratios)
+  function fitDeck() {
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    deck.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', fitDeck);
+  fitDeck();
+  deck.classList.add('ready');
 
   function show(n) {
     slides.forEach(s => s.classList.remove('active'));
