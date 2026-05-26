@@ -40,10 +40,20 @@
     background: var(--ink);
   }
 
-  .deck {
-    width: 100%; height: 100%;
-    position: relative;
+  .stage {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--ink);
   }
+
+  .deck {
+    width: 1280px; height: 720px;
+    position: relative;
+    transform-origin: center center;
+    visibility: hidden;
+  }
+
+  .deck.ready { visibility: visible; }
 
   .slide {
     position: absolute;
@@ -126,19 +136,19 @@
 
   .slide .eyebrow {
     font-family: var(--mono);
-    font-size: 15px;
-    letter-spacing: 0.2em;
+    font-size: 18px;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink-faint);
-    margin-bottom: 28px;
-    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 30px;
+    display: flex; align-items: center; gap: 14px;
   }
   .dark .eyebrow { color: rgba(250,248,243,0.35); }
   .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,0.45); }
   .eyebrow .num { color: var(--terracotta); font-weight: 500; }
   .dark .eyebrow .num { color: var(--gold); }
   .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
-  .eyebrow .dash { width: 28px; height: 1.5px; background: currentColor; }
+  .eyebrow .dash { width: 42px; height: 2px; background: currentColor; }
 
   .accent { color: var(--terracotta); }
   .dark .accent { color: var(--gold); }
@@ -328,6 +338,7 @@
 </head>
 <body>
 
+<div class="stage">
 <div class="deck" id="deck">
 
   <!-- SLIDE 0: Title -->
@@ -575,6 +586,40 @@
     </div>
   </div>
 
+  <!-- SLIDE: 少数人的牺牲 -->
+  <div class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 4</span>
+        <span class="dash"></span>
+        <span>功利主义的问题</span>
+      </div>
+      <h3>少数人的牺牲</h3>
+      <div class="spacer"></div>
+      <p>如果折磨一个无辜的人能让全城人获得快乐，功利主义的计算可能支持这么做。</p>
+      <div class="spacer"></div>
+      <p class="small">但几乎所有人都觉得这是错的。说明我们心中有一些不能用数字权衡的底线——某些事情，无论结果多好，都不应该做。</p>
+    </div>
+  </div>
+
+  <!-- SLIDE: 偏好操控 -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">Part 4</span>
+        <span class="dash"></span>
+        <span>功利主义的问题</span>
+      </div>
+      <h3>如果独裁者通过洗脑让所有人快乐……</h3>
+      <div class="spacer"></div>
+      <p>功利主义似乎应该支持这个独裁者——因为所有人都感到快乐，总效用达到最大。</p>
+      <div class="spacer"></div>
+      <div class="slide-question">
+        「快乐」本身是否就是最终标准？<br>还是某些「快乐」来路不正？
+      </div>
+    </div>
+  </div>
+
   <!-- SLIDE 15: Cardinal utility problem -->
   <div class="slide dark">
     <div class="slide-inner">
@@ -644,6 +689,24 @@
       <div class="slide-question" style="font-size: 30px;">
         如果一个理论可以解释所有事情，<br>你为什么反而应该小心？
       </div>
+    </div>
+  </div>
+
+  <!-- SLIDE: 不可证伪 -->
+  <div class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="num">插曲</span>
+        <span class="dash"></span>
+        <span>不可证伪</span>
+      </div>
+      <h3>如果一个理论可以解释一切……</h3>
+      <div class="spacer"></div>
+      <div class="callout">
+        <p>如果一个理论无论发生什么都能说「我早就解释过」，它可能就没有真正的可检验内容。</p>
+      </div>
+      <div class="spacer"></div>
+      <p class="small">好的模型不只是「解释」——它应该能够被反驳。你能想到一个可以被证伪的经济学命题，和一个不能被证伪的吗？</p>
     </div>
   </div>
 
@@ -767,6 +830,7 @@
   </div>
 
 </div>
+</div>
 
 <!-- progress -->
 <div class="progress" id="progress"></div>
@@ -774,6 +838,15 @@
 <div class="nav-hint" id="nav-hint">← → 切换幻灯片</div>
 
 <script>
+  const deck = document.getElementById('deck');
+  function fitDeck() {
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    deck.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', fitDeck);
+  fitDeck();
+  deck.classList.add('ready');
+
   const slides = document.querySelectorAll('.slide');
   const progress = document.getElementById('progress');
   const counter = document.getElementById('counter');
