@@ -1,0 +1,228 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第二讲：快乐的度量学}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{enhanced,colback=white,colframe=Rule,boxrule=0.5pt,sharp corners,left=1.2em,right=1.2em,top=0.7em,bottom=0.8em,title=学习目标,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{keybox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{examplebox}[1]{enhanced,breakable,colback=Cream,colframe=Gold,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=有趣的例子：#1,colbacktitle=Gold,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{discussionbox}[1]{enhanced,breakable,colback=Cream,colframe=Terracotta,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,before skip=0.8em,after skip=0.8em,title=讨论：#1,colbacktitle=Terracotta,coltitle=white,fonttitle=\bfseries\small,fontupper=\itshape,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{conceptbox}[1]{enhanced,breakable,colback=Cream,colframe=Blue,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=概念延伸：#1,colbacktitle=Blue,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{insightbox}[1]{enhanced,breakable,colback=Cream,colframe=Green,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=关键洞察：#1,colbacktitle=Green,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{notebox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,leftrule=1.4pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+
+\newcommand{\transitionnote}[1]{\begin{conceptbox}{过渡}#1\end{conceptbox}}
+
+\title{\vspace{-2em}\bfseries 第二讲：快乐的度量学}
+\author{日常制度的经济学}
+\date{Day 2 · How do economists measure choices, welfare, and happiness?}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 理解经济学如何用「效用」刻画人的选择逻辑。
+  \item 区分个人选择、社会福利和道德判断之间的关系。
+  \item 理解模型的作用与局限：模型可以帮助我们思考，但不能替代现实本身。
+  \item 初步理解帕累托改进、帕累托最优、卡尔多—希克斯改进和功利主义所面对的基本问题。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{课堂主线}
+本讲讨论一个看似简单、实际上很困难的问题：如果经济学要分析人的选择和社会制度，它如何处理「快乐」「福利」「好坏」这些难以直接测量的对象？效用、期望效用、功利主义和帕累托标准，都是为了把复杂判断转化为可以讨论的结构。但这些结构越清楚，它们的局限也越清楚。
+\end{keybox}
+
+\section{你如何作出一个决定？}
+
+\begin{discussionbox}{决策变量}
+生活中你如何作出一个决策？你会考虑哪些变量？
+\end{discussionbox}
+
+比如今晚要不要熬夜写作业。这个选择看起来很普通，但其中已经包含了许多维度：
+\begin{itemize}
+  \item \textbf{后果：} 作业能不能完成，明天会不会困，会不会被老师批评。
+  \item \textbf{感受：} 完成后的轻松，熬夜时的痛苦，拖延时的焦虑。
+  \item \textbf{成本：} 时间、精力，以及本来可以做其他事情的机会成本。
+  \item \textbf{风险：} 明天是否检查作业，是否有小测，自己是否能承受第二天的疲惫。
+\end{itemize}
+
+经济学把这些复杂的权衡压缩成一个很有用、但也需要谨慎使用的概念：\textbf{效用（utility）}。
+
+\section{效用}
+
+\transitionnote{经济学家如何把「我想要什么」写成一个模型？}
+
+效用不是日常语言中「功利」的含义，不是说一个人势利、现实、只看钱。它更接近于一个选择带来的主观满足、偏好实现或福利变化。换句话说，效用不是一种可以直接看见的东西，而是经济学用来描述选择背后偏好的工具。
+
+\begin{examplebox}{讲台上的饼干}
+假设讲台上放着一袋饼干，想拿的人可以自己上来拿。如果你起身来拿了，至少说明在那一刻，对你而言：
+\[
+\text{拿到饼干的收益} > \text{起身、被看见、走到讲台的成本}.
+\]
+
+如果你没有起身，也不一定说明你不喜欢饼干。可能是你不想在同学面前起身，可能是你刚吃饱，可能是你不确定老师是否还有其他安排，也可能是你觉得那块饼干不值得付出这些成本。
+\end{examplebox}
+
+\begin{discussionbox}{选择与偏好}
+如果一个人没有选择某件事，是否说明他不想要这件事？
+\end{discussionbox}
+
+这个例子提醒我们：选择可以透露偏好，但选择并不等于偏好本身。人们没有选择某件事，可能是因为不喜欢，也可能是因为成本太高、风险太大、信息不足，或者社会压力太强。
+
+\section{不确定性下的选择}
+
+很多选择的结果不是确定的。我们并不是总在「确定得到 10 分」和「确定得到 20 分」之间选择，而是在不同风险之间选择。
+
+\begin{examplebox}{期望效用}
+你有两个选择：
+\begin{itemize}
+  \item A：确定得到 50 元。
+  \item B：50\% 概率得到 100 元，50\% 概率得到 0 元。
+\end{itemize}
+
+从期望金额看：
+\[
+E(A)=50,
+\]
+\[
+E(B)=0.5\times 100+0.5\times 0=50.
+\]
+两者的期望金额一样，但人们的选择可能不同。
+\end{examplebox}
+
+如果你更喜欢 A，说明你可能厌恶风险；如果你更喜欢 B，说明你可能愿意承担风险；如果你觉得二者没有差别，说明你在这个例子里接近风险中性。
+
+\begin{discussionbox}{风险态度}
+面对同样的期望收益，为什么不同人会作出不同选择？
+\end{discussionbox}
+
+这里的关键不是谁更「理性」，而是不同人对风险、确定性和损失的感受不同。效用函数可以帮助我们把这种差异表达出来。
+
+\section{功利主义}
+
+\transitionnote{如果每个人都有自己的效用，社会如何判断什么是「好」？}
+
+功利主义（utilitarianism）试图用一个简单标准判断社会选择：让总效用最大。直觉上，这很有吸引力。如果一个政策让大多数人更快乐，而且总快乐增加了，似乎它就是好的。
+
+但问题也随之出现：
+\begin{itemize}
+  \item 一个人的快乐为什么可以和另一个人的快乐相加？
+  \item 你的 100 分快乐和我的 10 分快乐，真的能比较吗？
+  \item 如果牺牲少数人能让多数人更快乐，这一定是合理的吗？
+\end{itemize}
+
+\subsection{基数效用的问题}
+
+如果我们说小明的快乐是 100，小红的快乐是 10，这个数字从哪里来？它不是身高，也不是体重，很难被直接测量，更难在人与人之间比较。
+
+\begin{discussionbox}{社会判断}
+如果快乐无法被准确测量，社会还可以如何判断一个政策好不好？
+\end{discussionbox}
+
+\begin{conceptbox}{社会科学中的模型}
+模型不是现实，但没有模型，我们很难有条理地讨论现实。
+
+\begin{quote}
+All models are wrong, but some are useful.
+\end{quote}
+
+模型的作用不是复制现实，而是有意识地简化现实。现实中的变量太多：家庭背景、性格、信息、运气、制度和文化都可能同时起作用。如果什么都放进模型，反而什么都看不清。模型做的是暂时把一部分因素放到一边，先抓住几个关键变量，观察它们之间的关系。
+
+模型可以类比为地图。地图不是城市本身：它没有气味、噪音、行人，也不会告诉你哪家店好吃。但正因为它删去了大量细节，我们才更容易看清道路和方向。不同目的需要不同地图；地铁图、地形图、行政区划图都在简化现实，但它们各自有用。
+
+社会科学模型尤其依赖一个说法：\textbf{如果其他条件不变（ceteris paribus）}。比如我们说「价格上升，需求下降」，不是说现实中每一次涨价销量都会下降，而是在问：如果收入、偏好、替代品、广告等其他因素暂时不变，价格本身会带来什么方向的影响。
+\end{conceptbox}
+
+\subsection{模型的好处与危险}
+
+模型的好处包括：它让我们把注意力集中在几个关键变量上；它让我们可以讨论「如果其他条件不变，会发生什么」；它让不同的人可以使用同一套语言讨论问题。
+
+模型的危险也很明显：它可能省略重要因素，比如尊严、身份、恐惧和社会关系；它可能让人忘记假设，把「在某些条件下成立」误以为「永远成立」；它也可能过度贴合既有数据，解释过去很漂亮，预测未来却很糟糕。更极端地说，如果一个理论无论发生什么都能解释，它反而可能缺乏真正的可检验内容。
+
+\begin{discussionbox}{模型的边界}
+如果一个理论可以解释所有事情，为什么反而应该小心？
+\end{discussionbox}
+
+\section{更保守的「好」}
+
+\transitionnote{如果不能直接加总快乐，我们能否使用更保守的判断标准？}
+
+\subsection{帕累托改进与帕累托最优}
+
+如果一件事让至少一个人变好，同时没有让任何人变坏，我们称它为\textbf{帕累托改进}。如果已经不存在任何帕累托改进的空间，也就是说，想让某个人更好就必然要让另一个人更差，那么这个状态就是\textbf{帕累托最优}。
+
+这听起来很稳妥，但它也有明显局限：很多现实政策都会让一部分人受益、一部分人受损；一个极端不平等的社会，也可能是帕累托最优；帕累托标准本身并不告诉我们如何评价分配是否公平。
+
+\begin{discussionbox}{帕累托标准}
+一个社会如果已经没有帕累托改进空间，它就一定好吗？
+\end{discussionbox}
+
+\subsection{卡尔多—希克斯改进}
+
+卡尔多—希克斯改进（Kaldor-Hicks improvement）是帕累托思路的自然延伸：如果一个政策的受益者在理论上可以补偿受损者，并且补偿后仍然有剩余，那么这个政策可能值得考虑。
+
+关键在于：金钱或物质资源可以在一定程度上转移福利，但这种转移并不会自动发生。因此，判断一个政策是否「值得做」，不能只看总量增加，还要看补偿机制是否真实存在。
+
+\begin{conceptbox}{增长与补偿}
+假设某个政策让一部分人先变得非常富有，同时整体经济规模扩大。支持者可能会说：只要后续通过税收、公共服务或就业机会让其他人也受益，这就是可以接受的。
+
+但问题是：补偿真的发生了吗？谁决定补偿多少？如果增长同时扩大了不平等，我们应该如何评价？这些问题可以连接到中国经济和美国经济中关于增长与不平等的讨论。
+\end{conceptbox}
+
+\begin{discussionbox}{增长与不平等}
+如果一个政策让社会总财富增加，但也扩大了不平等，你会如何评价它？
+\end{discussionbox}
+
+\section{回到选择}
+
+这一讲不是要给「快乐」一个最终答案，而是让我们看到三个层次的问题：
+
+\begin{itemize}
+  \item 个人选择可以被理解为成本、收益、风险与效用之间的权衡。
+  \item 社会选择更复杂，因为不同人的效用很难直接比较。
+  \item 模型有用，但模型无法替代价值判断。
+\end{itemize}
+
+\begin{insightbox}{两句经济学直觉}
+Trade-off is everywhere.
+
+People respond to incentives.
+\end{insightbox}
+
+\end{document}
