@@ -1,0 +1,213 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第三讲：外部性}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{enhanced,colback=white,colframe=Rule,boxrule=0.5pt,sharp corners,left=1.2em,right=1.2em,top=0.7em,bottom=0.8em,title=学习目标,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{keybox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{examplebox}[1]{enhanced,breakable,colback=Cream,colframe=Gold,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=有趣的例子：#1,colbacktitle=Gold,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{discussionbox}[1]{enhanced,breakable,colback=Cream,colframe=Terracotta,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,before skip=0.8em,after skip=0.8em,title=讨论：#1,colbacktitle=Terracotta,coltitle=white,fonttitle=\bfseries\small,fontupper=\itshape,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{conceptbox}[1]{enhanced,breakable,colback=Cream,colframe=Blue,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=概念延伸：#1,colbacktitle=Blue,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{insightbox}[1]{enhanced,breakable,colback=Cream,colframe=Green,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=关键洞察：#1,colbacktitle=Green,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{notebox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,leftrule=1.4pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+
+\newcommand{\transitionnote}[1]{\begin{conceptbox}{过渡}#1\end{conceptbox}}
+
+\title{\vspace{-2em}\bfseries 第三讲：外部性}
+\author{日常制度的经济学}
+\date{Day 3 · When my choice becomes your problem}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 理解外部性的含义：一个人的行动如何影响其他人的福利。
+  \item 区分正外部性和负外部性。
+  \item 用博弈论视角理解为什么个体理性可能导致集体困境。
+  \item 比较外部性的几种解决方式：税、产权、交易、管制和社会规范。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{课堂主线}
+外部性讨论的是选择之间的相互影响。一个人作出选择时，可能只承担了私人成本、获得了私人收益，但他的行动还会影响其他人。如果这些影响没有进入价格或私人决策，个体理性就可能带来集体层面的低效率。
+\end{keybox}
+
+\section{从现实中的坏结果开始}
+
+现实中有很多看起来「结果不好」的现象：环境污染、资源过度开采、噪音扰民、公共空间被过度占用，以及学习和工作中的内卷。
+
+这些问题是否只是因为某些人道德败坏、过于自私？有时是，但不完全是。更重要的问题往往是\textbf{激励结构}：在某些环境中，一个只考虑自身利益的人，并不会被私人成本充分约束，因为一部分成本被转嫁给了别人。
+
+\begin{discussionbox}{成本由谁承担？}
+如果一个人的行动成本主要由别人承担，他会如何改变自己的行为？
+\end{discussionbox}
+
+这一讲的核心不是简单谴责某些人，而是分析为什么在特定规则下，人们即使作出对自己合理的选择，也可能共同制造出不理想的结果。
+
+\section{一个小游戏}
+
+\transitionnote{先不急着定义外部性。这个小游戏帮助我们看到：个体选择之间如何互相影响。}
+
+\begin{examplebox}{1/3 平均数游戏}
+每个人写出一个 0 到 100 之间的整数。所有数字取平均数后，谁的答案最接近平均数的 1/3，谁得到奖励。
+
+课堂上可以先让学生独立写下答案，不要讨论。之后再引导他们复盘自己的推理过程。
+\end{examplebox}
+
+如果所有人随机写，平均数可能接近 50，那么目标数大约是 16.7。如果大家都想到这一层，就不会写 50，而会写 16 或 17。但如果大家都写 16 或 17，目标数又会变成 5 左右。继续推理，最终会走向 0。
+
+这个游戏不是为了训练猜数字，而是为了展示：你的最优选择取决于你认为别人会怎么选。很多社会问题也是如此。我们不是只在面对自然规则，而是在面对其他人的预期和行动。
+
+\begin{discussionbox}{规则与预期}
+你是在和规则博弈，还是在和其他人的预期博弈？
+\end{discussionbox}
+
+\begin{conceptbox}{博弈论视角}
+在讨论一个社会现象之前，可以先问几个问题：
+\begin{itemize}
+  \item 相关的参与者（players）是谁？如果我们提到国家、政府、学校或企业，是否还需要进一步考虑其中的具体个体？
+  \item 这些参与者有哪些可能行动（actions）？
+  \item 他们各自拥有什么信息？
+  \item 所有人的行动最后导致什么结果？每个参与者的收益是什么？
+  \item 在既有信息和规则下，他们会作出什么决策？最后可能形成什么均衡？
+\end{itemize}
+\end{conceptbox}
+
+\subsection{占优策略和纳什均衡}
+
+如果无论别人怎么做，你做某个选择都更好，那么这个选择就是\textbf{占优策略}。如果每个人在看到别人选择后，都没有动力单方面改变自己的选择，那么这个状态就是\textbf{纳什均衡}。
+
+问题在于，纳什均衡不一定是社会最好的结果。一个结果可以很稳定，但仍然很糟糕；每个人都不愿单方面改变，并不意味着所有人都满意这个结果。
+
+\section{外部性}
+
+\transitionnote{外部性可以理解为：我的选择影响了你的福利，但这种影响没有完全进入我的私人决策。}
+
+\textbf{外部性（externality）}：一个人的行动对其他个体的福利造成影响，但这种影响没有完全体现在市场价格或私人决策成本中。
+
+\subsection{负外部性}
+
+负外部性指的是：我的行为让别人变差，但我不需要为全部成本付费。
+
+常见例子包括：
+\begin{itemize}
+  \item 工厂排污降低附近居民的生活质量。
+  \item 开车造成拥堵和尾气污染。
+  \item 晚上大声外放音乐影响室友休息。
+  \item 过度竞争让所有人都更累，但排名结构未必明显改变。
+\end{itemize}
+
+\subsection{正外部性}
+
+正外部性指的是：我的行为让别人变好，但我无法获得全部收益。
+
+常见例子包括：
+\begin{itemize}
+  \item 接种疫苗降低传染风险。
+  \item 教育提高社会整体信任和合作能力。
+  \item 基础研究产生知识溢出。
+  \item 一个人保持公共空间干净，会降低其他人的使用成本。
+\end{itemize}
+
+\begin{discussionbox}{私人选择与社会最优}
+如果收益不能完全归自己，成本也不用完全自己承担，个体选择会怎样偏离社会最优？
+\end{discussionbox}
+
+\section{内卷作为外部性}
+
+「内卷」是一个适合用外部性分析的例子。
+
+假设所有学生都只学习 8 小时，排名由能力和效率决定。现在有一个人开始学习 10 小时，他可能获得相对优势。其他人为了不落后，也开始学习 10 小时。最后所有人都更累，但排名结构可能没有明显改变。
+
+每个人延长学习时间，对自己来说可能是理性的；但它给别人施加了压力，迫使别人也提高投入。这就是一种负外部性：个人投入带来的部分成本，被转嫁给了其他人。
+
+\begin{discussionbox}{个体理性与集体困境}
+如果每个人都在做「对自己最优」的选择，为什么整体结果可能变坏？
+\end{discussionbox}
+
+\section{如何解决外部性？}
+
+\transitionnote{如果问题来自激励结构，就需要重新设计激励结构。}
+
+\subsection{庇古税}
+
+庇古税的思路是：对产生负外部性的行为征税，让行动者承担更多社会成本。碳税、拥堵费、烟草税都可以作为例子。
+
+这种工具的难点在于：税率应该是多少？社会成本如何测量？税负会不会产生新的分配不公平？
+
+\subsection{产权与谈判}
+
+如果权利边界清楚，相关方有时可以通过谈判解决问题。关键问题包括：谁有权排放？谁有权享受安静？谁拥有某片草场的使用权？
+
+\begin{conceptbox}{科斯定理}
+科斯定理的基本思想是：如果产权清晰，交易成本足够低，那么无论产权最初分配给谁，相关方都可能通过谈判达到有效结果。
+
+一个简单例子是宿舍里一个人想晚上外放音乐，另一个人想安静睡觉。如果「安静权」很明确，想听音乐的人可以付出补偿，让对方同意；如果「外放权」很明确，想睡觉的人也可以付出补偿，让对方戴耳机。只要双方容易沟通、补偿容易执行，最后都可能达成一个双方都能接受的安排。
+\end{conceptbox}
+
+但现实中的交易成本经常很高：参与者太多，谈判困难；信息不对称；权力不平等；协议执行需要成本。因此，产权和谈判不是所有外部性问题的万能解法。
+
+\section{更多工具}
+
+\subsection{总量控制与交易}
+
+Cap and trade 的思路是：先设定总排放上限，再允许排放权交易。这样既控制总量，又让减排成本低的人多减排、成本高的人购买排放权。
+
+\subsection{直接管制}
+
+政府也可以直接规定哪些行为可以做、哪些不能做。直接管制的优点是清晰，缺点是可能僵化，也可能忽略不同个体的成本差异。
+
+\subsection{社会规范}
+
+有些外部性不是主要靠价格或法律解决，而是靠羞耻感、声誉、习惯和共同体规范来约束。例如排队、不在图书馆大声说话、公共空间保持安静。
+
+\begin{discussionbox}{工具选择}
+哪些外部性适合用价格解决？哪些更适合用规范或法律解决？
+\end{discussionbox}
+
+\section{小结}
+
+外部性提醒我们：社会问题不一定来自坏人，也可能来自不合适的激励结构。
+
+一个制度如果只看到个体选择，而看不到选择之间的相互影响，就很容易误判问题。个体理性、局部最优和社会最优之间，可能存在系统性差距。
+
+\begin{insightbox}{下一讲的入口}
+下一讲会继续讨论另一种市场失灵：信息不对称。外部性的问题在于成本或收益影响了交易双方之外的人；信息不对称的问题则在于，交易双方本身掌握的信息就不同。
+\end{insightbox}
+
+\end{document}

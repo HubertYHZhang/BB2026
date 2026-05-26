@@ -1,0 +1,240 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第四讲：信息不对称}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{enhanced,colback=white,colframe=Rule,boxrule=0.5pt,sharp corners,left=1.2em,right=1.2em,top=0.7em,bottom=0.8em,title=学习目标,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{keybox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{examplebox}[1]{enhanced,breakable,colback=Cream,colframe=Gold,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=有趣的例子：#1,colbacktitle=Gold,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{discussionbox}[1]{enhanced,breakable,colback=Cream,colframe=Terracotta,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,before skip=0.8em,after skip=0.8em,title=讨论：#1,colbacktitle=Terracotta,coltitle=white,fonttitle=\bfseries\small,fontupper=\itshape,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{conceptbox}[1]{enhanced,breakable,colback=Cream,colframe=Blue,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=概念延伸：#1,colbacktitle=Blue,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{insightbox}[1]{enhanced,breakable,colback=Cream,colframe=Green,boxrule=0.5pt,leftrule=2pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=关键洞察：#1,colbacktitle=Green,coltitle=white,fonttitle=\bfseries,before upper={\setlength{\parskip}{0.45em}}}
+\newtcolorbox{notebox}[1]{enhanced,breakable,colback=Cream,colframe=Rule,boxrule=0.5pt,leftrule=1.4pt,sharp corners,left=1em,right=1em,top=0.7em,bottom=0.7em,title=#1,colbacktitle=SoftInk,coltitle=white,fonttitle=\bfseries\small,before upper={\setlength{\parskip}{0.45em}}}
+
+\newcommand{\transitionnote}[1]{\begin{conceptbox}{过渡}#1\end{conceptbox}}
+
+\title{\vspace{-2em}\bfseries 第四讲：信息不对称}
+\author{日常制度的经济学}
+\date{Day 4 · What you do not know can shape the market}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 理解信息不对称如何影响交易和制度设计。
+  \item 区分逆向选择和道德风险。
+  \item 用「隐藏的类型」和「隐藏的行动」解释现实中的市场问题。
+  \item 初步理解信号机制、筛选机制、合约设计和 Goodhart's Law。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{课堂主线}
+本讲可以围绕两个句子展开：逆向选择是「我不知道你是谁」，道德风险是「我不知道你在干什么」。前者通常发生在交易之前，后者通常发生在交易之后。
+
+信号、筛选、合约和指标不是孤立概念，而是现实市场为了让不可见的信息变得可判断、可约束、可执行而发展出的制度工具。
+\end{keybox}
+
+\section{信息问题从哪里来？}
+
+许多交易问题并不是因为价格不存在，而是因为交易双方掌握的信息不同。买东西时，买家不知道卖家是否隐瞒质量问题；寻找合作伙伴时，一方不知道对方是否可靠；雇人工作时，雇主也很难完全观察员工是否认真投入。
+
+经济学通常把这些信息问题分为两类：
+\begin{itemize}
+  \item \textbf{逆向选择（adverse selection）}：交易之前，一方不知道另一方是什么类型。
+  \item \textbf{道德风险（moral hazard）}：交易之后，一方无法完全观察另一方采取了什么行动。
+\end{itemize}
+
+\begin{discussionbox}{隐藏的类型}
+在生活中，什么时候你会因为「不知道对方是什么样的人」而改变自己的行为？
+\end{discussionbox}
+
+\section{逆向选择}
+
+\transitionnote{交易之前，你不知道对方是什么「类型」。}
+
+\textbf{逆向选择（adverse selection）} 指的是：在交易发生之前，一方掌握了另一方不知道的重要信息，导致市场更容易留下较差的交易对象。
+
+\begin{examplebox}{二手手机市场}
+假设你要买一部二手手机。卖家知道这部手机有没有暗病，买家却很难完全判断。
+
+买家只能根据平均质量出价。但这个价格对于真正好手机的卖家来说可能太低，于是他们退出市场。剩下的手机平均质量下降，买家愿意出的价格进一步下降，更多高质量卖家继续退出。
+
+最后，市场上可能主要剩下质量较差的商品。这就是 Akerlof（1970）描述的「柠檬市场」问题。
+\end{examplebox}
+
+生活中有很多类似现象：
+\begin{itemize}
+  \item 为什么人们对网上认识的陌生人保持警惕？
+  \item 为什么求职时企业要看学历、证书和过往经历？
+  \item 为什么二手车市场需要第三方检测？
+  \item 为什么平台要建立评分和评价系统？
+\end{itemize}
+
+因为信息不对称存在，信息较少的一方无法轻易判断对方的真实类型。
+
+\begin{discussionbox}{市场留下谁？}
+如果买家无法区分好卖家和坏卖家，最终谁更可能留在市场里？
+\end{discussionbox}
+
+\section{道德风险}
+
+\transitionnote{交易之后，你看不到对方在做什么。}
+
+\textbf{道德风险（moral hazard）} 指的是：在交易发生之后，一方的行动难以被观察，而行动后果又部分由别人承担，于是激励被扭曲。
+
+\subsection{保险}
+
+一个人购买保险之后，可能会变得不那么谨慎，因为事故发生后的部分损失由保险公司承担。当然，这并不意味着买保险的人一定会故意制造事故；只要保险改变了承担后果的方式，它就可能改变行为。
+
+\subsection{装修工和上班族}
+
+雇主很难完全知道装修工每天是否认真工作了八小时，也很难完全知道员工在工作时间内是否持续高效投入。问题的核心是：行动不可完全观察，而行动后果又部分由别人承担，所以行动者面对的激励发生了变化。
+
+\begin{discussionbox}{隐藏的行动}
+为什么「看不见行动」有时比「看不见结果」更难处理？
+\end{discussionbox}
+
+\section{一句话区分}
+
+逆向选择是：\textbf{我不知道你是谁。}
+
+道德风险是：\textbf{我不知道你在干什么。}
+
+前者通常发生在交易前，后者通常发生在交易后。
+
+\begin{itemize}
+  \item 买二手车之前不知道车况：逆向选择。
+  \item 买保险之后开车更不小心：道德风险。
+  \item 公司招聘时不知道谁能力强：逆向选择。
+  \item 员工入职后是否努力工作难以观察：道德风险。
+\end{itemize}
+
+很多现实问题同时包含两者。比如贷款：银行既不知道借款人是否可靠，也无法完全观察借款人拿到钱之后如何使用。
+
+\section{解决方法一：信号机制}
+
+\transitionnote{如果别人不知道你的类型，你可以主动发出信号。}
+
+\textbf{信号机制（signaling）} 指的是：信息较多的一方采取某种行动，让信息较少的一方推断自己的类型。
+
+常见例子包括：
+\begin{itemize}
+  \item 学历作为能力、纪律和筛选结果的信号。
+  \item 品牌和保修作为质量信号。
+  \item 商家公开检测报告。
+  \item 求职者展示作品集。
+\end{itemize}
+
+一个有效信号通常需要满足一个条件：高质量类型更容易发出，低质量类型模仿成本更高。否则，信号就会失去区分能力。
+
+\begin{discussionbox}{学历作为信号}
+学历是在传递知识，还是在传递某种信号？两者有什么区别？
+\end{discussionbox}
+
+\section{解决方法二：筛选机制}
+
+\textbf{筛选机制（screening）} 指的是：信息较少的一方设计一组选项，让不同类型的人通过自己的选择暴露差异。
+
+常见例子包括：
+\begin{itemize}
+  \item 保险公司设计不同免赔额和保费组合。
+  \item 企业通过试用期、笔试、面试筛选员工。
+  \item 平台通过押金、实名认证、信用分筛选用户。
+  \item 银行通过抵押物和利率筛选借款人。
+\end{itemize}
+
+筛选机制不是直接问「你是不是好人」，因为这个问题通常得不到可靠答案。它通过制度设计，让不同类型的人作出不同选择。
+
+\section{合约设计}
+
+很多信息问题最后会变成合约问题：什么可以写进合约，什么很难写进合约？
+
+如果某件事可以被观察、被验证、被执行，就比较容易写进合约。如果某件事很重要但无法观察或无法验证，它就很难被合约直接约束。
+
+例如：
+\begin{itemize}
+  \item 可以写「每周提交一份报告」，但很难写「认真思考」。
+  \item 可以写「每天工作八小时」，但很难写「每一分钟都高效工作」。
+  \item 可以写「考试达到多少分」，但很难写「真正理解课程」。
+\end{itemize}
+
+\begin{discussionbox}{量化指标}
+学校、公司和政府为什么经常使用可量化指标？这些指标会带来什么问题？
+\end{discussionbox}
+
+\section{指标与合约的陷阱}
+
+\transitionnote{合约和指标能缓解信息问题，但也可能制造新的扭曲。}
+
+\begin{conceptbox}{Goodhart's Law}
+\begin{quote}
+When a measure becomes a target, it ceases to be a good measure.
+\end{quote}
+
+Goodhart's Law 的意思是：一个指标原本只是用来衡量某件事，但当人们开始为了指标本身而行动时，这个指标就不再可靠。
+\end{conceptbox}
+
+常见例子包括：
+\begin{itemize}
+  \item 地方考核 GDP，可能导致只追求数字增长而忽视环境和民生。
+  \item 作业完成度成为目标，学生可能追求「写满」，而不是理解。
+  \item 考试分数成为目标，学习可能变成刷题和应试技巧。
+  \item AI 能力测量成为目标，模型可能学会迎合测试集，而不是真正提高能力。
+\end{itemize}
+
+根本原因是：指标和真实目标之间存在差距，而且操纵指标往往比实现真实目标更容易。
+
+\begin{discussionbox}{指标被当成目标}
+你能想到哪些「指标被当成目标」的例子？
+\end{discussionbox}
+
+\begin{conceptbox}{机制设计的两个约束}
+一个制度要有效，至少要考虑两个问题。
+
+\textbf{激励相容：} 参与者按照制度设计者希望的方式行动，必须符合他们自己的利益。如果制度要求每个人都无私、诚实、永远不钻空子，它通常会很脆弱。
+
+\textbf{参与约束：} 参与者愿意进入这个制度，而不是退出、逃避或转入灰色市场。比如一个平台如果规则过于严格，卖家可能离开；一个税制如果负担过高，纳税人可能逃税或转移收入。
+\end{conceptbox}
+
+\section{小结}
+
+信息不对称让市场和制度变得脆弱。当你不知道对方是谁，会出现逆向选择；当你看不到对方在做什么，会出现道德风险。
+
+解决信息问题不只是要求参与者更诚实，而是设计更好的信号、筛选、合约和激励结构。这也解释了为什么现实中的市场从来不是纯粹的买卖关系。它依赖评价系统、认证制度、法律合同、平台规则、声誉机制和社会信任。
+
+\end{document}
