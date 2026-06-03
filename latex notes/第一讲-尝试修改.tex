@@ -1,0 +1,520 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第一讲：关于市场}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{
+  enhanced,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1.2em,
+  right=1.2em,
+  top=0.7em,
+  bottom=0.8em,
+  title=学习目标,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=有趣的例子：#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{discussionbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论：#1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=概念延伸：#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=关键洞察：#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{questionbox}{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=1.8pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{notebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  leftrule=1.4pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newcommand{\transitionnote}[1]{%
+  \begin{conceptbox}{过渡}#1\end{conceptbox}%
+}
+
+\title{\vspace{-2em}\bfseries 第一讲：关于市场}
+\author{日常制度的经济学}
+\date{Day 1 · What is a market — and where does it end?}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 对「市场」的概念和基本特征形成初步理解：它如何在没有统一指挥的情况下，协调大量素不相识的人。
+  \item 思考市场为什么会出现、为什么有时不会出现，以及「市场的边界」由什么决定。
+  \item 学会分辨：一个关于市场的问题，究竟是在问「它在做什么」「它怎么来的」，还是「它该不该这样」——这是本讲最重要的能力。
+  \item 把本讲提出的一连串问题，当作后续各讲（尺子、产权、外部性、信息、家庭、平台、制度）的引子。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{课堂主线}
+本讲不急于给「市场」下一个标准定义，而是从一组日常与非日常的例子出发，追问两个问题：第一，市场为什么能够在没有统一指挥的情况下协调大量人的需求？第二，如果市场机制如此有效，为什么仍有许多事没有完全交给市场来决定？
+
+和后面几讲不同，本讲\textbf{不急于交付一件具体的分析工具}。它的任务只有两个：一是用市场这一无处不在的制度作为例子，把一种制度的存在「去自然化」；二是为之后的内容埋下问题。你会发现，解释「市场的边界」会同时牵动好几种不同的解释方式——效率的、历史的、规范的，这些解释方式是今后需要常讨论的；而效率取向当中涉及到的经济学概念则是本课程后续侧重分析的内容。
+\end{keybox}
+
+\section{什么是市场？市场无处不在吗？}
+
+可以先从最日常的例子开始。菜市场、股票市场、房地产市场、二手车市场、二手教材市场、辅导班和家教市场，都是比较容易理解的市场。
+
+还有一些例子更容易被忽略：黄牛、代排队服务、考试卷和模拟题的交易。这些现象看起来差异很大，但都有共同点：存在买方和卖方，并且某种价格机制正在发挥作用。
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.72\linewidth]{shijuan.png}
+\caption{考试卷和模拟题也可以形成市场。}
+\end{figure}
+
+% \begin{discussionbox}{市场的最低条件}
+% 如果一次交换中有买方、卖方和价格，这是否已经足以构成一个市场？除此之外还需要哪些条件？
+% \end{discussionbox}
+
+那么市场是无处不在的吗？我们身边有什么东西是没有在市场上交易的？这些东西没有进入市场的原因是什么？是没有人想买卖吗？
+
+\begin{examplebox}{情景对照一：家庭生产}
+情景 A：妈妈/爸爸每天去菜市场买菜，去超市买日用品，偶尔在淘宝上买一点家居用品。这里参与了市场交易活动。
+
+情景 B：妈妈/爸爸每天在家里做饭、打扫卫生、洗衣服。虽然有的家庭会请家政工人，但仍有大多数的家庭选择自己完成这些工作。这里没有市场交易活动。
+
+Q：同样是家庭内部服务的生产环节，为什么有的环节处在市场当中，有的环节却没有？如果你是一个家庭成员，你会选择把哪些事情交给市场来完成，哪些事情自己做？为什么？
+\end{examplebox}
+
+\begin{examplebox}{情景对照二：考试}
+情景 A：月考前，你花 80 元买了一套《五年高考三年模拟》。这通常不会让人觉得奇怪。
+
+情景 B：月考后，你花 500 元对班里第一名说：「把你的排名让给我。」假设对方也愿意接受。
+
+Q：同样是构成考试成绩的因素，为什么有的因素可以被市场定价，有的因素却不行？如果你是一个学生/老师/学校，你会选择把哪些因素交给市场来决定，哪些因素自己努力去争取？为什么？
+\end{examplebox}
+
+\begin{examplebox}{情景对照三：时间}
+情景 A：晚自习时，你花 15 元叫外卖，骑手用 20 分钟替你跑了一趟。别人的时间被定价了，但多数人不会因此感到不适。
+
+情景 B：18 岁生日时，你花 300 元请一个陌生人陪你过生日。别人的时间同样被定价了，但这一次很多人会觉得不自然。
+
+Q：同样是「别人的时间」，为什么有的时间可以被市场定价，有的时间却不行？
+\end{examplebox}
+
+这些例子说明，市场并不只是「双方自愿、用钱交换」，一种商品/一项活动是否被纳入市场并非不言自明。那么「市场的边界」在哪里？它是由什么决定的？是由于我们的道德观念，还是复杂的历史过程，还是某种「最有效率」的选择？想要回答这些问题，先要意识到一件事：同一个「为什么」，其实可以用好几种很不一样的方式来回答。
+
+\begin{conceptbox}{解释、预测、规范和干预}
+    在本课程中，我们将经常遇见理论对于现实的四种作用
+    \begin{itemize}
+        \item \textbf{解释：} 将理论用来解释我们观察到的现象，帮助我们理解为什么会发生某些事情。
+        \item \textbf{预测：} 将理论用来预测未来的事件或趋势，或者在不同情境下可能发生的结果。
+        \item \textbf{规范：} 一些理论可以提供关于什么是好的、什么是坏的、什么应该被追求或避免的指导原则。
+        \item \textbf{干预：} 理论可以指导我们如何采取行动来改变现状，达到某个目标。    
+    \end{itemize}
+
+    这四个方面将贯穿我们的课堂，帮助我们理解经济学或其他理论的功能和局限，并在合适的情境下运用它们。
+
+\end{conceptbox}
+
+
+
+\section{不太熟悉的市场}
+
+\transitionnote{接下来的例子未必符合我们对「市场」的直觉，但它们确实以市场形式存在。}
+
+\subsection{域名市场：一串字符值多少钱？}
+
+互联网上的每个网站都需要一个域名。域名通常遵循先到先得的注册规则，谁先注册，谁就获得使用权。有人专门低价注册大量域名，等别人需要时再高价转卖。这类似于互联网上的「黄牛」。买家购买的不是一个物理物品，而是互联网上一个独一无二的位置。
+
+一个更戏剧化的例子是 .ai 域名。.ai 原本属于安圭拉（Anguilla），一个加勒比海上人口只有一万多人的英国海外领地。1995 年，这个域名后缀被分配给安圭拉时并没有特殊含义。但 AI 浪潮让它意外变成一项重要资产：claude.ai、perplexity.ai、x.ai、meta.ai、google.ai 都在使用 .ai 域名。近年来，.ai 域名注册费已成为安圭拉一笔可观的财政收入（具体数字逐年变动，讲课前可顺手核一下最新数据）。
+
+\subsection{明星祝福视频：注意力也有市场价}
+
+在 Cameo 这样的平台上，用户可以付费请明星或网红录制个性化短视频：生日祝福、求婚助阵，甚至说一句指定的话。不同人的报价差别很大，有人几十美元，有人几千美元。
+
+这里购买的并不只是视频文件本身，而是「这个人专门为我花了 15 秒」所带来的感受。时间、注意力和专属感，都可以被市场定价。
+
+\subsection{Polymarket：给未来定价}
+
+Polymarket 是一个预测市场。对于一个未来事件，例如「2024 年谁会赢得美国大选」，参与者可以用真实资金买入「会」或「不会」。判断正确则获利，判断错误则亏损。所有人的买卖汇总在一起，形成一个价格；这个价格可以被理解为市场对事件发生概率的集体判断。
+
+2024 年美国大选期间，Polymarket 的价格一度被认为比部分民调更敏感地反映了选举预期。
+
+\begin{examplebox}{极端事件也能变成合约}
+Polymarket 上曾有一个真实市场：「耶稣会在 2027 年之前重返人间吗？」市场价格隐含的发生概率约为 2\%。这个例子的重点不是宗教判断，而是说明：即使是非常极端、非常抽象的事件，也可以被设计成可交易的合约。
+
+\begin{center}
+\includegraphics[width=0.76\linewidth]{polymarket.png}
+\end{center}
+\end{examplebox}
+
+\begin{discussionbox}{预测市场的意义}
+为什么会有人创造这种市场？它是在转移风险，还是在制造新的风险？
+
+假设你对某个事件的发生概率有独特的见解，预测市场可以让你通过交易来表达这个见解，并从中获利。这种机制可以激励人们收集信息、分析数据，从而提高预测的准确性。对于一些事件，市场价格可能比传统调查更快地反映出最新的预期变化。
+
+在某些情况下，预测市场上的产品可以被用来对冲风险。比如，你认为特朗普再次发起「关税大战」的可能性较大，那你可以买入「会」的合约来抵消你可能在股票市场上面临的风险。
+\end{discussionbox}
+
+% \begin{conceptbox}{保险和预测市场}
+% 保险和 Polymarket 都与未来事件有关：今天支付一笔钱，未来某件事发生或不发生时，这份合约才产生收益。关键区别在于：它是在帮助人们转移和分担风险，还是在创造额外的风险暴露？这类商品不是天然存在的，而是由制度、技术和合约设计共同构造出来的。
+% \end{conceptbox}
+
+\section{不存在的市场}
+
+\transitionnote{看过「这也能交易」的例子后，可以反过来追问：哪些事物没有市场？}
+
+有些事物表面上似乎可以交易，但现实中通常没有市场；或者即使技术上可以交易，我们也会强烈反对它被交易：考试名次、谁做我的同桌、朋友、求根公式的使用权。
+
+\begin{discussionbox}{不存在的市场}
+如果你考了第一名，能把这个名次卖给别人吗？如果双方都愿意呢？你可以花钱请人陪你吃饭，但那能算友谊吗？如果每次使用求根公式都要付费，你能接受吗？
+\end{discussionbox}
+
+求根公式是免费的：
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\]
+
+但专利可以交易，版权也可以交易。一首歌要收费，一条数学定理通常不收费。两者都属于「知识」，区别在哪里？
+
+关键不在于数学公式的创造不需要激励。恰恰相反，发现一个重要定理、发展一种数学方法、写出一本好教材，都需要长期训练、时间投入和智力劳动。问题在于，这类知识一旦被发现，具有很强的非竞争性：你使用求根公式，并不会减少我使用它的可能性。若每次使用都要收费，社会反而会因为高昂的授权成本而少用知识。
+
+因此，数学和基础科学的激励往往不是通过「每次使用都收取产权费」来实现，而是通过另一套制度来实现：学术声誉、优先发现权、论文发表、职位晋升、奖金、公共资助、学校和研究机构的薪酬，以及学习者和研究者自身的好奇心。这些机制同样是在提供激励，只是它们不一定表现为对每一次使用行为收费。
+
+这说明市场不是唯一的激励机制。产权和价格可以鼓励某些知识产品的生产，例如歌曲、软件、药品和专利技术；但对于基础数学、基础科学和许多公共知识，过强的排他性反而可能阻碍传播和再创造。问题不是「知识要不要激励」，而是「哪一种激励机制更适合这种知识」。
+
+\section{市场在什么条件下可以存在？}
+
+% \begin{discussionbox}{市场存在的条件}
+% 市场「可以存在」是否意味着它一定会出现？如果不是，还需要哪些条件？
+% \end{discussionbox}
+
+\begin{enumerate}
+  \item \textbf{商品：稀缺性与可交易性。} 没有稀缺性，就没有定价的必要。空气在很多时候不是商品，但雾霾会让洁净空气的价值间接体现在房价和人口流动中。物品的性质也必须允许交易：求根公式「你用了不影响我用」，这类知识很难排除他人使用并收费。
+  \item \textbf{交易的动机。} 如果每个人自己完成一件事和通过交易完成一样有效，就没有交易的必要。市场存在的前提是交易能够让参与者获得收益。
+  \item \textbf{参与者。} 市场需要足够多的买家和卖家，或者商品本身的价值得到一定程度的承认。互联网大幅降低了寻找交易对象的成本。
+  \item \textbf{价格形成机制。} 价格如何形成？通过拍卖、协商，还是竞争？供给与需求如何塑造价格，是市场运行的核心问题。
+  \item \textbf{制度基础设施。} 产权制度、信息披露、评价系统、准入门槛和法律执行，都有助于降低交易成本和信任成本。没有这些制度，市场也可能存在，但交易规模会明显受限。
+  \item \textbf{技术条件。} 搜索、匹配、执行和监管技术可以让原本难以形成的市场变得可行。淘宝和京东降低了搜索成本；区块链技术让 Polymarket 的交易更难被篡改；碳排放权交易需要排放监测技术。
+\end{enumerate}
+
+\begin{insightbox}{市场不是自然物}
+市场并不是自然而然出现的。很多时候，连「什么可以成为商品」这一点本身，也需要由制度、技术和社会观念共同塑造。
+
+\textcolor{red}{这里还问这个问题就太低级了，必须把「效率取向」的解释提一下。}
+\end{insightbox}
+
+\begin{conceptbox}{市场边界由谁画出？}
+肾脏交易在伊朗合法，在中国不合法。碳排放权交易则需要政府先界定「排放权」这一交易对象，市场才可能形成。为什么大多数人觉得买卖友谊不可接受？为什么大学录取名额不能拍卖？这些边界是谁划定的？道德和文化条件也是市场能否存在的一部分，只是常常被忽视。
+\end{conceptbox}
+
+\section{如果不用市场，还能怎么分配？}
+
+市场不是唯一的分配方式。稀缺资源可以通过很多机制决定由谁获得。
+
+\begin{itemize}
+  \item \textbf{排队（先到先得）：} 春运火车票、医院挂号、食堂打饭。成本不是钱而是时间，对时间充裕的人有利。
+  \item \textbf{抽签（随机分配）：} 车牌摇号、某些学校的入学名额。它看似公平，但通常不考虑谁更需要。
+  \item \textbf{行政分配（按标准）：} 医院急诊按病情严重程度排序，保障房按收入水平分配。需要有人制定标准，而标准本身可以被博弈。
+  \item \textbf{按权力或关系：} 「找人帮忙」「走后门」。非正式，但普遍存在。
+  \item \textbf{考试或竞争：} 高考分配大学名额。它以能力或至少以考试成绩作为分配依据，但考试结果本身也可能受到补习、家庭资源和学区房等因素影响。
+\end{itemize}
+
+每种方式都有各自的效率与公平问题，没有一种机制是完美的。
+
+\begin{insightbox}{市场会从缝隙里长出来}
+选择不用市场分配，并不意味着市场力量会消失。火车票采用排队分配，黄牛可能出现，用金钱替代时间；医院挂号采用行政分配，号贩子可能出现；车牌采用摇号分配，租牌市场可能出现。只要稀缺性存在，新的交易形式就可能在制度缝隙中自发生成。
+\end{insightbox}
+
+\section{市场带来了什么？}
+
+市场能够存在，并不意味着它一定带来好的结果。评价一个市场时，不应只问「市场好不好」，而应追问：它在具体情境中解决了什么问题，又带来了什么新的问题？
+
+\begin{conceptbox}{贯穿本讲的两个问题}
+市场协调之所以值得研究，是因为它并不依赖一个统一的指挥者，却能够在许多场景中协调大量人的需求。这种协调是如何发生的？
+
+如果市场机制具有如此强的协调能力，为什么仍有许多事物没有交给市场分配？市场的边界在哪里？
+\end{conceptbox}
+
+\begin{discussionbox}{如何讨论市场的利弊}
+市场存在与不存在，各有什么利弊？请结合实际例子，说明市场机制可能带来的正面或负面影响。
+
+如何讨论一件事情/一项制度的利弊？我们需要明确我们在乎的是什么。\textcolor{red}{To be continued.}
+\end{discussionbox}
+
+
+\subsection{六个讨论案例}
+
+\begin{itemize}
+  \item \textbf{口罩的二级市场：} 疫情期间，口罩价格一度大幅上涨。这个市场是让口罩流向更愿意付费的人，还是让支付能力较弱的人更难获得口罩？
+  \item \textbf{学区房：} 学位无法直接买卖，但通过房产市场，优质教育资源事实上被定价了。这让教育不平等更加可见，还是进一步加剧了不平等？
+  \item \textbf{演唱会黄牛：} 官方售价几百元的票被转卖到几千元。有人认为这是价格机制的体现，有人认为这是对普通消费者的挤出。
+  \item \textbf{医疗市场化：} 当医疗服务高度依赖市场交易，而患者又很难判断质量时，会发生什么？莆田系医院的问题可以作为一个讨论案例。
+  \item \textbf{外卖平台：} 平台让小餐馆触达更多顾客，但也可能把骑手置于算法制造的时间压力之下。市场扩大了，但谁受益，谁承担成本？
+  \item \textbf{名校参观黄牛：} 北大清华暑假参观名额很快被抢空，黄牛以数百元价格转卖预约名额。免费的公共资源因为需求过大变成了稀缺品，市场交易随之出现。
+\end{itemize}
+
+\subsection{怎么评价一个市场？}
+
+\begin{enumerate}
+  \item \textbf{效率：} 资源是否被更有效地使用？价格能否帮助人们发现谁更需要、哪里更短缺、什么更值得生产？
+  \item \textbf{分配：} 谁获得了资源，谁被排除在外？市场通常按照支付能力分配，但支付能力不一定等于真实需要。
+  \item \textbf{边界：} 交易是否会改变事物的意义？有些事物一旦被定价，关系、信任或公共价值本身就可能发生变化。
+\end{enumerate}
+
+\subsection{市场的力量}
+
+市场是一种常常有效、但并不万能的协调机制。它之所以顽强，至少有几个原因：价格携带着分散在无数人头脑中的信息；利润和亏损提供激励，使资源更容易流向短缺之处；专业化和分工提高效率；竞争迫使卖家不断回应买家的需求，否则就可能被替代。
+
+Adam Smith 的经典洞察是：我们的晚餐不是来自屠夫、酿酒师和面包师的慈悲，而是来自他们对自己利益的关注。
+
+\subsection{市场的代价}
+
+\begin{itemize}
+  \item \textbf{支付能力不等于真实需要。} 学区房、口罩、演唱会门票都可能把资源分给出价最高的人，而不是最需要的人。
+  \item \textbf{信息不对称。} 在医疗、二手车、教育服务中，买方往往很难判断质量，价格也未必代表真实价值。
+  \item \textbf{外部成本。} 外卖更方便，但时间压力可能被转嫁给骑手；交易双方之外的人也可能承担后果。
+  \item \textbf{意义被改变。} 友谊、荣誉、公共资源一旦被买卖，原本的社会意义可能被价格重新定义。
+\end{itemize}
+
+\section{市场的边界与后续问题}
+
+\begin{discussionbox}{边界问题}
+有同学问：「市场的边界」到底是一条道德上的界线，还是历史中慢慢形成的某种结果，又或者只是用理性选择就能解释的东西？这个问题问得非常好——好在它其实一口气问了三个不同的问题。如果某种事物可以被买卖，是否意味着它就应该被买卖？
+\end{discussionbox}
+
+「市场的边界」之所以难回答，往往不是因为答案太深，而是因为这一个说法里其实装着三个不同的问题。先把它们分开，问题就清楚了一大半。
+
+\subsection{把「边界」拆成三个问题}
+
+\begin{enumerate}
+  \item \textbf{该不该被定价？（规范性问题）} 这是关于「应当」的判断。友谊、尊严、投票权、学位、某些公共荣誉，即使技术上可以交易，很多人也认为不应该交易。Michael Sandel 的追问就属于这一类：如果一切都可以买卖，社会关系会发生什么变化？
+  \item \textbf{这条边界为什么「现在」落在「这里」？（历史问题）} 这是关于「如何形成」的问题。肾脏交易在伊朗合法、在中国不合法；投票权在一些社会曾经可以买卖，如今几乎普遍被禁止。同一件事，边界在不同时空落在不同位置——它究竟是怎么一步步走到今天这个样子的？
+  \item \textbf{这条边界在「做」什么、为什么「稳定」？（功能性问题）} 这是关于「起什么作用」的问题。有些边界一旦被跨过，事物赖以成立的东西反而会被破坏：友谊一旦被标价，它所依赖的信任和无条件性，可能恰恰因为被定价而消失。难以排他的知识、难以判断质量的医疗服务（见后面讲信息不对称的那一讲），交给市场也未必能稳定地产生好结果。
+\end{enumerate}
+
+\begin{insightbox}{经济学对三个问题的发言权并不一样}
+对第三个问题，经济学最强：它能讲清楚一条边界起什么作用、为什么没有人愿意单方面越过它。对第二个问题，经济学有话说，但较弱、也有争议：它能用多重均衡、路径依赖等概念解释一条边界为什么会「稳定下来」，却很难解释它「为什么一开始落在这儿」——真正的起源常常是历史偶然。对第一个问题，经济学没有特权：效率、福利、帕累托都预设了某个版本的「什么算好」，它们能在那个版本内部做判断，却不能裁决那个版本本身对不对。
+
+所以，「讲到哪里才算个头」不是内容上的一条线（比如「讲到 Sandel 为止」），而是一条规矩：你可以走到任何地方，但要在接缝处说清楚——此刻回答的是三个问题中的哪一个，经济学有没有授权你这样说。「我能帮你区分这三种问题；但第一种，我没法替你回答」——这不是逃避，而是最诚实的姿态。
+\end{insightbox}
+
+\begin{conceptbox}{历史在哪里进场？}
+当一个互动有好几个稳定结果（比如大家都靠左走、和大家都靠右走，其实都行得通；这一点在讲制度的那一讲会展开），经济学会告诉你「最后会落到某一个」，但落到哪一个它答不了。那个空位，只能由历史、权力、习惯和偶然来填。这就是历史视角进入经济学最合法的位置：不是到处都需要历史，而是在「均衡不唯一」的那道缝里，历史是必需的。
+\end{conceptbox}
+
+\begin{insightbox}{留意「串味」}
+三个问题最容易出错的地方，是它们悄悄串味：一个效率论证偷偷干起了规范的活，反过来也一样。「市场不该分配医疗」常常被包装成「市场在医疗上没有效率」——有时那个无效率是真的（信息不对称那一讲会解释为什么），但即便是真的，它也常常在替一个没说出口的道德判断打掩护。两个方向都很常见。能闻出这股「串味」、看出一句话究竟在回答哪个问题，比记住任何一个具体结论都更值钱。
+\end{insightbox}
+
+\subsection{怎么判断总体好坏？}
+
+市场带来的好处和坏处，往往不只是金钱本身，还包括时间、风险、尊严、机会、公平感和幸福感。
+
+\begin{discussionbox}{衡量标准}
+如果这些价值不能简单相加，我们凭什么说一种制度「总体更好」？是否必须先选择某种衡量标准？
+\end{discussionbox}
+
+这会引向下一讲「快乐的度量学」。我们会讨论效用、福利，以及衡量标准本身的问题。
+
+\subsection{复杂互动如何研究？}
+
+经济学并不是把现实简单化到失真，而是先把复杂互动整理成一个可以分析的结构：
+
+\begin{itemize}
+  \item \textbf{Players：} 谁在互动？消费者、商家、平台、政府、旁观者。
+  \item \textbf{Actions：} 他们可以做什么？购买、拒绝购买、涨价、排队、绕开规则。
+  \item \textbf{Payoffs：} 他们在乎什么？金钱、时间、风险、声誉、公平感。
+  \item \textbf{Rules / Game structure：} 规则是什么？价格、法律、平台算法、学校制度。
+  \item \textbf{Information：} 谁知道什么？质量、成本、风险、真实意图。
+  \item \textbf{Outcome：} 结果如何产生？它未必由某个人单独设计出来，而是在互动中形成的。
+\end{itemize}
+
+模型不是现实本身，而是帮助我们更有纪律地思考现实。
+
+\begin{insightbox}{本讲唯一要你现在就戴上的「眼镜」}
+后面每一讲都会交给你一件具体工具，但本讲只给你一副眼镜：看任何一个社会现象，都先把它拆开成「一群各有目的的人，在各自的约束和信息下做出选择，这些选择再汇成一个没有谁单独设计的结果」。戴上它，黄牛就不再只是「坏人」，而是「在排队规则的缝隙里对激励作出反应的人」；先学会这样看，后面的工具才有地方安放。而这些选择「如何汇成一个结果」本身就大有讲究——有时汇成奇妙的秩序，有时汇成糟糕的僵局——这正是后面几讲要反复回到的地方。
+\end{insightbox}
+
+\section{今天我们只提问：一张「欠条清单」}
+
+这一讲几乎没有给出任何答案。这不是疏漏——它恰恰是第一讲的职责。我们今天做的，是把一堆平时被当成理所当然的东西摇松，让它们变回一个个真正的问题，然后\textbf{当众把这些问题记成「欠条」}，留给后面的课一张一张去偿还。下面就是今天欠下的账——把它倒过来看，其实就是这门课的目录：
+
+\begin{itemize}
+  \item \textbf{口罩涨价、学区房、演唱会黄牛，到底好不好？}——要回答，得先有一把衡量「好坏」的尺子。可快乐、公平、风险能不能加在一起？\emph{这笔账，留给下一讲「快乐的度量学」。}
+  \item \textbf{排放权、域名这些「权利」是从哪冒出来的？求根公式为什么不收费？}——市场要先有人把「什么归谁」定下来，才转得起来。\emph{这笔账，留给讲「产权」的那一讲。}
+  \item \textbf{外卖更方便了，可时间压力被转嫁给了骑手——这笔成本谁来付？}\emph{这笔账，留给讲「外部性」的那一讲。}
+  \item \textbf{二手车、医疗里，买家根本看不出好坏，市场还转得动吗？}\emph{这笔账，留给讲「信息不对称」的那一讲。}
+  \item \textbf{家里哪些事交给市场、哪些自己做？}（还记得开头那个做饭、打扫的例子吗）\emph{这笔账，留给讲「家庭」这种非市场制度的那一讲。}
+  \item \textbf{外卖平台、算法、评分、抽成——这些规则是谁写的，又对谁有利？}\emph{这笔账，留给讲「平台」的那一讲。}
+  \item \textbf{说到底，「市场的边界」是谁画的、为什么常常改不动？}\emph{这笔账，留给最后一讲「制度是从哪里来的」。}
+\end{itemize}
+
+\begin{insightbox}{带着问题走出教室}
+如果今天你带着满肚子没被解答的问题离开——那恰恰说明这一讲成功了。后面每一讲，都是来还其中一张欠条的。
+\end{insightbox}
+
+\end{document}

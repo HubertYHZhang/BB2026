@@ -1,0 +1,355 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第五讲：制度是从哪里来的}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{
+  enhanced,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1.2em,
+  right=1.2em,
+  top=0.7em,
+  bottom=0.8em,
+  title=学习目标,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=有趣的例子：#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{discussionbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论：#1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=概念延伸：#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=关键洞察：#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{questionbox}{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=1.8pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{notebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  leftrule=1.4pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newcommand{\transitionnote}[1]{%
+  \begin{conceptbox}{过渡}#1\end{conceptbox}%
+}
+
+\title{\vspace{-2em}\bfseries 第五讲：制度是从哪里来的？}
+\author{日常制度的经济学}
+\date{Day 5 · Where do the rules come from?}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 把「制度」从背景里拎出来，当成研究对象，而不是理所当然的背景板。
+  \item 理解一个核心想法：制度是反复互动中稳定下来、大家都预期别人会遵守因而自己也遵守的规矩。
+  \item 学会对任何一个制度问三个不同的问题：它在做什么、它是怎么来的、它该不该是这样。
+  \item 理解为什么有些看起来「不好」的制度，也能长期稳稳地存在。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{课堂主线}
+前面四讲，我们一直在用「制度」这个词——产权、价格、合约、考试、排队——但几乎从没正面问过它本身。这一讲把镜头转过来，对准规矩本身：它从哪里来？为什么我们觉得它天经地义？为什么有时候明明不好，却没有人能改？这是全课的收尾，也是把前面所有工具装在一起的一讲。
+\end{keybox}
+
+\section{一个你每天遵守、却从没签过字的规矩}
+
+先想一件小到几乎不会注意的事：过马路、骑车、开车，我们都靠右走。
+
+没有人投票选过「靠右」，你也想不起来自己是哪一天同意的，但你一秒钟都不敢违反它。为什么？不是因为靠右在物理上更「正确」——英国、日本、香港都靠左，一样顺畅。真正的原因很简单：你预期别人靠右，所以你靠右最安全；而别人之所以靠右，也是因为他们预期你会靠右。
+
+于是出现了一个奇妙的局面：这条规矩之所以成立，不是因为有人时刻盯着，而是因为大家都相信别人会遵守，于是遵守它对每个人都是最划算的，于是大家真的都遵守了——预期把自己变成了现实。
+
+\begin{discussionbox}{没人规定，大家却都遵守}
+你还能想到哪些「没有人正式规定、但大家都默默遵守」的规矩？（排队、电梯里站哪边、谁先开口打招呼、餐桌上的座次、网络上的用语……）这些规矩，如果你一个人不守，会发生什么？
+\end{discussionbox}
+
+\section{那么，制度到底是什么？}
+
+我们不急着背一个标准定义。但靠右行这个例子，已经把最关键的东西摆出来了。
+
+\begin{conceptbox}{一个朴素的说法}
+制度，就是在反复互动中稳定下来的一套规矩：它之所以能维持，是因为在别人都遵守的前提下，你也遵守最划算。它不需要时时刻刻有人拿着鞭子盯着，它自己撑住自己。
+\end{conceptbox}
+
+这听起来是不是有点耳熟？第三讲我们讲过\textbf{纳什均衡}：没有人愿意单方面改变自己的选择。制度，差不多就是把这个想法从「一局小游戏」放大到「一个社会的规矩」——一种没有人愿意第一个去打破的状态。
+
+还要注意一个容易忽略的区分：制度不一定写在纸上。有的写在法律和条文里（比如交规、婚姻法），有的只活在习惯和默契里（比如排队、谁该让座）。靠右行其实两者都有：既有成文的交规，也有人人心里的习惯。很多最强大的规矩，恰恰是那些从没被写下来、却人人遵守的。
+
+\section{制度是被设计出来的，还是「长」出来的？}
+
+\transitionnote{知道了制度是什么，下一个自然的问题就是：它从哪儿来？}
+
+把你身边的规矩列一列，你会发现它们大致分成两类。
+
+一类是\textbf{有人设计的}：宪法、考试制度、交通法、一家公司的考勤规定。它们都有一个清楚的来历——有人开过会、写过条文、盖过章。
+
+另一类是\textbf{慢慢长出来的}：没有任何人坐下来设计过它们，它们却稳稳地存在。语言就是这样——没有谁发明了「今天我们开始这样说话」。排队也是这样。最好的例子也许是\textbf{钱}：最早并没有人规定「这张纸可以换东西」，我之所以愿意收下这张纸，只是因为我相信别人也会收下它——和靠右行一模一样。
+
+\begin{discussionbox}{它是设计的，还是长出来的？}
+高考，是设计出来的还是长出来的？补习班呢？「内卷」这种风气呢？有没有哪个制度，一部分是设计的、一部分是自己长出来的？
+\end{discussionbox}
+
+\begin{notebox}{留两个名字给好奇的同学}
+有的学者（North）更强调制度是人为定下的\emph{规则}；另一些学者（Hayek）则提醒我们，很多最重要的规矩其实没有设计者，是社会自己\emph{演化}出来的。这两种看法都对一半——现实里的制度，往往两者都有。
+\end{notebox}
+
+\section{制度是为了让大家更好，还是有人从中得利？}
+
+到这里，很容易得出一个温暖的结论：制度是为了让大家协调得更好。排队让乱抢变得有序；产权让人敢于投资和耕种；交规让所有人都更安全。这是「制度在解决问题」的故事，而且它常常是真的。
+
+但只讲这一面是危险的。请注意一个事实：同一个问题，往往有\emph{好几套}规矩都能解决；而最后真正被选中的那一套，常常对某些人更有利。
+
+想想看：谁来决定「什么算迟到」「什么算努力」「什么算一个好学生」？\textbf{定规矩的权力，本身就是一种权力。}规则一旦定下来，看起来中立、人人平等，但它选的那个版本，未必对所有人一样有利。
+
+\begin{insightbox}{别忘了问一句：它对谁有利？}
+同一件事可以有好几套规矩，最后选中哪一套，往往不只取决于「哪一套更有效率」，也取决于「谁更有力量让它被选中」。所以分析任何一个制度时，除了问它好不好用，别忘了再问一句：它对谁有利，又对谁不利？
+\end{insightbox}
+
+这正好接上我们第一讲讲过的「串味」：当有人说「这个制度最有效率，所以就该这样」，请留个心眼——「最有效率」这句话，有时正在悄悄替「这样对我有利」打掩护。
+
+\begin{notebox}{再留两个名字}
+有学者（Ostrom）研究人们如何不靠政府、也不靠市场，自己组织起来管好公共的草场、渔场和水源——这是制度美好的一面。也有学者（Knight）提醒：制度常常是不同人讨价还价的结果，谁手里的筹码多，规矩就更偏向谁。
+\end{notebox}
+
+\section{为什么「不好」的制度，也能稳得很？}
+
+这大概是你最有共鸣的一个问题：明明大家都觉得某个规矩不好，为什么没有人能改掉它？
+
+回到第三讲那个最重要的提醒：\textbf{稳定，不等于好。}一个结果可以非常稳，同时非常糟。
+
+最贴身的例子就是\textbf{内卷}。假设大家本来都学习八小时。如果你一个人先「躺平」、只学六小时，吃亏的是你——别人会超过你。于是没有人敢第一个停下来。所有人都更累了，排名却没怎么变。每个人都想改，但谁先改谁吃亏，于是这个谁都不喜欢的状态，反而稳稳地卡在那里。这就是一个「坏」均衡：它之所以维持，恰恰是因为单方面改变对自己不利。
+
+还有两股力量让坏制度赖着不走。一是\textbf{路径依赖}：很多东西一旦大家都习惯了，换的成本就高得吓人。电脑键盘上 QWERTY 这套字母排列，据说当初是为了让老式打字机不卡键而设计的，按理早该换成更顺手的排列；但因为全世界的人都已经学会了它，谁也不愿意重新学，于是我们到今天还在用它。二是\textbf{既得利益}：一个制度一旦形成，从中得利的人就会去保护它，哪怕它对整体不好。
+
+\begin{discussionbox}{改不掉的规矩}
+你身边有没有「大家都觉得不好、却改不掉」的规矩？试着用今天的三种力量分析它：是因为第一个改的人会吃亏？是因为有人从中得利、不肯放手？还是因为大家都已经习惯、换的成本太高？
+\end{discussionbox}
+
+\section{把那把刀，转回来拆「制度」自己}
+
+\transitionnote{现在，到了把整门课合拢的时刻。}
+
+还记得第一讲吗？我们拆「市场的边界」时发现，这一个说法里其实藏着三个不同的问题：该不该、怎么来的、在做什么。
+
+现在揭晓一件事：那把刀，不只能拆「市场的边界」。它能拆开\emph{任何}一个制度。对你遇到的任何一条规矩，都可以问同样的三个问题——
+
+\begin{enumerate}
+  \item \textbf{它在做什么、为什么稳定？}（功能性问题）——它解决了什么协调问题？为什么没人愿意单方面打破它？
+  \item \textbf{它是怎么一步步变成现在这样的？}（历史问题）——它是设计的还是长出来的？为什么落在今天这个位置，而不是别的位置？
+  \item \textbf{它该不该是这样？}（规范性问题）——它对谁有利？我们愿不愿意接受它？
+\end{enumerate}
+
+\begin{insightbox}{这把刀，三块地的硬度不一样}
+和第一讲说过的一样：经济学对这三个问题的发言权并不平均。它最擅长第一个——讲清楚一个制度起什么作用、靠什么撑着。对第二个它有话说，但较弱：能解释一个制度为什么「稳得住」，却很难说清它「为什么一开始落在这儿」。对第三个，它没有特权——「该不该」这件事，最终要由人来回答，经济学只能帮你把前两个问题照亮。
+\end{insightbox}
+
+\section{一个你天天身在其中、却很少当成「制度」看的例子：家庭}
+
+\transitionnote{找一个最好的练习对象，把今天学的全部用上一遍。}
+
+家庭是个绝妙的例子，因为它几乎同时是今天讲过的所有东西。
+
+它\textbf{既是设计的，又是长出来的}：一方面有婚姻法、财产规定（写在纸上）；另一方面有大量没人规定的默契——「谁该做饭」「谁该让步」「过年回谁家」。
+
+它\textbf{既在解决协调，又藏着分配冲突}：一个家庭要分工——谁挣钱、谁带孩子、谁做家务、谁生病时谁照顾——这是合作，能让两个人过得比各自单干更好。但同一套分工里，也藏着「谁付出得更多」「谁的事业为谁让步」的问题。那套看似自然的默契，未必对每个人一样有利。
+
+它的\textbf{边界也不是自然的}：为什么是一夫一妻？为什么财产这样分？为什么是这样而不是那样照顾老人？这些在不同时代、不同社会都很不一样——这恰恰说明，家庭不是一种天经地义的自然现象，而是被制度、习俗和观念一起塑造出来的。
+
+\begin{discussionbox}{用三问拆「家务该谁做」}
+试着把今天的三个问题，用在「家里的家务该谁做」这件具体的事上：这套安排\textbf{是怎么形成}的（谁定的、还是慢慢默认的）？它\textbf{在做什么}（解决了什么、又稳在哪里）？它\textbf{对谁有利}、你觉得它\textbf{该不该}是这样？
+\end{discussionbox}
+
+\begin{conceptbox}{顺带一个问题：公司为什么存在？}
+家庭是一个「不靠价格、靠分工和默契」运转的小世界。其实公司也一样。第一讲我们问过「为什么会有市场」；反过来也值得一问：既然市场这么会协调，为什么还会有公司这种内部不讨价还价、而是靠命令和安排来运转的「孤岛」？一个简单的答案是：有些事情如果事事都拿到市场上谈价钱，成本太高了，不如圈进一个组织里直接安排。这个问题，留给课后好奇的你。
+\end{conceptbox}
+
+\section{小结：这门课其实一直在做同一件事}
+
+如果要用一句话概括这五讲，那就是：我们一直在做一件叫\textbf{「去自然化」}的事——把那些看起来「本来就该这样」的东西（市场、价格、考试、家庭），从背景里拎出来，认真问一句：它真的非这样不可吗？
+
+制度不是天上掉下来的，也不是某个聪明人一次就设计好的。它是无数人反复互动、在预期和力量的拉扯中慢慢稳定下来的结果。它可以很有用，也可以很顽固；可以帮大家解决问题，也可以悄悄偏袒某些人。
+
+而你现在手里，有了一把通用的刀。以后遇到任何一条规矩——校规、排名、风俗、法律——先别急着说它好或坏。先问：
+
+\begin{itemize}
+  \item 它在\textbf{做}什么？为什么\textbf{稳}得住？
+  \item 它是怎么\textbf{来}的？
+  \item 它\textbf{该不该}是这样，又\textbf{对谁有利}？
+\end{itemize}
+
+\begin{insightbox}{带走这一句}
+The rules are not the weather.
+
+规矩不是天气。它不是没人能左右的自然现象，而是人造出来的东西——因此它可以被追问、被理解，原则上也可以被改变（哪怕，常常很难）。
+\end{insightbox}
+
+\end{document}

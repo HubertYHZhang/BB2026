@@ -1,0 +1,253 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{课程大纲}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{notebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+% 逐讲条目里用的紧凑字段标签
+\newcommand{\field}[1]{\par\noindent\hangindent=2em\textbf{#1}\hspace{0.3em}}
+
+\title{\vspace{-2em}\bfseries 课程大纲（草案）}
+\author{日常制度的经济学 · An Economics of Everyday Institutions}
+\date{Tentative Syllabus · 结构与内容仍可调整}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{keybox}{这门课想做的一件事}
+市面上常见的是「日常\emph{现象}的经济学」——用经济学去解释看似无关的小事，制造一连串「原来如此」的快感。本课刻意不走这条路，而做「日常\emph{制度}的经济学」：把那些看起来天经地义的背景——市场、价格、产权、考试、家庭、平台——从背景里拎出来，当成需要解释的对象，去问它们\textbf{从哪来、为什么是这副样子、又为谁维持}。
+
+如果要用一句话概括贯穿全课的脊柱：\emph{一切社会安排，都是一个本来可以是别样的均衡；经济学给我们看清它结构的工具，却没有给我们替它盖章「好」的权力。}这门课最想培养的，不是某个具体结论，而是一种能把「看似自然」的东西重新问成「为什么非如此不可」的习惯——也就是\textbf{去自然化}。
+\end{keybox}
+
+\section{贯穿全课的两条暗线与几个思维动作}
+
+整门课不是八个孤立专题，而是被两条暗线串起来的。它们很少单独成讲，却在几乎每一讲里反复出现。
+
+\begin{conceptbox}{暗线一：制度 = 自我执行的均衡}
+不把制度看成「某个聪明人设计的规则」，而看成「反复互动后，没有人愿意单方面打破的那个状态」。靠右行、排队、货币都是如此。这条线解释了三件后面反复用到的事：制度为什么是\textbf{偶然的、历史的}（同一个博弈，靠左/靠右都能稳定）；制度为什么\textbf{稳定却未必好}（均衡 $\neq$ 最优）；以及个体最优如何「加总」成一个无人设计的社会模式。它在第八讲被正式点破，但从第一讲就开始铺垫。
+\end{conceptbox}
+
+\begin{conceptbox}{暗线二：加总没那么简单}
+从「一个人的选择」到「一个社会的结果」，中间那一步「加总」，是这门课全部戏剧的所在。它有三张面孔：\textbf{魔法}（看不见的手：自利却有序）、\textbf{悲剧}（个体理性 $\to$ 集体困境：内卷、公地、外部性）、\textbf{诡异}（连「社会想要什么」都未必加得出来）。每当一讲触到「众人之事如何汇成一个结果」，就是这条线在出场。
+\end{conceptbox}
+
+\begin{insightbox}{反复使用的几个思维动作}
+\begin{itemize}
+  \item \textbf{方法论个体主义那副「眼镜」：} 看任何现象，先拆成「一群各有目的的人，在各自的约束和信息下做选择，再汇成一个没人单独设计的结果」。（第一讲交付。）
+  \item \textbf{三问：} 对任何制度都能问——它在\emph{做}什么（功能）、它怎么\emph{来}的（历史）、它\emph{该不该}这样（规范）。并牢记经济学对这三问的发言权\emph{并不平均}。（第一讲提出，第八讲收束。）
+  \item \textbf{「串味」警报：} 留意一个效率论证什么时候在偷偷干规范的活，反之亦然。这把刀必须\emph{双刃}，且先砍自己最认同的结论——否则只会教出犬儒。
+  \item \textbf{解释 / 预测 / 规范 / 干预：} 理论对现实的四种作用。每次用理论前，先认清自己在用哪一种，以及它在这件事上有没有那个本事。
+  \item \textbf{模型是地图，不是城市：} All models are wrong, but some are useful。
+\end{itemize}
+\end{insightbox}
+
+% \section{课程地图：八讲，三个乐章}
+
+% \begin{enumerate}
+%   \item \textbf{第一乐章 · 工具箱（从市场与个人出发）：}\;第 1 讲 关于市场 → 第 2 讲 快乐的度量学（尺子）→ 第 3 讲 产权与交易（地基）。
+%   \item \textbf{第二乐章 · 协调出错时（市场失灵）：}\;第 4 讲 外部性 → 第 5 讲 信息不对称（含契约与企业的边界）。
+%   \item \textbf{第三乐章 · 回到「制度」（市场之外、市场之上）：}\;第 6 讲 家庭与婚姻 → 第 7 讲 平台 → 第 8 讲 制度是从哪里来的（合拢）。
+% \end{enumerate}
+
+% 市场始终是绝对重心（乐章一、二共五讲）；「制度」这条暗线在第 3、6、7 讲被点亮，到第 8 讲收成一个整体。所有讲的次序里，只有第 1 讲（提问）和第 8 讲（合拢）位置固定，中间几讲可按需要调换。
+
+\section{逐讲大纲}
+
+\subsection{第一讲：关于市场（提问之讲）}
+\field{定位：}本讲不交付工具，只做两件事——把「市场天经地义」摇松，并为后面每一讲埋下一个待还的问题（「欠条清单」）。
+\field{核心问题：}市场为何能在没有指挥的情况下协调众人？为何有些事物不进市场、也不该进？「边界」由谁决定？
+\field{核心例子：}家庭生产 / 考试 / 时间 三组对照；.ai 域名；Cameo；Polymarket；求根公式与知识的非竞争性；六种非市场分配机制。
+\field{活动：}「这能不能买卖」情景投票；把「边界」当场拆成功能 / 历史 / 规范三个问题。
+\field{点亮暗线：}制度（市场不是自然物）；加总（看不见的手初次登场）；并首次交付「眼镜」与「三问」。
+\field{备课参考：}Sandel,《What Money Can't Buy》选段；Hayek,「The Use of Knowledge in Society」。
+
+\subsection{第二讲：快乐的度量学（尺子）}
+\field{定位：}给一把衡量「好坏」的尺子，同时当场拆穿这把尺子的局限。
+\field{还第一讲的欠条：}口罩涨价、学区房到底好不好？——先得有尺子。
+\field{核心内容：}效用与「选择透露偏好」；期望效用与风险态度；功利主义；帕累托改进 / 帕累托最优 / 卡尔多—希克斯改进；模型的作用与危险。
+\field{活动：}确定的 50 元 vs.\ 抛硬币的期望 50 元，你选哪个？为什么不同人选择不同？
+\field{点亮暗线：}加总（人际效用为何难以相加——加总的第一个真正难题）；规范（任何「尺子」本身已经是一个规范选择，串味的源头）。
+\field{备课参考：}Sen 对功利主义与「福利」概念的批评片段；可补一句行为经济学（损失厌恶）但不展开。
+
+\subsection{第三讲：产权与交易（地基）}
+\field{定位：}市场的地基——先有人把「什么归谁」定下来，交易才转得起来。本讲让「制度」这条暗线第一次正面出场。
+\field{还第一讲的欠条：}排放权、域名这些「权利」从哪冒出来？知识为什么常常不收费？
+\field{核心内容：}产权是\textbf{被构造出来}的（碳排放权、数据、域名都是先划权利、后有市场）；竞争性 / 排他性；交易成本概念引入；科斯定理初步（产权清晰 + 交易成本足够低 $\to$ 双方可谈判达成有效结果）。
+\field{活动：}给一项「新东西」（如个人数据、虚拟物品）设计产权——归谁？能不能交易？谁执行？
+\field{点亮暗线：}制度（产权是「被设计 / 被构造的制度」最干净的例子）；为第 4 讲的科斯、第 7 讲的「数据归谁」、第 6 讲的「婚内财产」提前铺路。
+\field{备课参考：}Coase,「The Problem of Social Cost」（注意讲\emph{正确}的那一半：重点是交易成本为正，而非「市场万能」）；Demsetz 论产权的起源。
+
+\subsection{第四讲：外部性（加总的「悲剧」面）}
+\field{定位：}个体理性如何加总成集体困境。本讲把博弈与均衡作为贯穿工具正式引入。
+\field{还第一讲的欠条：}外卖把时间压力转嫁给骑手——这笔成本谁来付？
+\field{核心内容：}猜 1/3 游戏 $\to$ 「你的最优取决于你以为别人怎么选」；纳什均衡与「稳定 $\neq$ 最优」；正 / 负外部性；内卷作为外部性；四种解法（庇古税、科斯式产权与谈判、直接管制、社会规范）。
+\field{活动：}用外部性框架重新分析「内卷」：谁也不想，为何谁也停不下来？
+\field{点亮暗线：}加总（坏加总：Nash $\neq$ Pareto）；制度（每一种解法本身都是一种制度）；承接第 3 讲科斯。
+\field{备课参考：}Ostrom,《公共事物的治理之道》导言——预告「集体行动不必只靠政府或市场」。
+
+\subsection{第五讲：信息不对称（含契约与企业的边界）}
+\field{定位：}交易双方信息不同，市场如何变脆弱、又如何自己长出制度来自救。企业作为非市场制度在此首次正式出场。
+\field{还第一讲的欠条：}买家看不出质量，市场还转得动吗？
+\field{核心内容：}逆向选择（柠檬市场）与道德风险；信号与筛选；合约能写什么、写不进什么；Goodhart's Law；\textbf{企业的边界}（科斯之问：市场既然这么好，为什么还有公司这种「不靠价格、靠命令」的孤岛？）。
+\field{活动：}为「二手手机平台」设计一套让好卖家留下、坏卖家现形的机制。
+\field{点亮暗线：}制度（评价、认证、合约、试用期都是为对付信息问题而生的制度工具）；为第 7 讲平台的评分系统直接铺路。
+\field{备课参考：}Akerlof,「The Market for Lemons」；Spence 信号理论；Coase,「The Nature of the Firm」。
+
+\subsection{第六讲：家庭与婚姻（最古老的非市场制度）}
+\field{定位：}家里为什么不用价格？用一个人人身在其中、却从没当成「制度」看的东西，把「三问」实战一遍。
+\field{还第一讲的欠条：}家里哪些事交给市场、哪些自己做？（回扣第一讲「家庭生产」）
+\field{核心内容：}家庭作为「分工提效率的小组织」（Becker 的视角）；但同一套默契「对谁更有利」（Sen 的「合作中的冲突」、家内议价）；家庭边界为何随时代与社会而变（一夫一妻、财产、养老）。
+\field{活动：}用三问拆「家务该谁做」——它怎么形成的？在做什么？对谁有利、该不该这样？
+\field{点亮暗线：}制度（家庭=既设计又演化、既协调又冲突的范本）；加总（家内的加总：谁的偏好被计入）；三问与「它对谁有利」的实战。
+\field{备课参考：}Becker,《家庭论》导言；Sen,「cooperative conflicts」。
+
+\subsection{第七讲：平台（最当代的制度，一面照出全部零件的镜子）}
+\field{定位：}平台几乎不是「新一讲」，而是把前面所有工具同时照出来的镜子；它的独门主题是\textbf{规则制定权}。
+\field{还第一讲的欠条：}平台的算法、抽成、评分、封号——这些规则是谁写的，又对谁有利？
+\field{核心内容：}双边市场（同时伺候商家与用户）；平台既是参与者、又是这个小世界的「立法者」；在一个外卖平台里同时看到外部性（骑手）、信息（评分=对付柠檬的筛选）、Goodhart（算法指标被操纵）；以及「定规矩的权力本身就是权力」。
+\field{活动：}假如你是平台，要降低差评率——你会改什么指标？它会被怎么钻空子？（Goodhart 现场）
+\field{点亮暗线：}制度（规则制定权 = 权力，「它对谁有利」在此引爆）；把外部性 / 信息 / Goodhart / 串味全部复用一遍。\textbf{务必配一句防犬儒：}「规则对某些人有利」不等于「一切都是阴谋」，先对自己最爱用的平台也问一遍。
+\field{备课参考：}Rochet \& Tirole 双边市场（科普层面即可）；关于零工经济与算法管理的通俗报道。
+
+\subsection{第八讲：制度是从哪里来的（合拢）}
+\field{定位：}全课收束——把第一讲那把「三问」的刀，转回来拆「制度」自己。
+\field{还第一讲的欠条：}「市场的边界」是谁画的、为什么常常改不动？
+\field{核心内容：}制度 = 自我执行的均衡（靠右行、钱）；三个对立——设计 vs.\ 演化、为效率 vs.\ 分配冲突的产物、为什么「坏」制度也能稳（路径依赖、既得利益、内卷）；最后把三问套在制度自己头上。家庭与企业作主跑例。
+\field{活动：}选一个「大家都觉得不好却改不掉」的身边制度，分析它靠什么稳住。
+\field{点亮暗线：}制度（全部点亮）；加总（无人设计的稳定模式，如何从个体最优中「加总」出来）；去自然化的终点——同一把刀通吃任何制度。
+\field{备课参考：}Greif,《Institutions and the Path to the Modern Economy》（信念自我实现 + 多重均衡）；Schelling 焦点；Knight,《Institutions and Social Conflict》（分配冲突那一支，可只取观点）。
+
+\section{评估与课堂形式（占位，待定）}
+
+\begin{itemize}
+  \item \textbf{每讲讨论：}各讲已配 1--2 个讨论 / 活动，建议保留课堂即时讨论而非书面作业为主。
+  \item \textbf{贯穿性小练习：}「这能不能交易 / 经济学能不能回答这个」三选一卡片（能 / 不能 / 要看你问的是哪个问题），可在多讲反复使用，作为「三问 + 串味」的滚动训练。
+  \item \textbf{期末（可选）：}让学生自选一个身边制度（校规、排名、某项家规、某个 App 的规则），写一份用三问拆解它的短文。这恰好是全课能力的「期末考」。
+\end{itemize}
+
+\section{仍然悬而未决的设计决定}
+
+\begin{notebox}{改之前，先想清楚这几件}
+\begin{enumerate}
+  \item \textbf{「加总」要不要单独成讲？}\,目前它作为暗线穿过第 1、2、4 讲。若你认为方法论那块值得独立，可在第 2、3 讲之间插一讲「个体与加总」（看不见的手 / 内卷 / 投票悖论），全课扩成 9 讲。
+  \item \textbf{产权独立成讲，还是并回各讲？}\,目前独立为第 3 讲（地基更稳、制度出场更早）。若想压缩，可把它拆回第 1 讲（界定）与第 4 讲（科斯）。
+  \item \textbf{家庭 / 企业，单列还是当例子？}\,目前家庭单列（第 6 讲），企业并入第 5 讲并在第 8 讲当主跑例。若课时紧，家庭也可降为第 8 讲的主跑例，全课缩到 7 讲。
+  \item \textbf{第七讲用「平台」还是「央地分权」？}\,已选平台（更贴学生、把旧零件复用得更彻底）。央地分权可作为平台讲里「规则制定权」的一个进阶案例，或留作彩蛋。
+  \item \textbf{讲次序号未锁定。}\,各讲笔记内部的交叉引用已尽量改用\emph{主题名}（「讲外部性的那一讲」）而非「第 N 讲」，因此即便上面任何一项调整导致重新编号，引用也不会失效——但定稿前请统一核对一遍。
+\end{enumerate}
+\end{notebox}
+
+\end{document}

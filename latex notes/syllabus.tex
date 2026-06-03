@@ -1,0 +1,525 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{课程大纲}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{notebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=例子：#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+% 逐讲条目里用的紧凑字段标签
+\newcommand{\field}[1]{\par\noindent\hangindent=0em\textbf{#1}\hspace{0.2em}}
+
+% 五讲条目专用标题：上方小号赤陶 sans 「第N讲」 eyebrow + Large Ink 讲名
+\newcounter{lecture}
+\newcommand{\lecture}[1]{%
+  \par\addvspace{1.8em}%
+  \refstepcounter{lecture}%
+  \noindent{\color{Terracotta}\small\sffamily 第\zhnum{lecture}讲}\par
+  \nobreak\vspace{0.3em}%
+  \noindent{\Large\bfseries\color{Ink}#1}\par
+  \nobreak\addvspace{0.6em}%
+}
+
+\title{\vspace{-2em}\bfseries 课程大纲（草案）}
+\author{日常制度的经济学 · An Economics of Everyday Institutions}
+% \date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{keybox}{课程目标}
+    相比常见的「日常现象的经济学」，这门课尝试带领同学们思考作为日常生活背景的「制度」，运用经济学的方法和理论思考它们存在的原因和产生的过程。通过将习以为常的制度安排置于分析之下，我们才能开始理解自身和他人当下的处境。同时，我也希望在课程中增进学生对经济学理论的了解和运用，增添他们思考问题的角度，提升批判性思考的能力。具体而言，学生可以接触经济学的方法论个体主义（Methodological Individualism）的视角，从而明确一种思考社会现象的框架；了解经济学中重要的抽象概念（如信息不对称、外部性等），为抽象的思维活动提供基础和素材；接纳评价一项制度或一件事情的利与弊的不同评价标准，进而能更全面地思考「好与坏」的问题；了解社会科学研究中对制度或现象的不同解释范式，激发对社会现象的多角度思考。
+
+    除却追求对于现状的解释，本课程还将通过丰富的案例比较分析，对比不同环境下的不同制度安排，培养学生对于个人处境和社会状况的其他可能（alternatives）的想象力，因而对现状有更深刻的理解。
+
+    总而言之，五个任务：
+    \begin{itemize}
+      \item 将日常生活相关的制度摆到台面上来，作为审视的对象
+      \item 探讨该制度得以产生和维系的解释，并以经济学的方式作为主要教学内容
+      \item 在从经济学角度理解了制度的功能和价值后，多角度评判制度的利与弊
+      \item 培养对社会的其他可能性的想象力
+      \item 在过程中学习经济学的思维工具，丰富思维的武器库
+    \end{itemize}
+\end{keybox}
+
+% \section{通用材料}
+% \begin{keybox}{说明}
+% 这一部分覆盖贯穿课程的通用思维框架、思维工具，这些同时也是本课程的重要教学目标。我将在课程讲解当中穿插这些内容，以增强学生对这些内容的具象理解和运用能力。
+% \end{keybox}
+
+% \subsection{经济学的思维方法}
+
+% \begin{insightbox}{社会科学的瓶颈}
+% 社会科学的研究对象是人类社会。相比研究自然界，它是一个更加难以捉摸的研究对象。可能的原因：
+% \begin{itemize}
+%     \item 人的想法是无法直接观测的，也是没有一个完全稳定的模式的，研究者无法完全了解每一个人做决定的动机和原因，无法理解每个人对每样事物所赋予的意义
+%     \item 大多数情况下，研究者无法在社会中用实验证实研究者的猜想
+%     \item 庞大的参与人数给社会带来了混沌性，即便我们能精准刻画每一个人的行为逻辑，我们很可能也无法准确预测社会层面的结果（物理学中的三体问题）
+%     \item 研究者也是社会的一部分，自身对于社会的观察带有社会塑造的观念、偏见等，研究者的观察、言论和干预也对社会本身产生着影响
+%     \item ……
+% \end{itemize}
+
+% \end{insightbox}
+
+% 但人类对于求知的渴望战胜了对其中艰难的畏惧，虽然这导致了很多谬误和曲折，但或多或少还是取得了一些对于自身的了解。面对复杂的社会，研究者首先需要将其变成一个「可分析的对象」。
+
+% \begin{conceptbox}{经济学的思维方法}
+% 思考一个问题时，先明确以下几个问题：
+% \begin{itemize}
+%     \item Who are the players? 如果有人和你分析「中国想要怎么样」、「美国想要怎么样」，或者「女性群体」、「男性群体」想要怎么样，先想想这些概念是否是合理的简化，还是说它们内部就存在着某种运作机制会影响你最后的结论。
+%     \item What actions can they do? 约束性条件。
+%     \item What are their incentives? 每个个体的目标是什么。
+%     \item What information do they have?
+%     \item How do their actions aggregate to outcomes?
+%     \item Equilibrium: 对于每个个体，给定所拥有的信息和其他人的行动，ta做出了对他自己来说最优的决策。这种状况被称作均衡，也是经济学家认为的这个世界所处在的状态。
+% \end{itemize}
+% \end{conceptbox}
+
+% \subsection{解释的模式}
+
+
+% \subsection{评价的学问}
+% 基于规范的评估（normative evaluation）意味着人们往往基于某种特定的规范定义去评价一件事情的好坏。为防止学生盲目追随单一学科的规范体系，本课程将引导学生思考潜在的评价事物的不同标准，并在抽象概念的基础上尝试将这些评价标准可操作化，赋予学生更多思考社会的工具。
+
+
+% \subsection{经济学研究方法}
+% 理论需要得到验证，可是大多数情况下，人类无法在社会中进行随机实验，如何验证某种因果关系的存在？
+
+% 经济学当中的模型，是怎么一回事？如果一个模型无法证伪，我们为什么还需要它？
+
+\section{分讲内容}
+
+\lecture{引入：趣谈市场}
+
+\field{教学目标：}
+\begin{enumerate}
+  \item 学生了解市场的普遍存在和实际案例，引发对制度的基本思考
+  \item 思考和讨论市场的有效性和缺陷，以及对其产生和存在的解释
+  \item 初步了解社会科学中对制度的多种解释模式和评价方式
+  \item 初步了解经济学的思考方式和工具
+\end{enumerate}
+
+\field{主要内容：}
+\begin{itemize}
+  \item 情境对比：类似的稀缺资源分配的场景，有些使用市场而有些没有，为什么？（【例】同样是排队，为什么医院检查基本只能按顺序排，但迪士尼的排队可以花钱买VIP插队？）
+  \begin{itemize}
+    \item message: 制度的存在和边界需要解释
+  \end{itemize}
+  \item 日常生活中市场的例子；比较新奇的市场
+  \item 带领学生对市场存在的条件进行朴素的思考，探讨其他制度安排的可能性
+  \item 【插入】如何思考复杂的人类活动——经济学的思考方式（后面的思考需要用到）
+  \vspace{1em}
+  \begin{conceptbox}{经济学的思维方法}
+\begin{itemize}
+    \item Who are the players? 如果有人和你分析「中国想要怎么样」、「美国想要怎么样」，或者「女性群体」、「男性群体」想要怎么样，先想想这些概念是否是合理的简化，还是说它们内部存在着某种运作机制会影响你最后的结论。
+    \item What actions can they do? 约束性条件。
+    \item What are their incentives? 每个个体的目标是什么。
+    \item What information do they have?
+    \item How do their actions aggregate to outcomes?
+    \item Equilibrium: 对于每个个体，给定所拥有的信息和其他人的行动，ta做出了对他自己来说最优的决策。这种状况被称作均衡。主流经济学研究假设我们观察到的现状是在均衡中的。
+\end{itemize}
+\end{conceptbox}
+  \item 我们如何解释一项制度/一个现象——引入不同的解释角度和方式，如「市场是一种有效率的制度」、「市场的形成和维持是历史的结果」、「市场的存在是一种制度均衡」等
+  \begin{itemize}
+    \item 展开讲「市场为何有效」，如何解决了稀缺资源的配置问题和「知识在社会中的运用问题」
+    \item 价格是一种简单的信号，市场不需要每个个体了解具体发生了什么，只需要传达资源的稀缺性和激励个体进行有利可图的活动，与此同时把资源配置到最需要的地方
+    \item 经济学的两种解释模式——「效率」和「均衡」
+  \end{itemize}
+  \item 我们如何评价——引入不同的评价一项制度的方式，效率、公平正义、道德……
+  \begin{itemize}
+    \item 经济学对效率的看法——效用主义以及帕累托最优的定义
+    \item 市场的道德边界——桑德尔认为市场活动和带来的思维方式会损害人们原有的道德价值观
+  \end{itemize}
+
+\end{itemize}
+
+
+\field{参考文献：}\\
+Sandel, Michael J. (2012). \textit{What Money Can't Buy: The Moral Limits of Markets}. Farrar, Straus and Giroux.\\
+Hayek, Friedrich A. (1945). ``The Use of Knowledge in Society.'' \textit{American Economic Review}, 35(4): 519--530.\\
+Coase, Ronald H. (1937). ``The Nature of the Firm.'' \textit{Economica}, 4(16): 386--405.\\
+Osborne, Martin J., and Ariel Rubinstein (1994). \textit{A Course in Game Theory}. MIT Press.
+
+% \vspace{1em}
+% \begin{keybox}{ }
+%   第二、第三讲主要从经济学的效率取向解释一些市场制度存在的原因，主要围绕着外部性和信息不对称两大问题展开。第四、第五讲目前计划采用更加综合的解释模式，探讨对象转为非市场制度，比如家庭和国家。
+% \end{keybox}
+
+\lecture{你中有我，我中有你（外部性）}
+\begin{center}
+  \textit{你中有我，我中有你，天下事坏就坏在这里。}
+\end{center}
+
+\field{教学目标：}
+\begin{enumerate}
+  \item 学生理解外部性的含义，区分正外部性和负外部性，并能用其分析「公地悲剧」、「内卷」等熟悉现象
+  \item 通过小游戏初步体会博弈论的思考方式，理解个体理性如何可能汇总成集体困境
+  \item 比较外部性的几种制度回应，并以产权制度和科斯定理为重点
+  \item 通过知识产权、碳排放权等案例，理解「可交易对象本身需要被制度建构出来」
+\end{enumerate}
+
+\field{主要内容：}
+\begin{itemize}
+  \item 猜数字小游戏：每个人给出一个0-100之间的整数，谁猜的数字最接近所有人的平均数的1/3能够赢得小礼品
+  \begin{itemize}
+    \item 可以有趣地引入外部性的概念
+    \item 顺便复习一下经济学的思维方式
+  \end{itemize}
+  \item 正外部性和负外部性的概念和实例
+  \begin{itemize}
+    \item 正外部性：一方的行动结果使其他方受益
+    \item 典型例子：科学研究的成果，微信的使用
+    \item 负外部性：一方的行动结果使其他方受损
+    \item 典型例子：企业排污、噪音，交通拥堵，「内卷」
+  \end{itemize}
+  \item 外部性为什么是一个问题：每个人只考虑行动对自己的结果，最终导致均衡的状况比最理想的状况差
+  \item 解决外部性的重要制度设计（税、产权与交易、管制、社会规范等），以产权制度为重点
+  \begin{itemize}
+    \item 科斯定理
+    \item 知识产权——一种社会建构（可以用知识产权诉讼的一些有趣案例提升趣味性）
+    \item 科学为什么没有知识产权？
+    \item 碳排放权的确立和意义
+  \end{itemize}
+\end{itemize}
+
+\field{参考文献：}\\
+Pigou, Arthur C. (1920). \textit{The Economics of Welfare}. Macmillan.\\
+Coase, Ronald H. (1960). ``The Problem of Social Cost.'' \textit{Journal of Law and Economics}, 3: 1--44.\\
+Hardin, Garrett (1968). ``The Tragedy of the Commons.'' \textit{Science}, 162(3859): 1243--1248.\\
+Dales, John H. (1968). \textit{Pollution, Property and Prices: An Essay in Policy-making and Economics}. University of Toronto Press.\\
+Ostrom, Elinor (1990). \textit{Governing the Commons: The Evolution of Institutions for Collective Action}. Cambridge University Press.\\
+Frank, Robert H. (2008). ``Should Public Policy Respond to Positional Externalities?'' \textit{Journal of Public Economics}, 92(8--9): 1777--1786.\\
+Heller, Michael A., and Rebecca S. Eisenberg (1998). ``Can Patents Deter Innovation? The Anticommons in Biomedical Research.'' \textit{Science}, 280(5364): 698--701.\\
+Boldrin, Michele, and David K. Levine (2013). ``The Case Against Patents.'' \textit{Journal of Economic Perspectives}, 27(1): 3--22.\\
+Moser, Petra (2013). ``Patents and Innovation: Evidence from Economic History.'' \textit{Journal of Economic Perspectives}, 27(1): 23--44.\\
+Williams, Heidi L. (2013). ``Intellectual Property Rights and Innovation: Evidence from the Human Genome.'' \textit{Journal of Political Economy}, 121(1): 1--27.
+
+\lecture{敌在暗，我在明（信息不对称）}
+\field{教学目标：}
+\begin{enumerate}
+  \item 学生理解信息不对称的含义，区分不利选择（隐藏的类型）和道德风险（隐藏的行动）
+  \item 理解信号机制（signaling）和筛选机制（screening）作为应对不利选择的制度设计，并能用文凭、价格歧视等例子加以分析
+  \item 理解最优工资契约的基本逻辑，并初步思考其延伸至最优税收问题中「公平与激励」的根本冲突
+  \item 理解 Goodhart's Law、多重任务与最优放权问题——制度通过指标和契约对抗信息不对称，但这些工具本身可能被反向博弈
+\end{enumerate}
+
+\field{主要内容：}
+\begin{itemize}
+  \item 小游戏——引入信息不对称的定义
+  \item 信息不对称两种主要的形式：不利选择（adverse selection）和道德风险（moral hazard），和一些多样的现实应用
+  \item 解决不利选择问题的制度安排：信号机制（signaling）和筛选机制（screening）
+  \begin{itemize}
+    \item 信号机制的重要应用：文凭。\textit{讨论：教育只是为了筛选吗？}
+    \item 筛选机制的重要应用：价格歧视。
+  \end{itemize}
+  \item 解决道德风险：最优工资契约问题和最优放权问题
+  \begin{itemize}
+    \item 最优工资契约可以延伸到最优税收问题——公平性和激励性之间存在根本性的冲突
+    \item 道德风险问题的其他形式：多重任务问题、古德哈特定律（【例】当 GDP 被作为地方政府考核的指标）
+    \item 最优放权问题：信息和控制的两难
+    \item 延伸：中国的中央和地方政府关系与经济发展
+  \end{itemize}
+  \item 课后趣味作业：你家长的工资/收入是否由绩效决定？决定的程度有多少？你认为为什么会是这样安排的？
+\end{itemize}
+
+\field{参考文献：}\\
+Akerlof, George A. (1970). ``The Market for `Lemons': Quality Uncertainty and the Market Mechanism.'' \textit{Quarterly Journal of Economics}, 84(3): 488--500.\\
+Spence, Michael (1973). ``Job Market Signaling.'' \textit{Quarterly Journal of Economics}, 87(3): 355--374.\\
+Holmström, Bengt (1979). ``Moral Hazard and Observability.'' \textit{Bell Journal of Economics}, 10(1): 74--91.\\
+Holmström, Bengt, and Paul Milgrom (1987). ``Aggregation and Linearity in the Provision of Intertemporal Incentives.'' \textit{Econometrica}, 55(2): 303--328.\\
+Holmström, Bengt, and Paul Milgrom (1991). ``Multitask Principal--Agent Analyses: Incentive Contracts, Asset Ownership, and Job Design.'' \textit{Journal of Law, Economics, \& Organization}, 7 (Special Issue): 24--52.\\
+Mirrlees, James A. (1971). ``An Exploration in the Theory of Optimum Income Taxation.'' \textit{Review of Economic Studies}, 38(2): 175--208.\\
+Aghion, Philippe, and Jean Tirole (1997). ``Formal and Real Authority in Organizations.'' \textit{Journal of Political Economy}, 105(1): 1--29.
+
+\lecture{未尽事宜（不完全契约与企业边界）}
+
+\field{教学目标：}
+\begin{enumerate}
+  \item 理解现实合约总是不完全的，或者许多东西是无法验证和执行的
+  \item 通过 Coase 的问题，理解企业的存在本质上是市场交易成本和企业内部协调成本的权衡
+  \item 用 Williamson 的交易成本框架和「敲竹杠」问题，理解专用投资和不完全契约如何塑造组织选择
+  \item 用 Grossman-Hart-Moore 产权理论理解：当契约不完全时，「剩余控制权」在谁手里至关重要，即谁拥有资产的控制权
+  \item 把这些抽象工具用到现代场景：平台经济、零工/外卖骑手、合资企业、长期合作关系
+\end{enumerate}
+
+\field{主要内容：}
+\begin{itemize}
+  \item 【引入】你能写出一份「完美」合同吗？
+  \begin{itemize}
+    \item 【活动】写一份「同桌协定」
+    \item 【例】房东和租客合约里没写的事情有多少
+  \end{itemize}
+  \item 为什么契约总是不完全的
+  \begin{itemize}
+    \item 有限理性 + 不确定的未来
+    \item 可观察 vs. 可验证（third-party verifiable）的区分
+    \item 写得越细，谈判和执行成本越高
+  \end{itemize}
+  \item Coase 1937：既然市场有效，企业为什么存在？
+  \begin{itemize}
+    \item 【引入】为什么学校的食堂和物业是承包出去的，但教学没有承包给其他的组织？
+    \item 科斯指出：交易成本是决定企业不使用市场进行活动的重要因素
+    \item 分析在企业内和企业外的两种契约的区别
+  \end{itemize}
+  \item Williamson的交易成本经济学
+  \begin{itemize}
+    \item 「敲竹杠」问题：当一方被另一方「绑定」，无路可走（【例】General Motor and Fisher Body）
+    \item 三个维度：asset specificity, uncertainty, frequency
+    \item 当资产专用性高 → 倾向纵向整合
+    \item 【例】婚姻作为整合：当一方因为家庭分工而丧失经济上的独立，被「锁死」在家庭中，另一方需要作出利益分享的承诺
+  \end{itemize}
+  \item 整合意味着什么：Grossman-Hart-Moore 产权理论
+  \begin{itemize}
+    \item 因为契约不完全，「剩余控制权」决定了事前的投资激励
+    \item 谁应该拥有资产？拥有的人更愿意做专用投资
+  \end{itemize}
+  \item Holmström：企业作为「次级经济体」——内部不靠价格，靠权威与关系
+  \item 现代应用
+  \begin{itemize}
+    \item 平台与骑手：雇员 or 承包商？平台如何利用制度安排规避风险
+    % \item 长期合作中的关系合约（relational contracting）
+  \end{itemize}
+\end{itemize}
+
+\field{参考文献：}\\
+Coase, Ronald H. (1937). ``The Nature of the Firm.'' \textit{Economica}, 4(16): 386--405.\\
+Klein, Benjamin, Robert G. Crawford, and Armen A. Alchian (1978). ``Vertical Integration, Appropriable Rents, and the Competitive Contracting Process.'' \textit{Journal of Law and Economics}, 21(2): 297--326.\\
+Williamson, Oliver E. (1979). ``Transaction-Cost Economics: The Governance of Contractual Relations.'' \textit{Journal of Law and Economics}, 22(2): 233--261.\\
+Grossman, Sanford J., and Oliver D. Hart (1986). ``The Costs and Benefits of Ownership: A Theory of Vertical and Lateral Integration.'' \textit{Journal of Political Economy}, 94(4): 691--719.\\
+Hart, Oliver, and John Moore (1990). ``Property Rights and the Nature of the Firm.'' \textit{Journal of Political Economy}, 98(6): 1119--1158.\\
+Hart, Oliver (1995). \textit{Firms, Contracts, and Financial Structure}. Oxford University Press.\\
+Holmström, Bengt (1999). ``The Firm as a Subeconomy.'' \textit{Journal of Law, Economics, \& Organization}, 15(1): 74--102.
+
+\lecture{待定}
+原计划挑选一两个重要的话题用以展示先前理论的应用，通过新理论深化对基本概念的理解，以及介绍其他的关于制度的解释方式。以家庭和婚姻为例，其中涉及到家庭内的分工（一种有效率的均衡），匹配时的信息不对称（可以解释嫁妆彩礼的存在、以及婚姻本身作为一种承诺的方式），以及在经济学的效率视角外探讨性别分工为什么成为一种持久的压迫性的制度。
+
+% \lecture{执子之手，与子偕老？（家庭、婚姻与性别）}
+
+% \field{教学目标：}
+% \begin{enumerate}
+%   \item 理解家庭和婚姻的经济学解读——分工、信号、契约、议价……同时认识这一视角的边界
+%   \item 用嫁妆、彩礼、择偶等案例，看信号机制与筛选机制在「婚恋市场」中如何运作
+%   \item 用不完全契约视角理解为什么「婚姻的契约写不明白」，
+%   \item 通过 Goldin 等人的研究理解性别分工和职业选择的历史变化与制度成因
+%   \item 从「功能解释」转向「均衡/权力解释」：为什么一些看似不利于某一方的安排可以长期持续
+% \end{enumerate}
+
+% \field{主要内容：}
+% \begin{itemize}
+%   \item Becker 的家庭经济学起点：分工、规模经济、共同消费
+%   \begin{itemize}
+%     \item 它能解释什么？又遗漏了什么？
+%   \end{itemize}
+%   \item 婚姻市场上的信息不对称
+%   \begin{itemize}
+%     \item 彩礼和嫁妆——是定价、信号，还是补偿？（Anderson 综述）
+%     \item 媒人、相亲、八字、家庭背景——筛选机制的历史与现代变体
+%   \end{itemize}
+%   \item 婚姻作为不完全契约
+%   \begin{itemize}
+%     \item 为什么「白头偕老」不能被合同条款规定；离婚法、婚前协议作为后备机制
+%     \item Lundberg \& Pollak 的议价模型：从「家庭效用函数」到「家庭中的博弈」
+%   \end{itemize}
+%   \item Goldin 的工作：career and family，「贪婪职业」与最后一公里的性别趋同
+%   \item 从功能到权力：性别规范作为社会均衡——为什么某些传统分工模式如此顽固
+% \end{itemize}
+
+% \field{参考文献：}\\
+% Becker, Gary S. (1981). \textit{A Treatise on the Family}. Harvard University Press.\\
+% Folbre, Nancy (1994). \textit{Who Pays for the Kids?: Gender and the Structures of Constraint}. Routledge.\\
+% Lundberg, Shelly, and Robert A. Pollak (1996). ``Bargaining and Distribution in Marriage.'' \textit{Journal of Economic Perspectives}, 10(4): 139--158.\\
+% Anderson, Siwan (2007). ``The Economics of Dowry and Brideprice.'' \textit{Journal of Economic Perspectives}, 21(4): 151--174.\\
+% Goldin, Claudia (2014). ``A Grand Gender Convergence: Its Last Chapter.'' \textit{American Economic Review}, 104(4): 1091--1119.\\
+% Goldin, Claudia (2021). \textit{Career and Family: Women's Century-Long Journey toward Equity}. Princeton University Press.
+
+% \lecture{普天之下，莫非王土（国家和政府）}
+
+% \field{教学目标：}
+% \begin{enumerate}
+%   \item 跳出「国家天然存在」的默认假设，思考它为什么会存在、又为什么有可能不存在
+%   \item 从霍布斯、蒂利、奥尔森、韦伯等不同角度，理解国家起源和合法性的几种解释
+%   \item 用集体行动理论解释为什么公共品提供是难题——同时考察反例
+%   \item 理解中央与地方关系作为一种制度博弈，并将其与代理问题、信息不对称、不完全契约等前几讲概念串起来
+% \end{enumerate}
+
+% \field{主要内容：}
+% \begin{itemize}
+%   \item 反思的入口：没有国家会怎样？哪些「国家做的事」其实未必非国家不可？
+%   \begin{itemize}
+%     \item 国家缺位的例子：香港九龙寨城——中英之间的管辖空白区
+%     \item 国家提供的是公共品，是稳定的
+%   \end{itemize}
+%   \item 解释国家起源和合法性的几种角度
+%   \begin{itemize}
+%     \item 霍布斯《利维坦》：从自然状态走出来的契约
+%     \item 蒂利：「战争制造国家，国家制造战争」——国家作为暴力组织、税收机器
+%     \item 奥尔森：从流动匪盗到定居匪盗——一种功能-演化叙事
+%     \item 韦伯：国家作为「合法暴力的垄断者」
+%   \end{itemize}
+%   \item 集体行动困境与公共品
+%   \begin{itemize}
+%     \item 搭便车问题：小群体 vs. 大群体（奥尔森 1965）
+%     \item 反例的回响——回到第三讲的 Ostrom：没有国家有时也能管理共同资源
+%   \end{itemize}
+%   \item 制度的可信承诺
+%   \begin{itemize}
+%     \item North \& Weingast：英国光荣革命与产权的可信承诺
+%   \end{itemize}
+%   \item 中国中央-地方关系
+%   \begin{itemize}
+%     \item Qian \& Weingast「Federalism, Chinese Style」：地方政府之间的竞争作为一种隐性产权
+%     \item Xu Chenggang 的「区域分权式威权主义」框架
+%     \item 中央如何「看见」地方？——和第三讲信息不对称、代理问题的呼应
+%   \end{itemize}
+% \end{itemize}
+
+% \field{参考文献：}\\
+% Hobbes, Thomas (1651). \textit{Leviathan}. [Cambridge University Press 1996 Tuck edition 等现代版本].\\
+% Olson, Mancur (1965). \textit{The Logic of Collective Action: Public Goods and the Theory of Groups}. Harvard University Press.\\
+% Coase, Ronald H. (1974). ``The Lighthouse in Economics.'' \textit{Journal of Law and Economics}, 17(2): 357--376.\\
+% North, Douglass C., and Barry R. Weingast (1989). ``Constitutions and Commitment: The Evolution of Institutions Governing Public Choice in Seventeenth-Century England.'' \textit{Journal of Economic History}, 49(4): 803--832.\\
+% Tilly, Charles (1990). \textit{Coercion, Capital, and European States, AD 990--1992}. Blackwell.\\
+% Olson, Mancur (1993). ``Dictatorship, Democracy, and Development.'' \textit{American Political Science Review}, 87(3): 567--576.\\
+% Gambetta, Diego (1993). \textit{The Sicilian Mafia: The Business of Private Protection}. Harvard University Press.\\
+% Qian, Yingyi, and Barry R. Weingast (1997). ``Federalism as a Commitment to Preserving Market Incentives.'' \textit{Journal of Economic Perspectives}, 11(4): 83--92.\\
+% Leeson, Peter T. (2009). \textit{The Invisible Hook: The Hidden Economics of Pirates}. Princeton University Press.\\
+% Xu, Chenggang (2011). ``The Fundamental Institutions of China's Reforms and Development.'' \textit{Journal of Economic Literature}, 49(4): 1076--1151.
+
+\section{可能的教学效果评估}
+
+\subsection{解释和评估身边的制度}
+以小组形式，选取身边观察到的有趣的「微观制度」，比如食堂的排队和付款机制，宿舍的规章制度，旅游景区的「奇葩」规定等，运用课上所学的经济学思维分析个体在其中的行动逻辑，并运用不同的解释模式和评估方式对该制度进行剖析。
+
+\subsection{辩论会}
+% 教师挑选一两个争议性的制度安排作为辩题素材，
+
+\end{document}

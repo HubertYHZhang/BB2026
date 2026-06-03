@@ -1,0 +1,231 @@
+\documentclass[10pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第一讲：关于市场}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlist[itemize]{leftmargin=2em,itemsep=0.15em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2.2em,itemsep=0.15em,topsep=0.25em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.2em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.25em}
+
+\newtcolorbox{goalsbox}{
+  enhanced,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1.2em,
+  right=1.2em,
+  top=0.7em,
+  bottom=0.8em,
+  title=学习目标,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=有趣的例子：#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{discussionbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论：#1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=概念延伸：#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=关键洞察：#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{questionbox}{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=1.8pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.8em,
+  after skip=0.8em,
+  title=讨论,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  fontupper=\itshape,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newtcolorbox{notebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  leftrule=1.4pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.45em}}
+}
+
+\newcommand{\transitionnote}[1]{%
+  \begin{conceptbox}{过渡}#1\end{conceptbox}%
+}
+
+\title{\vspace{-2em}\bfseries 第〇讲：什么（不）是经济学}
+\author{日常制度的经济学}
+\date{Intro - What is (not) Economics?}
+
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\end{goalsbox}
+
+\section{什么不是经济学}
+大家肯定或多或少都对经济学有所耳闻，或在课本上有所接触，但可能大多数人对它的印象和事实上学界进行的经济学研究存在一些偏差。
+
+\begin{questionbox}{你觉得以下这些是经济学的研究内容吗？}
+\begin{itemize}
+    \item 预测经济发展、增长和波动
+    \item 帮助政府制定财政和货币及各种其他政策
+    \item 分析为什么有些国家比其他国家更富裕
+    \item 
+    \item 今天我应该投资什么股票才能赚大钱，未来房价会是什么走向
+\end{itemize}
+\end{questionbox}
+
+\section{理论的功能}
+
+我们常在物理课上听到一些理论：牛顿三大定律、万有引力定律、相对论等等，这些构成了我们对「理论」的基本印象——它们是描述世界规律的框架，能够用来解释和预测物理世界的现象。在生物课上，我们了解了达尔文的进化论，它是对生物演变过程和我们观测到的目前状况的一种解释。又或者你对文学理论有所了解，
+
+\end{document}
