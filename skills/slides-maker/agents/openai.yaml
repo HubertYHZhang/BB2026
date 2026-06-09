@@ -1,0 +1,4 @@
+interface:
+  display_name: "Slides Maker"
+  short_description: "Turn lecture notes into academic HTML slide decks."
+  default_prompt: "Convert these lecture notes into a clear, lecture-ready academic HTML slide deck."

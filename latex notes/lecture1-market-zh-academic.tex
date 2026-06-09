@@ -1,0 +1,719 @@
+\documentclass[UTF8,10pt,a4paper,scheme=chinese,fontset=none]{ctexart}
+
+% \usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\usepackage[
+  a4paper,
+  left=2.5cm,
+  right=5.0cm,
+  top=2.5cm,
+  bottom=2.5cm,
+  marginparwidth=3.8cm,
+  marginparsep=0.6cm
+]{geometry}
+\usepackage{tikz}
+\usepackage[textsize=footnotesize]{todonotes}
+
+\definecolor{signalbg}{HTML}{F8F4EC}
+\definecolor{signalbar}{HTML}{D97757}
+\definecolor{signaltext}{HTML}{3A342E}
+
+\tikzset{
+  callouthighlight/.style={
+    inner xsep=2pt,
+    inner ysep=1pt,
+    draw=signalbar,
+    line width=0.4pt,
+    rounded corners=1pt,
+    fill=signalbar!8
+  }
+}
+
+\newcommand{\callout}[3]{%
+  \tikz[remember picture,baseline=(#1.base)]{%
+    \node[callouthighlight] (#1) {#2};%
+  }%
+  \todo[
+    color=signalbg,
+    linecolor=signalbar,
+    bordercolor=signalbar,
+    textcolor=signaltext,
+    size=\footnotesize
+  ]{#3}%
+}
+
+\setCJKmainfont{FandolSong}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = FandolKai-Regular
+]
+\setCJKsansfont{FandolHei}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold
+]
+\setCJKmonofont{FandolFang-Regular}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/
+]
+\setCJKfamilyfont{zhsong}{FandolSong}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold
+]
+\setCJKfamilyfont{zhhei}{FandolHei}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold
+]
+\setCJKfamilyfont{zhkai}{FandolKai-Regular}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/
+]
+\setCJKfamilyfont{zhfs}{FandolFang-Regular}[
+  Extension = .otf,
+  Path = /usr/local/texlive/2023/texmf-dist/fonts/opentype/public/fandol/
+]
+
+\graphicspath{{../resources/}{./}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{第一讲：市场}
+\rhead{日常制度的经济学}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.45em}
+\makeatletter
+\let\@afterindentfalse\@afterindenttrue
+\@afterindenttrue
+\makeatother
+\setlist[itemize]{leftmargin=1.8em,itemsep=0.18em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2em,itemsep=0.18em,topsep=0.25em}
+\renewcommand{\arraystretch}{1.15}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.1em}{0.4em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.25em}
+
+\newtcolorbox{goalsbox}{
+  enhanced,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1.1em,
+  right=1.1em,
+  top=0.7em,
+  bottom=0.8em,
+  title=学习目标,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=例子：#1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{discussionbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.75em,
+  after skip=0.75em,
+  title=讨论：#1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=概念：#1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=要点：#1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{warningbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=提醒：#1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}\setlength{\parindent}{2em}}
+}
+
+\newtcolorbox{quotebox}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.45pt,
+  leftrule=2.5pt,
+  sharp corners,
+  left=1.1em,
+  right=1.1em,
+  top=0.75em,
+  bottom=0.7em,
+  before skip=0.75em,
+  after skip=0.75em,
+  title=#1,
+  colbacktitle=Cream,
+  coltitle=Ink,
+  fonttitle=\bfseries\small,
+  after upper={\par\smallskip\hfill{\normalfont\footnotesize\color{SoftInk}#2}},
+}
+
+\newcommand{\maybeincludegraphics}[2][]{%
+  \IfFileExists{#2}{\includegraphics[#1]{#2}}{%
+    \fbox{\begin{minipage}{0.68\linewidth}\centering\vspace{1em}\small 缺少图片：\texttt{#2}\vspace{1em}\end{minipage}}%
+  }%
+}
+
+\title{\vspace{-2em}\bfseries 市场和经济学思维}
+\author{日常制度的经济学}
+\date{第一天}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item 将市场理解为一种制度化的交换秩序，而不是社会生活的自然背景。
+  \item 从市场案例中抽象出制度的一般要素：规则、角色、预期、执行机制与可重复秩序。
+  \item 区分制度分析中的三类问题：功能问题、维持问题与边界问题。
+  \item 理解经济学的特殊贡献：它通过反事实基准说明如果缺少某些制度安排，互动会在哪里失败。
+  \item 掌握第一套经济学分析模板：行动者、行动、约束、激励、信息、加总与均衡。
+  \item 理解市场为何可能具有协调能力，以及这种能力为何依赖制度、信息与规范条件。
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{本讲安排}
+本讲不试图给出一套完整的制度理论，而是用「市场」作为样本，学习如何把一个熟悉的社会安排重新变成问题。
+
+我们先从域名、明星问候、预测市场和碳排放权等案例出发，观察市场如何把原本不同的对象转化为可交易对象。随后追问：市场需要哪些稳定规则？为什么某些对象能够被交易，而另一些对象不能？由此引出制度的一般概念。
+
+接下来，我们借助斯密、曼德维尔和哈耶克提出一个核心问题：很多社会结果并不是任何人直接设计出来的，而是个体行动在规则和预期中相互作用的结果。这一问题会把我们带入经济学的基本分析模板：行动者、行动、约束、激励、信息、加总与均衡。
+
+本讲最后会把市场放回制度分析的框架中。我们会区分三类问题：第一，功能问题——这个制度在处理什么互动困难？第二，维持问题——它如何被行动者的预期和激励稳定下来？第三，边界问题——它解决问题的同时又制造了什么成本、排斥或意义变化？后续课程讨论外部性、信息不对称、公共品、不完全契约、企业与家庭时，都会反复使用这三个问题。
+\end{keybox}
+
+% \section{同样是金钱交易，为什么反应不同？}
+
+% \begin{examplebox}{学校}
+% 情形甲：考试前，你花80元购买一本考试辅导书。通常没有人认为这件事有明显问题。
+
+% 情形乙：考试后，你向班级第一名支付500元，要求对方把排名转让给你。假定对方同意。
+% \end{examplebox}
+
+% \begin{examplebox}{时间}
+% 情形甲：晚自习时，你花15元点外卖。骑手用20分钟把食物送到你手中。某人的时间在这里被计价，但这一交易显得相当普通。
+
+% 情形乙：在你18岁生日当天，你花300元请一位陌生人陪你度过晚上。同样是某人的时间被计价，但这一情形明显具有不同的社会含义。
+% \end{examplebox}
+
+% \begin{discussionbox}{初步反应}
+% 两个案例之间究竟发生了什么变化？问题在于同意、金钱、物品类型、第三方影响，还是关系本身的社会意义？
+% \end{discussionbox}
+
+% 这些例子的价值在于指出一个简单但重要的事实：市场并不只是「有金钱参与的自愿交换」。即使交易双方都表示同意，我们仍然可以追问：该对象是否适合被转让？该交易是否影响第三方？对该对象进行定价是否改变了它的社会意义？
+
+% \begin{insightbox}{第一个问题}
+% 只要某物是稀缺的，社会就需要某种规则决定谁获得它。价格是一种规则，排队也是一种规则。考试、抽签、行政审批、家庭义务、声誉和权力同样可以成为配置规则。因此，问题不应被简化为「是否使用市场」，而应表述为：这里使用了什么配置机制？这种机制产生了什么后果？
+% \end{insightbox}
+
+\section{我们身边的市场}
+
+或许你在政治课本里、电视新闻上对「市场」有所了解。你或许会认为它是一个很宏大和抽象的词，不知道从何处开始分析它。又或许你觉得自己已经相当了解它，喧闹的菜市场、街边的房产中介、屏幕上红红绿绿的股票软件、每到旺季就节节攀升的酒店价格，无不散发着「市场」的铜臭味。如果你感到困惑了或无聊了，\callout{domainright}{不妨一起来看看这些有趣的例子}{
+  这些案例说明了。
+}，你可能会感到新奇。
+
+% \begin{figure}[h]
+% \centering
+% \maybeincludegraphics[width=0.68\linewidth]{shijuan.png}
+% \caption{即使是试卷和练习材料，也可能被组织成可交易的对象。}
+% \end{figure}
+
+\subsection{域名}
+
+域名不是物理对象，而是地址系统中的一个位置。尽管如此，它可以是稀缺的，可以被占有、转让并形成价格。有人以较低价格注册域名，随后以较高价格出售。
+
+\texttt{.ai} 域名是一个最近的例子。它原本是安圭拉这一英国海外领地的国家或地区顶级域名。人工智能产业兴起后，这一技术性命名资源被重新解释为与 AI 相关的商业资产。根据 IMF 的说明\footnote{\href{https://www.imf.org/en/news/articles/2024/05/15/cf-an-ai-powered-boost-to-anguillas-revenues}{IMF, ``An AI-Powered Boost to Anguilla's Revenues,'' 2024.}}，\texttt{.ai} 域名注册量从 2022 年的 14.4 万个上升到 2023 年的 35.4 万个；2023 年相关收入达到 EC\$87 million（约 US\$32 million），超过安圭拉政府当年总收入的 20\%。安圭拉政府 2025 年预算文件曾预计 2025 年 \texttt{.ai} 收入为 EC\$132 million\footnote{\href{https://www.gov.ai/document/2026-03-18-011900_862974747.pdf}{Government of Anguilla, 2025 Estimates of Recurrent Revenue, Expenditure and Capital.}}；IMF 2026 年区域报告则估计，2025 年域名销售收入进一步上升到 EC\$227 million，约占 recurrent revenue 的 40\%，并帮助安圭拉把净债务推近于零。\footnote{\href{https://www.imf.org/-/media/files/publications/cr/2026/english/1eccea2026001-source-pdf.pdf}{IMF Country Report No. 26/85, 2026 Discussion on Common Policies of Member Countries of the Eastern Caribbean Currency Union.}}
+
+% 它更适合被理解为一种财政和经济上的意外资产：\texttt{.ai} 收入帮助高度依赖旅游业的安圭拉分散收入来源，改善财政状况，并为机场、可再生能源等长期项目提供资金空间。但这种收益也带来新的脆弱性：如果政府收入越来越依赖域名需求，一旦 AI 热潮降温或注册需求波动，财政也会受到影响。作为课堂例子，其要点是：一个原本只是技术性命名规则的东西，可以在新的产业语境下被重新定价，并通过制度安排转化为公共财政收入。
+
+\subsection{明星定制问候视频}
+
+在 Cameo 一类平台上，用户可以向名人或网络人物付费，请他们录制简短的个性化视频。这里被购买的并不主要是一个视频文件，而是注意力、承认以及「某个具体人物对我说话」的感觉。在中国大陆的哔哩哔哩、抖音等平台上，也存在着网红明星售卖个性化的视频的现象。\url{https://www.bilibili.com/video/BV1gSTsewEPf/?spm_id_from=888.80997.embed_other.whitelist&bvid=BV1gSTsewEPf}
+
+\subsection{Polymarket}
+
+预测市场允许人们买卖与未来事件相关的合约。在 Polymarket 上，合约在事件发生时支付1美元，在不发生时不支付。那么该合约的当前价格可被粗略理解为市场隐含概率。
+
+\begin{examplebox}{耶稣的降临}
+预测市场甚至可以围绕极端或荒诞事件设计合约，比如「耶稣在2027年之前是否会降临」。关键不在于事件是否真的可能发生，而在于未来状态本身可以被写成可交易合约。
+
+\begin{center}
+\includegraphics[width=0.72\linewidth]{polymarket.png}
+\end{center}
+\end{examplebox}
+
+% \subsection{碳排放权}
+
+
+
+从这些例子中，我们可以概括市场的一些特征：市场并不是一个简单的买卖场所，而是一种相对稳定的制度化交换秩序。它至少包含几个基本特征：第一，有可以被界定和转让的交易对象，例如商品、服务、门票、域名、数据或排放额度；第二，有被区分出来的交易角色，例如买方、卖方、中介、平台或监管者；第三，有确定交换条件的方式，最典型的是价格和支付；第四，有支持交易反复发生的规则和预期，例如付款后应当交付商品、违约应当承担后果、欺诈可能受到惩罚。
+
+正是在这个意义上，市场可以被理解为一种制度：它不是某个人的一次交易行为，而是一套使许多人能够持续交易、相互预期并处理争议的规则结构。由此我们也可以更一般地理解制度——制度是一套相对稳定的规则、角色、预期和执行机制，\textbf{它把分散的个体行动组织成可重复的社会秩序}。
+
+\begin{center}
+\small
+\begin{tabular}{p{0.22\linewidth}p{0.34\linewidth}p{0.34\linewidth}}
+\hline
+\textbf{市场中的特征} & \textbf{具体含义} & \textbf{对应的制度要素} \tabularnewline
+\hline
+交易对象 & 什么东西可以被买卖，例如商品、服务、门票、域名、数据、排放额度 & 规则界定了什么对象可以被占有、转让和计价 \tabularnewline
+交易角色 & 谁是买方、卖方、中介、平台或监管者 & 制度分配了不同角色及其权利义务 \tabularnewline
+价格与支付 & 如何确定交换条件，如何完成结算 & 制度提供了协调行为和确认交易的规则 \tabularnewline
+预期与信任 & 付款后应当交付商品，违约或欺诈会有后果 & 制度使陌生人之间形成稳定预期 \tabularnewline
+执行机制 & 差评、退款、平台处罚、法律追责等 & 制度需要某种制裁或纠纷解决方式 \tabularnewline
+% 合法性边界 & 并非所有东西都允许自由买卖 & 制度规定市场扩展的社会和道德边界 \tabularnewline
+\hline
+\end{tabular}
+\end{center}
+
+
+% \begin{discussionbox}{预测还是赌博？}
+% 为什么要创造这种市场？它是在聚合信息、帮助人们对冲风险，还是只是制造一种新的赌博形式？
+% \end{discussionbox}
+
+\section{不存在的市场}
+
+似乎生活中身边处处都是市场的影子，众多事物都在市场上进行交易。市场之外的空间在哪里？
+
+\begin{discussionbox}{Brainstorm time!}
+  写下一样没有市场可以进行交易的，但你很想得到或觉得对他人很有价值的东西，或你觉得交易起来会很有意思的东西
+\end{discussionbox}
+
+「当我同桌」的机会往往不能买卖。考试名次通常不能出售。友谊不能被简单购买。
+
+在医院里，会诊或者检查通常会排长队，大多数医院内并不存在通过价格交换一个队内位置的市场机制。但在一些顶尖的医院，「排队黄牛」是一个非常蓬勃的产业。而在迪士尼乐园或环球影城，我们观察到园区主动设计了「VIP插队」的产品，使等待的顺序能够部分被市场决定。
+
+My favorite example: 数学公式可以被自由使用而无需付费
+\[
+ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
+\]
+但是，歌曲可以获得版权保护，专利（比如一种技术）需要持有者转让或授权才能使用，软件也可以被出售。因此，问题并不是简单的「知识应当免费」或「知识应当被拥有」。不同类型的知识受到了不同的制度安排。
+
+\begin{discussionbox}{思考}
+  你觉得决定一项事物是否被纳入市场交易的范围是由什么决定的？
+\end{discussionbox}
+
+% \begin{insightbox}{市场不是唯一的激励制度}
+% 价格和产权是一种激励方式，但不是唯一方式。在某些场景中，排他性权利有助于生产；在另一些场景中，过强的排他性则会妨碍使用与后续创造。
+% \end{insightbox}
+
+从上述的讨论中，我们知道市场是一种广泛存在的制度，但从各种案例的对比中，我们发现它的范围也并非是不言自明的——即便是同类事物，有的会成为市场中的商品，有的则不会。这不禁让我们追问，
+\begin{itemize}
+  \item 我们如何思考市场的广泛存在和它的有限范围所带来的效果？
+  \item 市场的存在和「边界」，乃至一项制度的存在和边界，是如何被决定的？
+\end{itemize}
+
+在回答这些问题之前，让我们先看一看几位知名的思想家对于市场的思考。
+
+\section{思想引子：没有设计者的秩序}
+
+\begin{keybox}{问题}
+仔细想来，市场是有点古怪的。它包含大量彼此陌生的人；他们通常并不了解整个系统当中发生的事情，也不以整个系统的协调为目标。但某种秩序仍然会出现：食品进入商店，域名形成价格，门票被转售，劳动成为商品，未来事件被写成了合约。最终，各种商品和服务通过复杂的商业链条生产出来，并能够被人们购买和享受。这个秩序可以被不断重复，并在各种突然事件面前保持相对的稳定。为何市场可以实现此种效果？几位前人也描述了相似的观察，并指出了一个更有趣的现象。
+\end{keybox}
+
+\begin{quotebox}{Adam Smith}{The Wealth of Nations, 1776}
+``It is not from the benevolence of the butcher, the brewer, or the baker, that we expect our dinner, but from their regard to their own interest.''
+\end{quotebox}
+
+当斯密在讨论商业社会的运作时，他指出了一个「矛盾」：一个人无法自己生产面包、衣服、书籍、手机和交通工具；他也不能期待所有陌生人都出于仁慈来满足他的需要。可是即便参与商业活动的每个人只顾及自己的利益，其产生的结果却是产品交换满足他人的需要和商业的持续运作。
+
+曼德维尔给出了更具挑衅性的解读。《蜜蜂的寓言》描绘了一个由虚荣、奢侈、骄傲与竞争推动的繁荣蜂巢，它事实上是对人类商业社会的隐喻——虚荣心驱动着时尚的发展，偷窃推动锁具业的繁荣，对财产的斤斤计较使得律师和法律行业运转不息……它是对「公共秩序必须来自私人美德」这一观念的挑战。
+
+\begin{quotebox}{Bernard Mandeville}{The Fable of the Bees, 1714}
+``Thus every Part was full of Vice, Yet the whole Mass a Paradice; ... Their Crimes conspired to make 'em Great.''
+\end{quotebox}
+
+斯密和曼德维尔的思想虽不完全准确，但共同指出了社会运作/市场运作中的一个重要现象，即制度运作的结果并不一定依赖于其中行动者的动机或美德。
+
+\begin{warningbox}{}
+这里的要点并不是「自私是好的」。要点在于，社会结果经常是间接产生的。评价一个制度时，不能只观察行动者的意图，还必须研究连接个体行动与社会结果的机制。
+\end{warningbox}
+
+哈耶克把这一点延伸到方法论问题。如果某个结果是被直接设计出来的，我们可以研究设计者的意图；如果它是自然事件，我们可以研究自然机制。但许多社会现象两者都不是：没有单个人意图制造交通堵塞、补习军备竞赛、黄牛市场或市场机制。这些结果由行动产生，却不是作为整体被选择的。研究者需要从个体的行动、主观知识、相互预期当中重建社会现象。
+
+\begin{quotebox}{F. A. Hayek}{The Counter-Revolution of Science, 1952}
+``some sort of order arises as a result of individual action but without being designed by any individual''
+\end{quotebox}
+
+\begin{conceptbox}{微观-宏观问题}
+宏观的社会结果往往不能直接从个体的意图推出，而是多方行为相互作用的结果，而此种结果往往不为任何一方所精心设计。
+
+\begin{center}
+\small
+\begin{tabular}{p{0.42\linewidth}p{0.46\linewidth}}
+\hline
+\textbf{个体行动} & \textbf{加总结果} \tabularnewline
+\hline
+每个人都在剧场中站起来，以便看得更清楚。 & 没有人看得更清楚，所有人都更不舒适。 \tabularnewline
+每个人都更努力学习，期待在考试中超越其他人。 & 相对位置可能并未明显改变，但整体的精神压力上升。 \tabularnewline
+司机不断变道，希望更快到达。 & 交通可能变得更慢、更混乱。 \tabularnewline
+\hline
+\end{tabular}
+\end{center}
+\end{conceptbox}
+
+这正是本课程需要的分析入口。经济学经常从个体行动者出发，但并不止步于个体。真正的问题是理解行动如何通过一定机制转化为社会模式。经济学并不只是「关于市场的科学」，而是一种分析行动者、约束、激励、信息和规则如何生成社会结果的方法。通过这种思维方法，我们得以追问：一项制度如何把分散的个体行动组织成稳定的集体结果。
+
+\section{经济学思维}
+
+用经济学分析任何一个现象，都需要从以下概念出发：
+
+\begin{conceptbox}{经济学思维}
+\begin{itemize}
+  \item \textbf{行动者：} 谁参与其中？不要过快说「社会想要」「学校想要」或「美国认为」「男性认为」。大型群体内部通常包含激励、信息、行动不同的较小行动者。
+  \item \textbf{行动与约束：} 每个行动者实际上能做什么？哪些规则使某些行动成为可能，或使某些行动不可能？
+  \item \textbf{激励：} 每个行动者关心什么？金钱、时间、成绩、声誉、风险、便利、公平？
+  \item \textbf{信息：} 每个行动者知道什么，又不知道什么？
+  \item \textbf{加总：} 个体选择如何合成为更大的社会结果？
+  \item \textbf{均衡：} 均衡形容的是这样一种状态，给定现有激励、信息的约束和他人的行动，每个个体都没有动机改变当前的选择。经济学倾向于用均衡状态解释我们所观察到的状况，即我们身处于均衡当中。
+\end{itemize}
+
+\end{conceptbox}
+
+由于这种方法以个体为分析的基本单位，它也被称作「方法论个体主义」。
+
+以付费代排队为例。行动者并不只是「买方」和「卖方」。还有正在排队的人、时间更稀缺的人、金钱更稀缺的人、队列组织者，以及有时会出现的职业代排者。可能的行动包括等待、付费、转售、禁止转售或改变规则。不同人的激励并不相同：有人希望节省时间，有人希望获得收入，有人希望队列看起来公平。
+
+\textbf{我们这门课的一个重点，就是利用经济学的思维框架去思考一个制度的后果。}
+
+% \begin{examplebox}{囚徒困境}
+  
+% \end{examplebox}
+
+% 斯密式的问题是：如果没有人正式设计一个排队位置市场，为什么这种交易仍然会出现？经济学的处理方式是列出行动者、行动、激励、信息和规则，再追问这些选择如何聚合为某种稳定模式。
+
+% \begin{discussionbox}{练习}
+% 将这一模板应用于一个案例：门票转售、学区房、补习、外卖、医院挂号或付费代排队。谁是行动者？他们能做什么？激励是什么？信息问题在哪里？聚合结果是什么？
+% \end{discussionbox}
+
+\section{解析市场的「魔法」}
+\subsection{制度的对比}
+
+我们往往认为市场是「配置稀缺资源的一种方式」。但稀缺资源可以通过多种方式配置：
+\begin{itemize}
+  \item \textbf{排队：} 先到先得。其成本表现为时间。
+  \item \textbf{抽签：} 随机分配。它可能体现形式平等，但忽略需求强度。
+  \item \textbf{行政标准：} 按需求、紧急程度、收入、分数或身份配置。
+  \item \textbf{权力与关系：} 非正式但常见。
+  \item \textbf{考试与竞赛：} 按表现配置，但表现本身可能受到家庭资源影响。
+  \item \textbf{赠与与义务：} 通过家庭、友谊、等级关系或互惠关系配置。
+\end{itemize}
+
+这些制度各有什么优缺点？它们存在的问题是否能被市场所解决？
+
+\begin{center}
+\small
+\begin{tabular}{p{0.20\linewidth}p{0.16\linewidth}p{0.54\linewidth}}
+\hline
+\textbf{分配机制} & \textbf{关键词} & \textbf{核心问题} \tabularnewline
+\hline
+排队 & 时间 & 等待时间不一定代表真实需要或重视程度；时间充裕者反而更有优势。 \tabularnewline
+抽签 & 随机 & 随机性保证机会平等，却不能保证资源落到最需要或最重视它的人手中。 \tabularnewline
+行政审核 & 信息 & 审核者必须判断谁更需要、谁更符合资格，但真实情况往往难以观察，材料也可能被包装。 \tabularnewline
+考试与竞赛 & 指标 & 一旦某个指标决定资源分配，行动者就会围绕指标训练、包装和竞争，指标本身可能被扭曲。 \tabularnewline
+权力与关系 & 身份 & 资源分配依赖地位、关系和亲疏，标准不透明，也容易排斥外人。 \tabularnewline
+赠与与义务 & 人情 & 看似温和的互助关系可能隐藏不对等义务、亏欠感和等级关系。交易的范围也受熟人圈子的限制。 \tabularnewline
+\hline
+\end{tabular}
+\end{center}
+
+
+% \begin{insightbox}{市场可能从侧门返回}
+% 选择非市场配置规则，并不会使稀缺性消失。按排队配置的火车票可能产生黄牛，医院挂号可能产生号贩子，免费开放的大学参观名额可能被转售。只要稀缺仍然存在，市场力量常常会以非正式方式重新出现。
+% \end{insightbox}
+\subsection{市场为何有效？}
+单是拥有经济学的思维框架并不足以回答斯密的疑问。我们需要在市场的制度背景下追问：个体的行动如何被组织起来，为什么这些行动能够形成相对有效的秩序。
+
+市场将这些机制结合在一起：
+\begin{itemize}
+  \item \textbf{交换带来互利。} 只要双方对同一物品的评价不同，交易就可能使双方都获得更偏好的东西。个体对于物品的渴望程度由支付意愿体现，价高者得的规则往往能使资源流向最需要的人。
+  \item \textbf{价格传递相对稀缺性。} 个体不必知道短缺的全部原因；价格变化本身就足以改变节约、替代、生产或进入的行为。拥有私人信息的行动者也在利用信息赚取利润的同时将信息反映到了市场价格当中。
+  \item \textbf{利润和亏损提供回应激励。} 卖方有理由生产、运输、搜索、改进和节约，许多有利可图的机会都使得参与者在谋利的同时也缓解了稀缺性；亏损则迫使无效安排被调整或退出。
+  \item \textbf{竞争约束行为并发现信息。} 当买方能够转向其他卖方时，卖方必须关注价格和质量；同时，竞争也是一种试错过程，帮助人们发现哪些产品、技术和组织方式更可行。
+  \item \textbf{大规模的市场参与者使专业化分工成为可能。} 随着市场活动范围的扩大，人们不必自给自足，而可以专门从事某些活动，再通过交换获得其余物品。
+\end{itemize}
+
+总的来说，市场主要解决了在大规模人群中的激励和信息问题，从而促进商品的生产和流通，且这种生产和流通回应了社会层面的稀缺性。
+
+因此，市场的力量不在于参与者具有公共精神，而在于一套制度安排能够把私人动机、局部知识和分散决策转化为相对有序的供给体系。
+
+\subsection{何为有效？}
+斯密说市场好，我们说了市场这么多好处，那它究竟好不好呢？究竟如何衡量效率？经济学将效率的落脚点放在个体的福利（welfare）上。简单来讲，相比先前，个体能够得到自己更偏好的东西，这便意味着个体的福利得到了增进。但如何衡量总体的效率？如果我们将每个人的福利用一个数字衡量并简单地相加，就会出现许多反直觉的结论，比如一个人声称他获得一块钱的快乐能抵消其他人失去一块钱的痛苦的两倍不止，那么最优的分配应该是把社会上所有的财富都给这个人。因此，我们需要一个效率标准，它不做跨个体的福利比较。
+\begin{conceptbox}{帕累托改进}
+如果存在一种资源分配结果，使得相对现状而言，某一个体或某一小群体的福利在其他人福利不受损的情况下得以改进，那么变动到这个新的分配则被称为「帕累托改进」。如果一种分配结果无法找到任何可行的帕累托改进，那么我们称之为「帕累托最优」。换言之，我们无法找到一种分配方式使得任意一人的福利在不损害他人的前提下变好。
+
+帕累托最优往往不是一种状况，而是多种状况，而这些状况之间相互不可比较。极端不平等的分配方式也有可能是帕累托最优的。因此，这只是一种保守的标准，但它可以排除很多次优的状况。
+\end{conceptbox}
+
+由于市场是一个非常复杂的系统，经济学家借助数学工具推导个体在其中的行为和均衡状态下的社会总体状况。在一定的假设下，市场经济达成的均衡是帕累托最优的。
+% \begin{conceptbox}{福利经济学第一定理}
+  
+% \end{conceptbox}
+
+% 这绝对不意味着市场是完美的，是世界上最好的制度。这其中
+
+\subsection{功能、维持与起源}
+在这里需要区分三个问题。第一，功能问题：市场在处理什么困难？它可能处理的是分散资源配置、交换协调、分工合作、稀缺信息传递等问题。第二，维持问题：市场为什么能够稳定？这涉及产权、支付、契约执行、竞争、声誉和共同预期。第三，起源问题：市场为什么在历史上以这种形式出现？这可能涉及技术变化、国家建构、法律改革、平台组织、政治权力或偶然路径。
+
+经济学最擅长的是前两类问题。但功能不是起源。说市场处理了资源配置问题，并不意味着市场因此自然出现；说某制度降低交易成本，也不意味着它一定有效率或正当。不得不承认的是，经济学往往用功能主义的视角解释制度的存在，即一个制度的存在是因为它可以解决存在的某种问题。这包含着倒果为因的谬论和目的论的色彩，但这一视角也帮助我们理解了现实世界中可能存在的问题，引导我们思考这一制度是否解决、如何解决问题，如果没有这种制度会发生什么，以及我们如何设想更好的制度。我们还能以经济学的视角评估一个制度执行的结果，这对于政策制定者的视角来说非常重要。在这门课当中，我们将主要思考制度的功能问题，研究现实世界中普遍存在的几类问题，以及我们或许习以为常的制度是如何解决这些问题的。更重要的是，将制度问题化，使其成为我们思考的对象。
+
+更稳妥的说法是：制度是在反复互动中形成的规则、角色、预期和执行机制。它可能处理某类问题，也可能制造新的问题；它可能因为效率而被采用，也可能因为既得利益、路径依赖或协调困难而维持。
+
+% \section{市场何以可能？}
+
+% 一个市场通常需要若干条件：
+
+% \begin{enumerate}
+%   \item \textbf{稀缺性。} 如果某物并不稀缺，通常没有必要对其定价。
+%   \item \textbf{可交易性。} 该对象必须在一定程度上能够被分离、转让或控制。
+%   \item \textbf{交易收益。} 买方与卖方需要存在交换的理由。
+%   \item \textbf{参与者。} 市场需要足够的买方和卖方，或至少需要足够清晰的价值承认。
+%   \item \textbf{价格形成机制。} 价格可以通过讨价还价、拍卖、标价或竞争形成。
+%   \item \textbf{制度支持。} 产权、契约执行、评价体系、披露规则和争端解决机制可以降低交易成本。
+%   \item \textbf{技术条件。} 搜索、匹配、监督和支付技术能够使原本困难的市场变得可行。
+%   \item \textbf{合法性与正当性。} 个体、组织和国家必须愿意把该交易视为可接受，至少是可容忍的。
+% \end{enumerate}
+
+% \begin{warningbox}{不要过早自然化市场}
+% 一个市场不存在，并不一定意味着存在一个有待修复的问题。它可能反映了过高的交易成本、不清晰的产权、难以观察的质量、外部成本、道德拒斥、法律禁止或历史偶然性。因此，我们不仅要问一个市场是否可能提高效率，也要问：为了使该市场运作，必须建构、保护、测量、执行或承认什么？
+% \end{warningbox}
+
+\section{市场失灵}
+
+市场的功能并不能解决一切问题，甚至会产生新问题。
+
+\begin{itemize}
+  \item \textbf{支付能力不等于需求。} 学区房、口罩和演唱会门票可能流向支付能力最高者，而不是需求最强者。这样的分配可曰正义否？
+  \item \textbf{部分成本由局外人承担。} 污染、交通拥堵、噪音等可能影响交易之外的人，而此种后果并不反映在交易的价格当中。
+  \item \textbf{质量可能难以观察。} 医疗服务、二手车、补习和金融产品都很难由买方准确判断质量，信任问题可能导致交易无法达成。
+  % \item \textbf{契约可能是不完全的。} 长期合作、雇佣、婚姻和平台劳动无法事先规定所有未来行动和状态。
+  \item \textbf{定价可能改变意义。} 友谊、公共荣誉、选票和学业排名并不只是稀缺对象，它们嵌入了社会意义。如果把它们也纳入市场交易的范围，我们的道德观念将会遭到侵蚀。
+\end{itemize}
+
+% \begin{discussionbox}{评价}
+% 任选一个案例：短缺时期的口罩、学区房、门票转售、医疗服务、外卖平台或付费代排队。市场解决了什么问题？又制造了什么问题？记得使用经济学的思维去分析哦。至于如何评价结果，由你自己决定。
+% \end{discussionbox}
+
+市场失灵并不只是说明市场「不好」，而是提示我们需要追问：现实社会用什么制度来弥补这些条件的缺失？这些将是接下来的课程所覆盖的内容。
+
+% \begin{center}
+% \small
+% \begin{tabular}{p{0.30\linewidth}p{0.30\linewidth}p{0.30\linewidth}}
+% \hline
+% \textbf{市场条件破坏} & \textbf{制度回应} & \textbf{新的问题} \tabularnewline
+% \hline
+% 质量难以观察 & 检测、认证、牌照、声誉、平台担保 & 认证造假、准入壁垒、过度资质化 \tabularnewline
+% 第三方成本未计入价格 & 税、管制、排放权、赔偿、禁令 & 监测成本、执法选择、责任边界争议 \tabularnewline
+% 知识容易被复制 & 专利、版权、商业秘密、科研资助 & 激励创造与限制使用之间的冲突 \tabularnewline
+% 合同无法写完 & 企业、劳动法、长期关系、默认规则 & 权威、控制与依附关系 \tabularnewline
+% 支付能力不等于需求 & 配给、排队、抽签、资格审核、公共供给 & 排队成本、寻租、规则操纵 \tabularnewline
+% \hline
+% \end{tabular}
+% \end{center}
+
+% \section{理论的作用}
+% 如果把本课说成「经济学解释一切制度」，这当然过于粗暴。制度还包含历史、权力、合法性、身份、意义和道德边界。经济学不是制度的一般哲学，但它能提供一组非常有用的反事实基准。
+
+% \begin{insightbox}{反事实}
+% 经济学模型经常问：如果没有某种制度安排，互动会在哪里失败？如果买方无法识别质量，市场会不会萎缩？如果污染成本不进入价格，私人交易是否会伤害第三方？如果知识无法排他，私人创新投资是否不足？如果合同无法写完，为什么需要企业、长期关系或权威？这些基准不直接说明制度真实的历史起源，但它们能帮助我们看见制度可能在处理什么问题。
+% \end{insightbox}
+
+% 因此，本课程从制度的功能进入，但不把功能等同于起源；从经济学基准进入，但不把效率等同于正当性；从个体激励进入，但不忘记制度本身也塑造个体的选择。后续每一讲都会重复三类问题：这个制度处理了什么困难？它如何被行动者的预期和激励维持？它又制造了什么新的边界、成本或争议？
+
+\begin{keybox}{课程地图}
+\begin{itemize}
+  \item \textbf{市场：} 理想市场可以协调分散选择；问题是市场为何有效、边界在哪里。
+  \item \textbf{外部性：} 私人成本不等于社会成本；问题是为什么需要税、管制、配额或产权。
+  \item \textbf{信息不对称：} 质量、努力和风险可能被隐藏；问题是为什么需要认证、声誉、牌照和文凭。
+  \item \textbf{公共品与知识：} 非排他性会带来搭便车和投资不足；问题是为什么需要专利、版权、科研资助和学术声誉。
+  \item \textbf{不完全契约与企业：} 未来无法完全写进合同；问题是为什么需要组织、权威、所有权和长期关系。
+  % \item \textbf{家庭、婚姻、性别或国家：} 制度可能既有功能，又令人不安；问题是解释并不等于正当化。
+\end{itemize}
+\end{keybox}
+
+\section{附录}
+关于市场产生的历史过程，这些思想家提供了经济学以外的重要视角，他们揭示了市场制度背后更深层的历史背景
+\begin{itemize}
+  \item \textbf{韦伯：什么基础设施使计算成为可能？} 市场并不是纯粹自发的。它依赖规则、记录、执行、货币、会计、官僚组织和相对可预期的行政秩序。
+  \item \textbf{马克思：商品和价格背后隐藏了什么社会关系？} 一个价格可能遮蔽劳动、所有权、依附关系、议价能力以及使交易成为可能的历史过程。
+  \item \textbf{波兰尼：某物成为商品之前，必须经历何种历史和政治建构？} 土地、劳动、货币、知识和注意力并不是天然的市场商品。
+\end{itemize}
+
+% \section{贯穿课程的影子问题}
+
+% 本讲借助斯密、曼德维尔和哈耶克来识别微观-宏观问题。但是，如果分析停在这里，本讲很容易听起来像市场辩护。因此，后续课程将持续保留若干批判性问题。
+
+% \begin{keybox}{四个影子问题}
+% \begin{itemize}
+%   \item \textbf{韦伯：什么基础设施使计算成为可能？} 市场并不是纯粹自发的。它依赖规则、记录、执行、货币、会计、官僚组织和相对可预期的行政秩序。
+%   \item \textbf{马克思：商品和价格背后隐藏了什么社会关系？} 一个价格可能遮蔽劳动、所有权、依附关系、议价能力以及使交易成为可能的历史过程。
+%   \item \textbf{波兰尼：某物成为商品之前，必须经历何种历史和政治建构？} 土地、劳动、货币、知识和注意力并不是天然的市场商品。
+%   \item \textbf{桑德尔：定价是否改变了对象的意义？} 某些市场反对意见并不只是关于效率，而是关于何种关系和实践正在被创造出来。
+% \end{itemize}
+% \end{keybox}
+
+% 这些问题不是彼此分离的「反市场答案」，而是提醒性问题。它们帮助我们避免三种错误：
+
+% \begin{itemize}
+%   \item 把市场视为自然事实，而不是制度安排；
+%   \item 把价格视为已经揭示了一切重要信息；
+%   \item 把解释误认为正当化。
+% \end{itemize}
+
+% \begin{insightbox}{经济学及其边界}
+% 经济学尤其擅长分析激励、约束、信息与均衡。但是，有些问题不能仅由经济学推理解决：什么应当被视为商品？什么历史过程使市场成为可能？交换背后隐藏了何种权力形式？一种制度鼓励了什么样的生活形式？
+% \end{insightbox}
+
+% \section{本讲如何引出后续课程}
+
+% 后续课程不是对市场叙事的简单否定，而是对这一叙事的压力测试。
+
+% \begin{keybox}{课程地图}
+% \begin{itemize}
+%   \item \textbf{市场：} 价格能够协调分散选择。问题是：什么能够成为市场商品？
+%   \item \textbf{外部性：} 个体理性可能聚合为集体损害。问题是：价格可能遗漏第三方成本和收益。
+%   \item \textbf{信息不对称：} 交换依赖人们知道什么、能够观察什么。问题是：质量、努力和动机可能被隐藏。
+%   \item \textbf{不完全契约与企业：} 不是所有行动都能通过市场契约来安排。问题是：权威、所有权和组织形式变得重要。
+%   \item \textbf{家庭、婚姻、性别或国家：} 制度可能既有功能，又令人不安。问题是：解释并不等于正当化。
+% \end{itemize}
+% \end{keybox}
+
+% \section{结束语}
+
+% 市场不是自然背景，而是一种把个体行动转化为社会结果的制度安排。经济学帮助我们分析这种转化过程。但理解一种制度，还要求我们继续追问：它遮蔽了什么，它赋权于谁，什么历史过程使它成为可能，以及该结果是否应当被接受。
+
+% \begin{insightbox}{核心习惯}
+% 不要只问：「这个市场是好是坏？」更好的问题是：谁在行动？在什么规则下行动？带着什么激励和信息行动？产生了什么聚合结果？付出了什么代价？相对于什么替代机制而言？
+% \end{insightbox}
+
+\end{document}

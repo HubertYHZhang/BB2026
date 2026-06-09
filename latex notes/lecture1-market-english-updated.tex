@@ -1,0 +1,529 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+\graphicspath{{../resources/}{./}}
+
+\definecolor{Terracotta}{HTML}{D97757}
+\definecolor{Ink}{HTML}{1F1D1A}
+\definecolor{SoftInk}{HTML}{5A554D}
+\definecolor{Rule}{HTML}{DDD6C4}
+\definecolor{Cream}{HTML}{FAF8F3}
+\definecolor{Blue}{HTML}{3B6E8F}
+\definecolor{Green}{HTML}{5A8A6A}
+\definecolor{Gold}{HTML}{C9A961}
+
+\hypersetup{colorlinks=true,linkcolor=Ink,urlcolor=Blue}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Lecture 1: Markets}
+\rhead{An Economics of Everyday Institutions}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[itemize]{leftmargin=1.8em,itemsep=0.18em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=2em,itemsep=0.18em,topsep=0.25em}
+\renewcommand{\arraystretch}{1.15}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{1.1em}{0.4em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.25em}
+
+\newtcolorbox{goalsbox}{
+  enhanced,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1.1em,
+  right=1.1em,
+  top=0.7em,
+  bottom=0.8em,
+  title=Learning goals,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{keybox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Rule,
+  boxrule=0.5pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=#1,
+  colbacktitle=SoftInk,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{examplebox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Gold,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=Example: #1,
+  colbacktitle=Gold,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{discussionbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  before skip=0.75em,
+  after skip=0.75em,
+  title=Discussion: #1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{conceptbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Blue,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=Concept: #1,
+  colbacktitle=Blue,
+  coltitle=white,
+  fonttitle=\bfseries\small,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{insightbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Green,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=Takeaway: #1,
+  colbacktitle=Green,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{warningbox}[1]{
+  enhanced,
+  breakable,
+  colback=Cream,
+  colframe=Terracotta,
+  boxrule=0.5pt,
+  leftrule=2pt,
+  sharp corners,
+  left=1em,
+  right=1em,
+  top=0.7em,
+  bottom=0.7em,
+  title=Warning: #1,
+  colbacktitle=Terracotta,
+  coltitle=white,
+  fonttitle=\bfseries,
+  before upper={\setlength{\parskip}{0.35em}}
+}
+
+\newtcolorbox{quotebox}[2]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=Rule,
+  boxrule=0.45pt,
+  leftrule=2.5pt,
+  sharp corners,
+  left=1.1em,
+  right=1.1em,
+  top=0.75em,
+  bottom=0.7em,
+  before skip=0.75em,
+  after skip=0.75em,
+  title=#1,
+  colbacktitle=Cream,
+  coltitle=Ink,
+  fonttitle=\bfseries\small,
+  after upper={\par\smallskip\hfill{\normalfont\footnotesize\color{SoftInk}#2}},
+}
+
+\newcommand{\maybeincludegraphics}[2][]{%
+  \IfFileExists{#2}{\includegraphics[#1]{#2}}{%
+    \fbox{\begin{minipage}{0.68\linewidth}\centering\vspace{1em}\small Missing image: \texttt{#2}\vspace{1em}\end{minipage}}%
+  }%
+}
+
+\title{\vspace{-2em}\bfseries Lecture 1: Markets, Unintended Order, and the Aggregation Problem}
+\author{An Economics of Everyday Institutions}
+\date{Day 1}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\begin{goalsbox}
+\begin{itemize}
+  \item See markets as institutions and allocation mechanisms, not as the natural background of social life.
+  \item Ask why some scarce things become market goods while others are allocated by queues, exams, rules, gifts, or power.
+  \item Use Smith, Mandeville, and Hayek as provocations: social order may arise from individual actions without being chosen as a whole.
+  \item Name the aggregation problem: how do individual choices combine into social outcomes?
+  \item Learn the first economic-thinking template: players, actions, constraints, incentives, information, aggregation, and equilibrium.
+  \item Understand why markets can be powerful, and why that power depends on institutional, informational, and moral conditions.
+\end{itemize}
+\end{goalsbox}
+
+\begin{keybox}{The plan}
+This lecture is not a defense of markets. It is a way to make markets strange.
+
+We begin with familiar and unusual cases of exchange. Then we ask why some things become market goods while others do not. Smith, Mandeville, and Hayek enter not as authorities we must accept, but as thinkers who force us to notice a problem: social outcomes often do not follow directly from anyone's intention.
+
+That problem is the entrance to economics. Economics gives us a disciplined way to trace how individual actions, under constraints and limited information, aggregate into a social pattern. Markets are powerful because prices can coordinate many separate decisions. But this power is conditional. Later lectures will show what happens when there are externalities, asymmetric information, incomplete contracts, or institutions that are functional but also unequal or oppressive.
+\end{keybox}
+
+\section{Same Money, Different Reaction}
+
+\begin{examplebox}{School}
+Case A: Before an exam, you buy a test-prep book for 80 yuan. Nobody finds this unusual.
+
+Case B: After the exam, you offer 500 yuan to the top student in class and ask them to transfer their rank to you. Suppose they agree.
+\end{examplebox}
+
+\begin{examplebox}{Time}
+Case A: During evening study, you pay 15 yuan for food delivery. A rider spends 20 minutes bringing food to you. Someone's time has been priced, but the transaction feels ordinary.
+
+Case B: On your eighteenth birthday, you pay a stranger 300 yuan to spend the evening with you. Again, someone's time has been priced. This feels different.
+\end{examplebox}
+
+\begin{discussionbox}{First reactions}
+What exactly changes between the two cases? Is the problem consent, money, the type of good, third-party effects, or the meaning of the relationship?
+\end{discussionbox}
+
+These examples are useful because they make a simple point: a market is not just ``voluntary exchange with money.'' Even when both sides agree, we may still ask whether the object is tradable, whether the transaction affects other people, and whether pricing the thing changes its social meaning.
+
+\begin{insightbox}{The first puzzle}
+Whenever something is scarce, society needs some rule for deciding who gets it. Price is one rule. Queueing is another. Exams, lotteries, administrative approval, family obligation, reputation, and power are also rules. The question is not simply ``market or no market.'' The better question is: what allocation mechanism is being used, and what does it do?
+\end{insightbox}
+
+\section{Markets Around Us}
+
+Start with easy cases: vegetable markets, housing markets, stock markets, second-hand textbook markets, tutoring markets, and online resale markets.
+
+Then add cases that are less obvious: scalped concert tickets, paid queueing, leaked exam papers, domain names, celebrity greeting videos, and prediction markets.
+
+\begin{figure}[h]
+\centering
+\maybeincludegraphics[width=0.68\linewidth]{shijuan.png}
+\caption{Even test papers and practice materials can become market goods.}
+\end{figure}
+
+\begin{discussionbox}{Minimum conditions}
+If there is a buyer, a seller, and a price, is that already enough to call something a market? What else is needed?
+\end{discussionbox}
+
+\section{Stranger Markets}
+
+\subsection{Domain Names}
+
+A domain name is not a physical object. It is a position in an address system. Yet it can be scarce, owned, transferred, and priced. People register names cheaply and later resell them at much higher prices.
+
+The \texttt{.ai} domain is a good example. It originally belongs to Anguilla, a small British overseas territory. The AI boom turned this country-code domain into a valuable asset. The exact revenue numbers change from year to year, so they should be checked before class, but the example is clear: a technical naming convention can become a market asset.
+
+\subsection{Celebrity Greeting Videos}
+
+On platforms such as Cameo, users pay celebrities or internet personalities to record short personalized videos. The file itself is not the main point. What is being bought is attention, recognition, and the feeling that a particular person spent a few seconds addressing you.
+
+\subsection{Prediction Markets}
+
+Prediction markets allow people to buy and sell contracts tied to future events. If a contract pays one dollar when an event happens, its price can be read as a rough market-implied probability.
+
+\begin{examplebox}{A strange contract}
+A prediction market can even create a contract on an extreme or absurd event. The point is not whether the event is likely. The point is that a future contingency can be written into a tradable contract.
+
+\begin{center}
+\maybeincludegraphics[width=0.72\linewidth]{polymarket.png}
+\end{center}
+\end{examplebox}
+
+\begin{discussionbox}{Prediction or gambling?}
+Why create such markets? Are they aggregating information, helping people hedge risk, or simply creating a new form of gambling?
+\end{discussionbox}
+
+\section{Markets That Do Not Exist}
+
+Now reverse the question. If so many things can be traded, what cannot be traded?
+
+Exam ranks usually cannot be sold. Friendship cannot simply be bought. Votes are not supposed to be sold. Mathematical formulas are normally free to use:
+\[
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.
+\]
+
+But songs can be copyrighted, patents can be licensed, and software can be sold. So the issue is not simply ``knowledge should be free'' or ``knowledge should be owned.'' Different kinds of knowledge fit different institutional arrangements.
+
+The quadratic formula is non-rival: your use does not prevent my use. Charging every user would create large access costs and slow down later learning and invention. Basic science is often rewarded through reputation, priority, jobs, grants, prizes, and public funding rather than through a fee on every act of use.
+
+\begin{insightbox}{Markets are not the only incentive system}
+Prices and property rights are one way to create incentives. They are not the only way. Sometimes strong exclusion helps production. Sometimes it blocks use and follow-on creation.
+\end{insightbox}
+
+\section{When Can a Market Exist?}
+
+A market usually needs several conditions:
+
+\begin{enumerate}
+  \item \textbf{Scarcity.} If a thing is not scarce, pricing it is usually unnecessary.
+  \item \textbf{Tradability.} The thing must be separable enough to be transferred or controlled.
+  \item \textbf{Gains from trade.} Buyers and sellers need a reason to exchange.
+  \item \textbf{Participants.} There must be enough buyers, sellers, or at least enough recognized value.
+  \item \textbf{Price formation.} Prices may come from bargaining, auctions, posted prices, or competition.
+  \item \textbf{Institutional support.} Property rights, contract enforcement, ratings, disclosure rules, and dispute resolution reduce the cost of trading.
+  \item \textbf{Technology.} Search, matching, monitoring, and payment technologies can make previously difficult markets possible.
+  \item \textbf{Legitimacy.} People, organizations, and the state must be willing to treat the transaction as acceptable or at least tolerable.
+\end{enumerate}
+
+\begin{warningbox}{Do not naturalize markets too quickly}
+A missing market is not always a puzzle to be fixed. It may reflect high transaction costs, unclear property rights, hard-to-observe quality, external costs, moral rejection, legal prohibition, or historical accident. So the question is not only whether a market would be efficient. It is also what has to be built, protected, measured, enforced, or accepted before the market can work.
+\end{warningbox}
+
+\section{If Not Markets, Then What?}
+
+Scarce resources can be allocated in many ways:
+
+\begin{itemize}
+  \item \textbf{Queueing:} first come, first served. The cost is time.
+  \item \textbf{Lottery:} random allocation. It may be equal, but it ignores intensity of need.
+  \item \textbf{Administrative criteria:} allocation by need, urgency, income, score, or status.
+  \item \textbf{Power and connections:} informal but common.
+  \item \textbf{Exams and competitions:} allocation by performance, though performance itself may depend on family resources.
+  \item \textbf{Gifts and obligations:} allocation through family, friendship, hierarchy, or reciprocity.
+\end{itemize}
+
+None of these mechanisms is clean. Queueing favors those with time. Markets favor those with money. Administrative rules can be gamed. Exams may look meritocratic while importing inequality from elsewhere. Gifts may look warm while hiding obligation and hierarchy.
+
+\begin{insightbox}{Markets may reappear}
+Choosing a non-market allocation rule does not make scarcity disappear. Train tickets allocated by queueing may produce scalpers. Hospital registration may produce ticket brokers. Free university visit slots may be resold. When scarcity remains, market forces often return through the side door.
+\end{insightbox}
+
+\section{The Provocation: Order Without a Designer}
+
+\begin{keybox}{The puzzle}
+Markets are strange objects. They involve many people who do not know one another, often do not care about one another, and usually do not understand the whole system they are part of. Still, some order appears: food arrives in shops, domain names acquire prices, tickets are resold, workers are hired, and futures are traded.
+
+The question is not only whether markets are good or bad. The first question is simpler and harder: how can this kind of order come about at all?
+\end{keybox}
+
+\subsection{Smith: Exchange Among Strangers}
+
+Smith is writing about a commercial society in which each person depends on the cooperation of many strangers. I cannot make my own bread, clothes, books, phone, and transport. Nor can I rely on everyone else's kindness. The ordinary solution is exchange: I get what I need by offering others something they have reason to accept.
+
+\begin{quotebox}{Adam Smith}{The Wealth of Nations, 1776}
+``It is not from the benevolence of the butcher, the brewer, or the baker, that we expect our dinner, but from their regard to their own interest.''
+\end{quotebox}
+
+The reasoning has three steps. First, begin with individuals rather than with ``society'' as a single actor. Second, look at what each person can offer and what each person wants. Third, ask how many such local exchanges can add up to a larger order: bread gets baked, shops are stocked, and people who never planned together still become connected through prices and trade.
+
+\subsection{Mandeville: A More Disturbing Version}
+
+Mandeville gives a deliberately more unsettling version of this thought. \textit{The Fable of the Bees} imagines a prosperous hive driven by vanity, luxury, pride, and competition. Its point is not a simple moral lesson. It is a provocation against the idea that public order must come from private virtue.
+
+\begin{quotebox}{Bernard Mandeville}{The Fable of the Bees, 1714}
+``Thus every Part was full of Vice, Yet the whole Mass a Paradice; ... Their Crimes conspired to make 'em Great.''
+\end{quotebox}
+
+Smith gives the cleaner analytical version; Mandeville gives the uncomfortable version. Together they introduce the tradition of unintended order.
+
+\begin{warningbox}{The wrong lesson}
+The point is not that selfishness is good. The point is that social outcomes are often indirect. To judge an institution, we cannot look only at people's intentions; we must study the mechanism connecting actions to outcomes.
+\end{warningbox}
+
+\subsection{Hayek: The Methodological Lesson}
+
+Hayek makes the methodological point explicit. If an outcome is directly designed, we can study the designer's intention. If it is a natural event, we can study nature. But many social outcomes are neither: no single person intends a traffic jam, a tutoring arms race, a scalping market, or a price pattern. These outcomes are produced by actions, but not chosen as a whole. That is why they need social-scientific explanation.
+
+\begin{quotebox}{F. A. Hayek}{The Counter-Revolution of Science, 1952}
+``some sort of order arises as a result of individual action but without being designed by any individual''
+\end{quotebox}
+
+We do not need to accept Smith, Mandeville, or Hayek as political conclusions. We only need to take seriously the phenomenon they noticed: individual intentions and social outcomes do not map onto each other directly.
+
+\section{The Aggregation Problem}
+
+\begin{conceptbox}{The aggregation problem}
+The aggregation problem asks: how do many individual choices, each made under limited information and personal incentives, combine into a social outcome?
+\end{conceptbox}
+
+The difficult question is not only ``what does one person want?'' The difficult question is ``what happens when many people respond to the same incentives at the same time?''
+
+\begin{center}
+\small
+\begin{tabular}{p{0.42\linewidth}p{0.46\linewidth}}
+\hline
+\textbf{Individual action} & \textbf{Aggregate outcome} \\
+\hline
+Everyone stands up at a concert to see better. & Nobody sees better; everyone is more uncomfortable. \\
+Parents buy tutoring to help their own child. & Relative positions may stay similar while pressure and spending rise. \\
+Drivers switch lanes to go faster. & Traffic may become slower and more chaotic. \\
+Students chase more impressive activities. & Everyone's resume starts to look more similar. \\
+Sellers raise prices during a shortage. & Goods may be rationed by willingness to pay, but moral outrage may rise. \\
+\hline
+\end{tabular}
+\end{center}
+
+This is why economics often begins from individual actors, but it does not end there. The point is to understand the mechanism by which actions are transformed into a pattern.
+
+\begin{insightbox}{The bridge to economics}
+Economics is not just ``the science of markets.'' It is a way of analyzing how actors, constraints, incentives, information, and rules generate social outcomes. Markets are one especially important institution for solving an aggregation problem through prices.
+\end{insightbox}
+
+\section{The First Tool: Economic Thinking}
+
+For any institution or market-like arrangement, start with these questions:
+
+\begin{conceptbox}{Economic thinking}
+\begin{itemize}
+  \item \textbf{Players:} Who is involved? Avoid saying ``society wants'' or ``the school wants'' too quickly. Large groups usually contain smaller actors with different incentives.
+  \item \textbf{Actions and constraints:} What can each player actually do, and what rules make those actions possible or impossible?
+  \item \textbf{Incentives:} What does each player care about? Money, time, grades, reputation, risk, convenience, fairness?
+  \item \textbf{Information:} What does each player know, and what do they not know?
+  \item \textbf{Aggregation:} How do individual choices add up to a larger outcome?
+  \item \textbf{Equilibrium:} Given the rules and what others are doing, does any player have a reason to change their behavior?
+\end{itemize}
+\end{conceptbox}
+
+Take paid queueing as an example. The players are not just ``buyers'' and ``sellers.'' There are people waiting in line, people with less time, people with less money, the organizer of the queue, and sometimes professional queue-sellers. The actions include waiting, paying, reselling, blocking resale, or changing the rule. The incentives differ: some people want to save time, some want income, some want the queue to look fair.
+
+The Smith-style question is: why would this trade appear if no one designed a formal market for queue positions? The economic move is to list the players, actions, incentives, information, and rules, then ask how their choices aggregate into a stable pattern.
+
+\begin{discussionbox}{Practice}
+Apply the template to one case: ticket scalping, school-district housing, tutoring, food delivery, hospital registration, or paid queueing. What are the players, actions, incentives, information problems, and aggregate outcome?
+\end{discussionbox}
+
+\section{What Do Markets Do Well?}
+
+Markets often work because they combine information and incentives.
+
+\begin{itemize}
+  \item \textbf{Prices signal relative scarcity.} A person does not need to know every cause of a shortage. A price change is enough to change behavior.
+  \item \textbf{Profit and loss create incentives to respond.} Sellers have reasons to produce, transport, search, improve, and economize.
+  \item \textbf{Specialization becomes possible.} People can focus on what they are comparatively good at and exchange for the rest.
+  \item \textbf{Competition disciplines behavior.} When buyers can switch, sellers must pay attention to price and quality.
+  \item \textbf{Decentralized knowledge can be used.} No single planner needs to know every local condition if prices and trade transmit enough relevant information.
+\end{itemize}
+
+This is the strongest case for markets in the lecture: ordinary coordination can emerge from people responding to their own situations, even when no one is trying to coordinate the whole system.
+
+\begin{insightbox}{Conditional power}
+The point is not that markets always work well. The point is that markets are one powerful solution to a difficult coordination problem, under particular institutional and moral conditions.
+\end{insightbox}
+
+\section{When Does the Market Story Break?}
+
+The same mechanism can also create problems.
+
+\begin{itemize}
+  \item \textbf{Ability to pay is not the same as need.} School-district housing, masks, and concert tickets may go to those who can pay most, not those who need most.
+  \item \textbf{Some costs fall on outsiders.} Pollution, traffic, noise, and platform labor pressure may affect people outside the transaction.
+  \item \textbf{Quality may be hard to observe.} Medical services, used cars, tutoring, and financial products are difficult for buyers to judge.
+  \item \textbf{Contracts may be incomplete.} Long-term cooperation, employment, marriage, and platform labor cannot specify every future action and contingency.
+  \item \textbf{Pricing may change meaning.} Friendship, public honors, votes, and academic ranks are not just scarce objects. They are embedded in social meanings.
+\end{itemize}
+
+\begin{discussionbox}{Evaluation}
+Pick one case: masks during a shortage, school-district housing, ticket scalping, medical services, food delivery platforms, or paid queueing. What problem does the market solve? What problem does it create?
+\end{discussionbox}
+
+\section{Shadow Questions for the Rest of the Course}
+
+This lecture uses Smith, Mandeville, and Hayek to discover the aggregation problem. But if we stop there, the lecture will sound like market defense. So we will carry a few critical questions through the rest of the course.
+
+\begin{keybox}{Four shadow questions}
+\begin{itemize}
+  \item \textbf{Weber: what infrastructure makes calculation possible?} Markets are not pure spontaneity. They depend on rules, records, enforcement, money, accounting, bureaucracy, and reasonably predictable administration.
+  \item \textbf{Marx: what social relations are hidden behind commodities and prices?} A price may hide labor, ownership, dependence, bargaining power, and the history that made the transaction possible.
+  \item \textbf{Polanyi: what had to be historically and politically constructed before this thing could become a commodity?} Land, labor, money, knowledge, and attention do not become market goods by nature alone.
+  \item \textbf{Sandel: does pricing something change its meaning?} Some objections to markets are not just about efficiency. They are about what kind of relationship or practice is being created.
+\end{itemize}
+\end{keybox}
+
+These are not separate ``anti-market'' answers. They are warning questions. They help us avoid three mistakes:
+
+\begin{itemize}
+  \item treating markets as natural rather than institutional;
+  \item treating prices as if they reveal everything important;
+  \item treating explanation as if it were justification.
+\end{itemize}
+
+\begin{insightbox}{Economics and its boundary}
+Economics gives especially sharp tools for incentives, constraints, information, and equilibrium. But some questions cannot be settled by economic reasoning alone: what should count as a commodity, what history made a market possible, what forms of power are hidden behind exchange, and what kind of life an institution encourages.
+\end{insightbox}
+
+\section{How This Lecture Sets Up the Course}
+
+The rest of the course is not a rejection of the market story. It is a stress test of that story.
+
+\begin{keybox}{Course map}
+\begin{itemize}
+  \item \textbf{Markets:} prices can coordinate scattered choices. The problem: what can become a market good?
+  \item \textbf{Externalities:} individual rationality can aggregate into collective harm. The problem: prices may omit third-party costs and benefits.
+  \item \textbf{Information asymmetry:} exchange depends on what people know and can observe. The problem: quality, effort, and motives may be hidden.
+  \item \textbf{Incomplete contracts and firms:} not every action can be contracted through markets. The problem: authority, ownership, and organization matter.
+  \item \textbf{Family, marriage, gender, or the state:} institutions may be functional and troubling at the same time. The problem: explanation is not justification.
+\end{itemize}
+\end{keybox}
+
+\section{Closing Point}
+
+A market is not a natural background. It is an institutional arrangement that turns individual actions into social outcomes. Economics helps us analyze this transformation. But understanding an institution also requires asking what it hides, whom it empowers, what history made it possible, and whether the outcome should be accepted.
+
+\begin{insightbox}{The main habit}
+Do not ask only: ``Is this market good or bad?'' Ask instead: who acts, under what rules, with what incentives and information, producing what aggregate outcome, at what cost, and compared with which alternative?
+\end{insightbox}
+
+\end{document}

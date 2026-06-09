@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第一讲 · 市场和经济学思维</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --bg-cream: #f5efe4;
+    --bg-warm: #efe3cf;
+    --ink: #1f1d1a;
+    --ink-soft: #5a554d;
+    --ink-faint: #a39d8f;
+    --rule: #ddd6c4;
+    --terracotta: #d97757;
+    --blue: #527f99;
+    --green: #5a8a6a;
+    --gold: #c9a961;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", serif;
+    --sans: "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --display: "EB Garamond", "Noto Serif SC", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+  .stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--ink); }
+  .deck { width: 1280px; height: 720px; position: relative; transform-origin: center center; visibility: hidden; }
+  .deck.ready { visibility: visible; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 58px 96px; opacity: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .slide.active { opacity: 1; pointer-events: auto; z-index: 2; }
+  .slide-inner { width: 100%; max-width: 1100px; position: relative; z-index: 1; }
+  .light { background: var(--bg); color: var(--ink); }
+  .cream { background: var(--bg-cream); color: var(--ink); }
+  .warm { background: var(--bg-warm); color: var(--ink); }
+  .dark { background: var(--ink); color: var(--bg); }
+  .terracotta { background: var(--terracotta); color: #fff; }
+  .blue { background: var(--blue); color: #fff; }
+
+  h1, h2, h3, h4 { font-family: var(--serif-cn); font-weight: 600; }
+  h1 { font-size: 84px; line-height: 1.12; letter-spacing: .03em; }
+  h2 { font-size: 58px; line-height: 1.18; letter-spacing: .02em; }
+  h3 { font-size: 40px; line-height: 1.28; letter-spacing: .01em; }
+  h4 { font-size: 25px; line-height: 1.32; }
+  p { font-family: var(--serif-cn); font-size: 27px; line-height: 1.65; }
+  p.small { font-family: var(--sans); font-size: 19px; line-height: 1.65; color: var(--ink-soft); }
+  .dark p.small, .blue p.small, .terracotta p.small { color: rgba(255,255,255,.62); }
+  .subtitle { font-family: var(--display); font-size: 34px; color: var(--gold); margin-top: 14px; }
+  .eyebrow { font-family: var(--mono); font-size: 16px; letter-spacing: .17em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px; display: flex; align-items: center; gap: 13px; }
+  .dark .eyebrow { color: rgba(250,248,243,.38); }
+  .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.48); }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; }
+  .dark .eyebrow .num { color: var(--gold); }
+  .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+  .dash { width: 42px; height: 2px; background: currentColor; }
+  .accent { color: var(--terracotta); }
+  .dark .accent { color: var(--gold); }
+  .spacer { height: 24px; }
+  .spacer-lg { height: 44px; }
+  .center { text-align: center; }
+
+  ul { list-style: none; padding: 0; }
+  li { font-family: var(--serif-cn); font-size: 26px; line-height: 1.58; padding: 8px 0 8px 34px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 20px; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--terracotta); }
+  .dark li::before { border-color: var(--gold); }
+
+  .slide-question { font-family: var(--serif-cn); font-size: 47px; line-height: 1.42; padding-left: 30px; border-left: 5px solid var(--terracotta); }
+  .dark .slide-question { border-left-color: var(--gold); }
+  .terracotta .slide-question, .blue .slide-question { border-left-color: #fff; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: start; }
+  .three-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+  .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 32px; }
+  .six-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 28px; }
+  .card, .mini-card, .quote-card { background: rgba(31,29,26,.06); border-radius: 14px; padding: 26px 24px; }
+  .dark .card, .dark .mini-card, .dark .quote-card { background: rgba(250,248,243,.08); }
+  .blue .card, .blue .mini-card {
+    background: rgba(25,54,70,.24);
+    border: 1px solid rgba(250,248,243,.18);
+    box-shadow: 0 18px 36px rgba(31,29,26,.10);
+  }
+  .card-label, .mc-label { font-family: var(--sans); font-weight: 600; letter-spacing: .08em; color: var(--terracotta); margin-bottom: 12px; }
+  .card-label { font-size: 16px; }
+  .mc-label { font-size: 14px; }
+  .dark .card-label, .dark .mc-label { color: var(--gold); }
+  .blue .card-label, .blue .mc-label { color: #F4B27B; }
+  .card p { font-size: 18px; line-height: 1.58; color: var(--ink-soft); margin-top: 10px; }
+  .mini-card h4 { font-size: 21px; }
+  .mini-card p { font-size: 15px; line-height: 1.55; color: var(--ink-soft); margin-top: 7px; }
+  .dark .card p, .dark .mini-card p { color: rgba(250,248,243,.6); }
+  .blue .card h4, .blue .mini-card h4 { color: #fff; }
+  .blue .card p, .blue .mini-card p { color: rgba(250,248,243,.76); }
+  .quote { font-family: var(--serif-cn); font-size: 30px; line-height: 1.55; border-left: 5px solid var(--terracotta); padding-left: 30px; }
+  .dark .quote { border-left-color: var(--gold); }
+  .source { font-family: var(--sans); font-size: 17px; color: var(--ink-soft); margin-top: 18px; }
+  .dark .source { color: rgba(250,248,243,.58); }
+  .table { width: 100%; border-collapse: collapse; font-family: var(--serif-cn); font-size: 21px; line-height: 1.45; margin-top: 28px; }
+  .table th { font-family: var(--sans); font-size: 16px; text-align: left; color: var(--terracotta); border-bottom: 2px solid var(--rule); padding: 10px 12px; }
+  .table td { border-bottom: 1px solid var(--rule); padding: 10px 12px; vertical-align: top; }
+  .table.compact { font-size: 17px; line-height: 1.38; margin-top: 22px; }
+  .table.compact th { font-size: 13px; padding: 8px 10px; }
+  .table.compact td { padding: 8px 10px; }
+  .dark .table th { color: var(--gold); border-bottom-color: rgba(250,248,243,.28); }
+  .dark .table td { border-bottom-color: rgba(250,248,243,.15); }
+  .formula { font-size: 46px; color: var(--blue); text-align: center; margin: 32px 0; }
+  .formula mjx-container { color: var(--blue); }
+  .image-frame { background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 14px; box-shadow: 0 18px 40px rgba(31,29,26,.12); }
+  .image-frame img { display: block; max-width: 100%; max-height: 420px; object-fit: contain; margin: 0 auto; }
+  .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: rgba(250,248,243,.08); border: 1px solid rgba(250,248,243,.18); box-shadow: 0 18px 40px rgba(31,29,26,.18); }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .slide-link { color: var(--terracotta); text-decoration: none; border-bottom: 1px solid rgba(217,119,87,.45); padding-bottom: 2px; }
+  .dark .slide-link { color: var(--gold); border-bottom-color: rgba(201,169,97,.48); }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; }
+  .stat { border-left: 4px solid var(--terracotta); padding: 18px 20px; background: rgba(31,29,26,.05); }
+  .stat .num { font-family: var(--display); font-size: 46px; color: var(--terracotta); line-height: 1; }
+  .stat .txt { font-family: var(--sans); font-size: 16px; color: var(--ink-soft); margin-top: 10px; line-height: 1.45; }
+  .dark .stat { border-left-color: var(--gold); background: rgba(250,248,243,.08); }
+  .dark .stat .num { color: var(--gold); }
+  .dark .stat .txt { color: rgba(250,248,243,.6); }
+  .big-num { font-family: var(--display); font-size: 190px; line-height: .8; color: var(--terracotta); opacity: .12; position: absolute; right: -10px; top: -12px; }
+  .dark .big-num { color: var(--gold); opacity: .16; }
+  .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--terracotta); transition: width .35s ease; z-index: 10; }
+  .counter { position: fixed; right: 38px; bottom: 20px; font-family: var(--mono); font-size: 13px; color: var(--ink-faint); letter-spacing: .1em; z-index: 10; mix-blend-mode: difference; }
+  .nav-hint { position: fixed; left: 38px; bottom: 20px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: .12em; text-transform: uppercase; z-index: 10; mix-blend-mode: difference; opacity: .55; transition: opacity 1.5s; }
+  body:has(.slide.blue.active) .counter,
+  body:has(.slide.blue.active) .nav-hint {
+    color: rgba(250,248,243,.78);
+    mix-blend-mode: normal;
+  }
+
+
+/* =========================
+   NBER-style recolor pass
+   ========================= */
+:root {
+  --bg: #FFFFFF;
+  --bg-cream: #F3F7FB;
+  --bg-warm: #EAF2FA;
+  --ink: #161616;
+  --ink-soft: #555B64;
+  --ink-faint: #8A9099;
+  --rule: #CBD7E6;
+  --terracotta: #A1192A; /* NBER Digest red */
+  --blue: #1C67B1;
+  --green: #4D7B93;
+  --gold: #A1192A;
+  --nber-blue: #1C67B1;
+  --nber-blue-dark: #123A63;
+  --nber-blue-soft: #EAF2FA;
+  --digest-red: #A1192A;
+  --paper: #FFFFFF;
+  --serif-cn: "Noto Serif SC", "Source Serif 4", "Songti SC", serif;
+  --sans: "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Source Serif 4", "EB Garamond", "Noto Serif SC", serif;
+}
+html, body { background: var(--paper) !important; }
+.stage { background: var(--paper) !important; }
+body:has(.slide.dark.active) .stage,
+body:has(.slide.blue.active) .stage { background: var(--nber-blue) !important; }
+body:has(.slide.terracotta.active) .stage { background: var(--paper) !important; }
+body:has(.slide.cream.active) .stage,
+body:has(.slide.warm.active),
+body:has(.slide.light.active) .stage { background: var(--paper) !important; }
+.slide { padding: 58px 96px; }
+.light { background: var(--paper); color: var(--ink); }
+.cream { background: #F7FAFD; color: var(--ink); }
+.warm { background: var(--nber-blue-soft); color: var(--ink); }
+.dark, .blue { background: var(--nber-blue); color: #fff; }
+.terracotta { background: var(--paper); color: var(--ink); }
+.dark::before, .blue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18,58,99,.20) 0 34px, transparent 34px 92px);
+  background-size: 100% 78px, 118px 100%, 180px 100%;
+  opacity: .28;
+}
+.dark .slide-inner, .blue .slide-inner { z-index: 1; }
+h1, h2, h3, h4 { font-family: var(--serif-cn); letter-spacing: 0; }
+h1 { font-size: 88px; line-height: 1.06; font-weight: 700; }
+h2 { font-size: 60px; line-height: 1.12; font-weight: 650; }
+h3 { font-size: 42px; line-height: 1.24; font-weight: 650; }
+p { color: inherit; }
+p.small { color: var(--ink-soft); }
+.dark p.small, .blue p.small { color: rgba(255,255,255,.72); }
+.subtitle { color: rgba(255,255,255,.82); font-family: var(--display); font-style: italic; }
+.eyebrow { color: var(--ink-faint); letter-spacing: .16em; }
+.eyebrow .num { color: var(--digest-red); }
+.dark .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.62); }
+.dark .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+.dash { height: 1px; opacity: .7; }
+li::before { border-color: var(--nber-blue); }
+.dark li::before, .blue li::before { border-color: #fff; }
+.slide-question { border-left-color: var(--nber-blue); }
+.dark .slide-question, .blue .slide-question { border-left-color: #fff; }
+.card, .mini-card, .quote-card {
+  background: #F7FAFD;
+  border: 1px solid #D6E1EE;
+  border-radius: 0;
+  box-shadow: none;
+}
+.dark .card, .dark .mini-card, .dark .quote-card,
+.blue .card, .blue .mini-card, .blue .quote-card {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.34);
+  box-shadow: none;
+}
+.card-label, .mc-label { color: var(--digest-red); font-weight: 650; letter-spacing: .11em; }
+.dark .card-label, .dark .mc-label,
+.blue .card-label, .blue .mc-label { color: #fff; opacity: .92; }
+.card p, .mini-card p { color: var(--ink-soft); }
+.dark .card p, .dark .mini-card p,
+.blue .card p, .blue .mini-card p { color: rgba(255,255,255,.78); }
+.stat { border-left-color: var(--nber-blue); background: #F3F7FB; }
+.stat .num { color: var(--nber-blue); }
+.table th { color: var(--digest-red); border-bottom-color: var(--rule); }
+.table td { border-bottom-color: #E1E8F1; }
+.dark .table th, .blue .table th { color: #fff; border-bottom-color: rgba(255,255,255,.42); }
+.dark .table td, .blue .table td { border-bottom-color: rgba(255,255,255,.24); }
+.quote { border-left-color: var(--nber-blue); }
+.dark .quote, .blue .quote { border-left-color: #fff; }
+.source { color: var(--ink-soft); }
+.dark .source, .blue .source { color: rgba(255,255,255,.68); }
+.formula, .formula mjx-container { color: var(--nber-blue); }
+.dark .formula, .dark .formula mjx-container,
+.blue .formula, .blue .formula mjx-container { color: #fff; }
+.image-frame { border-radius: 0; border-color: #D6E1EE; box-shadow: none; }
+.video-frame { border-radius: 0; box-shadow: none; }
+.slide-link { color: var(--digest-red); border-bottom-color: rgba(161,25,42,.35); }
+.progress { background: var(--digest-red); height: 3px; }
+.counter { color: var(--ink-faint); mix-blend-mode: normal; }
+.dark.active ~ .counter, .blue.active ~ .counter { color: rgba(255,255,255,.65); }
+.nav-hint { display: none !important; }
+body:has(.slide.dark.active) .counter,
+body:has(.slide.blue.active) .counter { color: rgba(255,255,255,.72); mix-blend-mode: normal; }
+body:has(.slide.light.active) .counter,
+body:has(.slide.cream.active) .counter,
+body:has(.slide.warm.active) .counter,
+body:has(.slide.terracotta.active) .counter { color: var(--ink-faint); mix-blend-mode: normal; }
+
+/* NBER-style centered claim page, no top/bottom rules */
+.claim-slide {
+  background: var(--paper);
+  color: #4D535C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.claim-slide .claim-inner {
+  width: 1050px;
+  margin: 0 auto;
+  transform: translateY(-2px);
+}
+.claim-slide .claim-kicker {
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: .18em;
+  color: var(--digest-red);
+  text-transform: uppercase;
+  margin-bottom: 34px;
+}
+.claim-slide .claim-line {
+  font-family: var(--display);
+  font-size: 60px;
+  line-height: 1.22;
+  font-weight: 500;
+  color: #4E535D;
+}
+.claim-slide .claim-sub {
+  margin-top: 30px;
+  font-family: var(--sans);
+  font-size: 20px;
+  color: var(--ink-faint);
+}
+
+/* NBER-ish section divider without full red blocks */
+.terracotta h2 { color: var(--nber-blue); }
+.terracotta p.small { color: var(--ink-soft); }
+.terracotta .slide-inner::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #D8E4F0;
+  margin-bottom: 52px;
+}
+.terracotta .slide-inner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #D8E4F0;
+  margin-top: 52px;
+}
+
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="deck" id="deck">
+
+  <section class="slide dark active">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">01</span><span class="dash"></span><span>Day 1</span></div>
+      <h1>市场和<br>经济学思维</h1>
+      <div class="subtitle">Markets as Everyday Institutions</div>
+      <div class="spacer-lg"></div>
+      <p class="small">日常制度的经济学 · 第一讲</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Opening</span><span class="dash"></span><span>不是先定义市场</span></div>
+      <h3>把一个熟悉的东西，重新变成问题</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>市场不只是「买卖发生的地方」。</li>
+        <li>它是一套让陌生人能够重复交易的规则结构。</li>
+        <li>第一讲的任务：观察市场如何扩展，又在哪里停下。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide claim-slide">
+    <div class="claim-inner">
+      <div class="claim-kicker">Question · 市场边界</div>
+      <div class="claim-line">如果一个东西可以被定价，<br>它就一定应该进入市场吗？</div>
+      <p class="claim-sub">先不急着回答。我们从普通交易和奇怪市场里寻找共同结构。</p>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 1</span><span class="dash"></span><span>身边的市场</span></div>
+      <h2>市场可以把什么东西<br>变成交易对象？</h2>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">域名</div><h4>地址系统中的位置</h4><p>不是物理对象，却可以稀缺、占有、转让和计价。</p></div>
+        <div class="card"><div class="card-label">明星问候</div><h4>注意力与承认</h4><p>购买的不只是视频文件，而是「某人对我说话」。</p></div>
+        <div class="card"><div class="card-label">预测市场</div><h4>未来状态</h4><p>事件是否发生，也能被写成可交易合约。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>.ai domain</span></div>
+      <h3>一串技术后缀，如何变成财政资产？</h3>
+      <div class="stat-row">
+        <div class="stat"><div class="num">14.4万</div><div class="txt">2022 年 .ai 注册量</div></div>
+        <div class="stat"><div class="num">35.4万</div><div class="txt">2023 年 .ai 注册量</div></div>
+        <div class="stat"><div class="num">EC$227m</div><div class="txt">IMF 估计 2025 年域名销售收入</div></div>
+      </div>
+      <div class="spacer"></div>
+      <p>安圭拉的国家或地区顶级域名，在 AI 产业语境中被重新解释为商业资产。</p>
+      <p class="small">重点不是「小岛靠两个字母赚钱」，而是技术命名规则如何被制度化、定价，并转化为公共财政收入。</p>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>明星问候</span></div>
+      <div class="two-col">
+        <div>
+          <h3>明星的 15 秒，为什么可以卖钱？</h3>
+          <div class="spacer"></div>
+          <p>花钱让明星录一段个性化祝福：生日、求婚、道歉，甚至一句指定的话。</p>
+          <p class="small">买到的不是视频文件本身，而是「这个人专门对我说话」这件事。时间、注意力和专属感，被平台包装成了可交易服务。</p>
+          <div class="spacer"></div>
+          <p class="small"><a class="slide-link" href="https://www.bilibili.com/video/BV1gSTsewEPf/" target="_blank" rel="noreferrer">bilibili 示例视频 ↗</a></p>
+        </div>
+        <div class="video-frame">
+          <iframe
+            src="https://player.bilibili.com/player.html?isOutside=true&aid=112540625405890&bvid=BV1gSTsewEPf&cid=500001567588682&p=1&autoplay=0"
+            title="明星问候示例视频"
+            scrolling="no"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide warm">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Case</span><span class="dash"></span><span>Polymarket</span></div>
+      <div class="two-col">
+        <div>
+          <h3>未来也能交易？</h3>
+          <div class="spacer"></div>
+          <p>预测市场把未来事件写成合约：会不会发生，变成可以用真钱买入的「Yes / No」。</p>
+          <p class="small">截图里的真实市场问：「耶稣会在 2027 年之前重返人间吗？」Yes 价格约 2 美分，可粗略理解为市场隐含概率约 2%。</p>
+          <p class="small">重点不是宗教判断，而是：连极端事件也可以被包装成可交易的未来状态。</p>
+        </div>
+        <div class="image-frame">
+          <img src="../resources/polymarket.png" alt="Polymarket screenshot">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Concept</span><span class="dash"></span><span>从案例到概念</span></div>
+      <h3>市场不是一个简单的买卖场所</h3>
+      <div class="spacer"></div>
+      <p>从域名、明星问候和预测市场可以看到：市场把不同对象转化为可交易对象，但这种转化不是自然发生的。</p>
+      <div class="spacer"></div>
+      <p class="small">它需要交易对象被界定，交易角色被区分，交换条件能够确定，付款、交付、违约和纠纷处理能够形成稳定预期。</p>
+      <div class="spacer"></div>
+      <p class="small">正是在这个意义上，市场可以被理解为一种制度：一套使许多人能够持续交易、相互预期并处理争议的规则结构。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Concept</span><span class="dash"></span><span>市场作为制度</span></div>
+      <h3>市场不是一次交易，而是一套可重复秩序</h3>
+      <table class="table compact">
+        <tr><th>市场中的特征</th><th>具体含义</th><th>对应的制度要素</th></tr>
+        <tr><td>交易对象</td><td>什么东西可以被买卖，例如商品、服务、门票、域名、数据、排放额度</td><td>规则界定了什么对象可以被占有、转让和计价</td></tr>
+        <tr><td>交易角色</td><td>谁是买方、卖方、中介、平台或监管者</td><td>制度分配了不同角色及其权利义务</td></tr>
+        <tr><td>价格与支付</td><td>如何确定交换条件，如何完成结算</td><td>制度提供了协调行为和确认交易的规则</td></tr>
+        <tr><td>预期与信任</td><td>付款后应当交付商品，违约或欺诈会有后果</td><td>制度使陌生人之间形成稳定预期</td></tr>
+        <tr><td>执行机制</td><td>差评、退款、平台处罚、法律追责等</td><td>制度需要某种制裁或纠纷解决方式</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide terracotta">
+    <div class="slide-inner">
+      <h2>市场之外的空间在哪里？</h2>
+      <div class="spacer"></div>
+      <p class="small">如果许多东西都可以进入市场，哪些东西不能？为什么不能？</p>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Brainstorm</span><span class="dash"></span><span>不存在的市场</span></div>
+      <div class="slide-question">写下一样没有市场可以交易、但你很想得到，或觉得很有交易趣味的东西。</div>
+      <div class="spacer"></div>
+      <p class="small">例子可以荒诞一点。荒诞处往往正是制度边界露出来的地方。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Boundary</span><span class="dash"></span><span>同类事物，不同制度</span></div>
+      <div class="two-col">
+        <div>
+          <h3>可以交易？</h3>
+          <ul>
+            <li>考试辅导书</li>
+            <li>歌曲版权</li>
+            <li>专利授权</li>
+            <li>迪士尼 VIP 通道</li>
+          </ul>
+        </div>
+        <div>
+          <h3>通常不交易？</h3>
+          <ul>
+            <li>考试名次</li>
+            <li>友谊</li>
+            <li>求根公式使用权</li>
+            <li>医院队列位置</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner center">
+      <div class="eyebrow"><span class="num">Favorite example</span><span class="dash"></span><span>知识与产权</span></div>
+      <h3>数学公式可以自由使用</h3>
+      <div class="formula">\[
+        x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+      \]</div>
+      <p class="small">但歌曲、软件、专利技术却可以出售或授权。问题不是「知识应当免费」或「知识应当被拥有」，而是不同知识适合怎样的制度安排。</p>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <h2>由此产生两个问题</h2>
+      <div class="spacer"></div>
+      <ul>
+        <li>市场的广泛存在和有限范围，会带来什么效果？</li>
+        <li>市场的存在和边界，乃至制度的存在和边界，是如何被决定的？</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 2</span><span class="dash"></span><span>无设计者的秩序</span></div>
+      <h2>市场最古怪的地方：<br>没有一个总设计者</h2>
+      <div class="spacer"></div>
+      <p>大量陌生人只掌握局部信息，也不以整体协调为目标。</p>
+      <p>但食品进入商店，门票被转售，域名形成价格，未来事件被写成合约。</p>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Smith</span><span class="dash"></span><span>商业社会的观察</span></div>
+      <p class="quote">“It is not from the benevolence of the butcher, the brewer, or the baker, that we expect our dinner, but from their regard to their own interest.”</p>
+      <p class="source">Adam Smith, The Wealth of Nations, 1776</p>
+      <div class="spacer"></div>
+      <p class="small">斯密的关键不是赞美自私，而是指出：交换让一个人的需要与另一个人的利益发生连接。</p>
+    </div>
+  </section>
+
+  <section class="slide warm">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mandeville</span><span class="dash"></span><span>更不舒服的版本</span></div>
+      <p class="quote">“Thus every Part was full of Vice, Yet the whole Mass a Paradice; ... Their Crimes conspired to make ’em Great.”</p>
+      <p class="source">Bernard Mandeville, The Fable of the Bees, 1714</p>
+      <div class="spacer"></div>
+      <p class="small">《蜜蜂的寓言》挑战的是：公共秩序必须来自私人美德。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Hayek</span><span class="dash"></span><span>方法论问题</span></div>
+      <p class="quote">“some sort of order arises as a result of individual action but without being designed by any individual”</p>
+      <p class="source">F. A. Hayek, The Counter-Revolution of Science, 1952</p>
+      <div class="spacer"></div>
+      <p>这不是市场辩护，而是社会科学的入口：社会结果由行动产生，却不一定作为整体被选择。</p>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Core</span><span class="dash"></span><span>微观-宏观问题</span></div>
+      <h3>宏观结果，不能直接从个体意图推出</h3>
+      <table class="table">
+        <tr><th>个体行动</th><th>宏观结果</th></tr>
+        <tr><td>剧场里每个人都站起来，希望看得更清楚</td><td>没有人看得更清楚，所有人更不舒服</td></tr>
+        <tr><td>每个人都更努力学习，希望超过别人</td><td>相对位置未必改变，整体压力上升</td></tr>
+        <tr><td>司机不断变道，希望更快到达</td><td>交通可能更慢、更混乱</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide terracotta">
+    <div class="slide-inner">
+      <h2>经济学思维：<br>把复杂对象变得可思考</h2>
+      <div class="spacer"></div>
+      <p class="small">不是把现实变简单，而是先把互动结构讲清楚。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Tool</span><span class="dash"></span><span>经济学分析模板</span></div>
+      <div class="six-grid">
+        <div class="mini-card"><div class="mc-label">Actors</div><h4>行动者</h4><p>谁参与其中？不要过快说「社会想要」。</p></div>
+        <div class="mini-card"><div class="mc-label">Actions</div><h4>行动与约束</h4><p>能做什么？哪些规则让行动可能或不可能？</p></div>
+        <div class="mini-card"><div class="mc-label">Incentives</div><h4>激励</h4><p>金钱、时间、成绩、声誉、风险、便利、公平。</p></div>
+        <div class="mini-card"><div class="mc-label">Information</div><h4>信息</h4><p>每个行动者知道什么，又不知道什么？</p></div>
+        <div class="mini-card"><div class="mc-label">Micro-Macro</div><h4>微观-宏观</h4><p>个体选择如何合成为社会结果？</p></div>
+        <div class="mini-card"><div class="mc-label">Equilibrium</div><h4>均衡</h4><p>给定他人行动，谁还有动机改变选择？</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Practice</span><span class="dash"></span><span>付费代排队</span></div>
+      <h3>行动者不只是「买方」和「卖方」</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>正在排队的人、时间更稀缺的人、金钱更稀缺的人。</li>
+        <li>队列组织者、职业代排者、平台或监管者。</li>
+        <li>可能行动：等待、付费、转售、禁止转售、改变规则。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Part 3</span><span class="dash"></span><span>市场的「魔法」</span></div>
+      <h2>市场为何可能有效？</h2>
+      <div class="spacer"></div>
+      <p>单有经济学思维还不够。还要看市场这套制度如何组织行动。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism</span><span class="dash"></span><span>市场机制</span></div>
+      <div class="six-grid">
+        <div class="mini-card"><div class="mc-label">Exchange</div><h4>交换互利</h4><p>双方评价不同，交易可能让双方得到更偏好的东西。</p></div>
+        <div class="mini-card"><div class="mc-label">Price</div><h4>价格传递稀缺</h4><p>不必知道短缺全部原因，价格变化就足以改变行为。</p></div>
+        <div class="mini-card"><div class="mc-label">Profit / Loss</div><h4>利润与亏损</h4><p>提供生产、运输、搜索、改进和退出的激励。</p></div>
+        <div class="mini-card"><div class="mc-label">Competition</div><h4>竞争约束行为</h4><p>买方可转向其他卖方，卖方必须关注价格和质量。</p></div>
+        <div class="mini-card"><div class="mc-label">Discovery</div><h4>试错发现信息</h4><p>竞争帮助发现可行产品、技术和组织方式。</p></div>
+        <div class="mini-card"><div class="mc-label">Specialization</div><h4>专业化分工</h4><p>市场范围越大，越不必人人自给自足。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 1</span><span class="dash"></span><span>交换互利</span></div>
+      <div class="two-col">
+        <div>
+          <h3>为什么交换本身可以创造收益？</h3>
+          <div class="spacer"></div>
+          <p>市场首先不一定让物变多，而是让物转到更重视它的人手里。</p>
+          <p class="small">同一件物品对不同人的价值不同。只要双方自愿交换，交易就可能让双方都得到更偏好的东西。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Basic Logic</div>
+          <h4>评价差异 → 自愿交换 → 双方改善</h4>
+          <p>这里的关键不是「谁更道德」，而是谁更愿意为某物放弃其他机会。价格把这种重视程度表达出来。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 2</span><span class="dash"></span><span>价格传递稀缺</span></div>
+      <div class="two-col">
+        <div>
+          <h3>谁知道哪里真的短缺？</h3>
+          <div class="spacer"></div>
+          <p>没有人需要掌握全部信息。价格把大量局部变化压缩成一个可行动的信号。</p>
+          <p class="small">价格上升会促使节约、替代、生产、运输和进入；价格下降则提醒行动者资源可能不再那么稀缺。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Signal</div>
+          <h4>局部信息 → 价格变化 → 行为调整</h4>
+          <p>价格不是完美信息，但它让许多互不认识的人可以在不知道全局原因的情况下改变行为。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 3</span><span class="dash"></span><span>利润与亏损</span></div>
+      <div class="two-col">
+        <div>
+          <h3>为什么有人愿意回应需求？</h3>
+          <div class="spacer"></div>
+          <p>利润奖励那些发现需求、组织资源并承担风险的人；亏损则迫使错误判断退出或修正。</p>
+          <p class="small">这是一种把私人动机接到社会需求上的机制，但它是否总是指向社会价值，还需要后面讨论。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Discipline</div>
+          <h4>发现机会 → 投入资源 → 盈亏检验</h4>
+          <p>利润不是单纯的「多赚钱」，亏损也不是单纯的失败；它们共同构成一种反馈系统。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 4</span><span class="dash"></span><span>竞争约束行为</span></div>
+      <div class="two-col">
+        <div>
+          <h3>为什么卖方不能随便定价、随便降质？</h3>
+          <div class="spacer"></div>
+          <p>当买方可以转向其他卖方时，卖方就必须关心价格、质量、速度和信誉。</p>
+          <p class="small">竞争的力量来自可替代性：如果没有退出选项，市场约束会大幅减弱。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Outside Option</div>
+          <h4>可选择别人 → 行为被约束</h4>
+          <p>竞争不是让所有人变好，而是让不回应需求的人更难长期占据位置。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 5</span><span class="dash"></span><span>试错发现信息</span></div>
+      <div class="two-col">
+        <div>
+          <h3>市场如何知道什么产品、技术或组织方式可行？</h3>
+          <div class="spacer"></div>
+          <p>很多答案事先没人知道。市场通过进入、模仿、失败和退出，筛选出相对可行的方案。</p>
+          <p class="small">这不是一次性计算，而是一个分散试错过程；它也可能浪费资源、制造泡沫或忽略无法付费表达的需求。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Discovery</div>
+          <h4>尝试 → 反馈 → 模仿或退出</h4>
+          <p>市场把许多小规模实验放在一起，让结果通过销售、价格、声誉和退出被看见。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Mechanism 6</span><span class="dash"></span><span>专业化分工</span></div>
+      <div class="two-col">
+        <div>
+          <h3>为什么市场越大，分工可以越细？</h3>
+          <div class="spacer"></div>
+          <p>市场范围扩大后，行动者不必人人自给自足，可以专门做一小部分事情，再通过交换获得其他东西。</p>
+          <p class="small">分工提高熟练程度和规模，但也让每个人更依赖一套稳定的交换秩序。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">Scale</div>
+          <h4>市场范围扩大 → 分工加深 → 相互依赖增强</h4>
+          <p>分工的好处越大，对价格、支付、交付、信任和执行机制的要求也越高。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide blue">
+    <div class="slide-inner">
+      <h2>市场主要处理两类困难</h2>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">激励</div><h4>为什么有人愿意回应稀缺？</h4><p>利润、亏损、竞争和支付意愿把私人动机接到社会需求上。</p></div>
+        <div class="card"><div class="card-label">信息</div><h4>谁知道哪里短缺？</h4><p>价格把大量局部信息压缩成可行动的信号。</p></div>
+        <div class="card"><div class="card-label">秩序</div><h4>为什么能重复发生？</h4><p>产权、支付、交付、执行和预期让交易不只是偶然事件。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Question</span><span class="dash"></span><span>何为有效？</span></div>
+      <h3>说市场「好」，到底是在说什么？</h3>
+      <div class="spacer"></div>
+      <p>经济学通常把效率落脚到个体福利：相比之前，个体得到自己更偏好的东西。</p>
+      <p class="small">难点：我们能不能把不同人的快乐、痛苦和机会简单相加？</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Concept</span><span class="dash"></span><span>Pareto</span></div>
+      <h3>帕累托改进</h3>
+      <div class="spacer"></div>
+      <p class="slide-question">至少一个人变好，且没有任何人变差。</p>
+      <div class="spacer"></div>
+      <ul>
+        <li>无法再找到帕累托改进时，称为帕累托最优。</li>
+        <li>帕累托最优可以有很多种，彼此不一定能比较。</li>
+        <li>极端不平等也可能是帕累托最优。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Caution</span><span class="dash"></span><span>功能、维持与起源</span></div>
+      <h3>解释制度时，不要偷换问题</h3>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">功能</div><h4>它处理什么困难？</h4><p>分散资源配置、交换协调、信息传递、分工合作。</p></div>
+        <div class="card"><div class="card-label">维持</div><h4>它为什么稳定？</h4><p>产权、支付、契约执行、竞争、声誉和共同预期。</p></div>
+        <div class="card"><div class="card-label">起源</div><h4>它为何如此出现？</h4><p>技术、国家、法律、平台、权力和历史偶然。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide terracotta">
+    <div class="slide-inner">
+      <h2>市场的功能<br>不能解决一切问题</h2>
+      <div class="spacer"></div>
+      <p class="small">更准确地说：市场失灵提示我们需要别的制度安排。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Limits</span><span class="dash"></span><span>市场失灵</span></div>
+      <div class="four-grid">
+        <div class="mini-card"><div class="mc-label">Distribution</div><h4>支付能力不等于需求</h4><p>学区房、口罩、演唱会门票可能流向支付能力最高者。</p></div>
+        <div class="mini-card"><div class="mc-label">Externality</div><h4>局外人承担成本</h4><p>污染、交通拥堵、噪音等不一定进入交易价格。</p></div>
+        <div class="mini-card"><div class="mc-label">Information</div><h4>质量难以观察</h4><p>医疗、二手车、补习和金融产品中，买方难以判断质量。</p></div>
+        <div class="mini-card"><div class="mc-label">Meaning</div><h4>定价改变意义</h4><p>友谊、荣誉、选票和排名嵌入了社会意义。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="slide-question">市场失灵不是说「市场不好」，而是问：现实社会用什么制度弥补这些条件的缺失？</div>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">Course Map</span><span class="dash"></span><span>后续课程</span></div>
+      <h3>第一讲留下的问题，会在后面逐步展开</h3>
+      <table class="table">
+        <tr><th>主题</th><th>核心困难</th><th>制度回应</th></tr>
+        <tr><td>外部性</td><td>私人成本不等于社会成本</td><td>税、管制、配额、产权</td></tr>
+        <tr><td>信息不对称</td><td>质量、努力和风险可能被隐藏</td><td>认证、声誉、牌照、文凭</td></tr>
+        <tr><td>公共品与知识</td><td>非排他性带来搭便车</td><td>专利、版权、科研资助、学术声誉</td></tr>
+        <tr><td>不完全契约</td><td>未来无法完全写进合同</td><td>企业、组织、权威、长期关系</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner center">
+      <p class="small">DAY 1</p>
+      <div class="spacer"></div>
+      <h2>研究制度，先把它变成问题</h2>
+      <div class="spacer"></div>
+      <p class="small">谁在行动？在什么规则下行动？产生了什么社会结果？</p>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint" id="nav-hint"></div>
+
+<script>
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navHint = document.getElementById('nav-hint');
+  let current = 0;
+  const total = slides.length;
+
+  function fitDeck() {
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    deck.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', fitDeck);
+  fitDeck();
+  deck.classList.add('ready');
+
+  function show(n) {
+    current = Math.max(0, Math.min(n, total - 1));
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+      event.preventDefault();
+      show(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      show(current - 1);
+    }
+    if (event.key === 'Home') {
+      event.preventDefault();
+      show(0);
+    }
+    if (event.key === 'End') {
+      event.preventDefault();
+      show(total - 1);
+    }
+    navHint.style.opacity = '0';
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', (event) => {
+    const diff = event.changedTouches[0].screenX - touchStartX;
+    if (diff < -50) show(current + 1);
+    if (diff > 50) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+  document.addEventListener('click', (event) => {
+    const x = event.clientX / window.innerWidth;
+    if (x > 0.65) show(current + 1);
+    if (x < 0.35) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+
+  show(0);
+</script>
+</body>
+</html>

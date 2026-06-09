@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>NBER-style Slide Template Gallery</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&amp;family=Work+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Noto+Serif+SC:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;600&amp;family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --bg-cream: #f5efe4;
+    --bg-warm: #efe3cf;
+    --ink: #1f1d1a;
+    --ink-soft: #5a554d;
+    --ink-faint: #a39d8f;
+    --rule: #ddd6c4;
+    --terracotta: #d97757;
+    --blue: #527f99;
+    --green: #5a8a6a;
+    --gold: #c9a961;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", serif;
+    --sans: "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --display: "EB Garamond", "Noto Serif SC", serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--ink); }
+  .stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--ink); }
+  .deck { width: 1280px; height: 720px; position: relative; transform-origin: center center; visibility: hidden; }
+  .deck.ready { visibility: visible; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 58px 96px; opacity: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+  .slide.active { opacity: 1; pointer-events: auto; z-index: 2; }
+  .slide-inner { width: 100%; max-width: 1100px; position: relative; z-index: 1; }
+  .light { background: var(--bg); color: var(--ink); }
+  .cream { background: var(--bg-cream); color: var(--ink); }
+  .warm { background: var(--bg-warm); color: var(--ink); }
+  .dark { background: var(--ink); color: var(--bg); }
+  .terracotta { background: var(--terracotta); color: #fff; }
+  .blue { background: var(--blue); color: #fff; }
+
+  h1, h2, h3, h4 { font-family: var(--serif-cn); font-weight: 600; }
+  h1 { font-size: 84px; line-height: 1.12; letter-spacing: .03em; }
+  h2 { font-size: 58px; line-height: 1.18; letter-spacing: .02em; }
+  h3 { font-size: 40px; line-height: 1.28; letter-spacing: .01em; }
+  h4 { font-size: 25px; line-height: 1.32; }
+  p { font-family: var(--serif-cn); font-size: 27px; line-height: 1.65; }
+  p.small { font-family: var(--sans); font-size: 19px; line-height: 1.65; color: var(--ink-soft); }
+  .dark p.small, .blue p.small, .terracotta p.small { color: rgba(255,255,255,.62); }
+  .subtitle { font-family: var(--display); font-size: 34px; color: var(--gold); margin-top: 14px; }
+  .eyebrow { font-family: var(--mono); font-size: 16px; letter-spacing: .17em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 28px; display: flex; align-items: center; gap: 13px; }
+  .dark .eyebrow { color: rgba(250,248,243,.38); }
+  .terracotta .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.48); }
+  .eyebrow .num { color: var(--terracotta); font-weight: 500; }
+  .dark .eyebrow .num { color: var(--gold); }
+  .terracotta .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+  .dash { width: 42px; height: 2px; background: currentColor; }
+  .accent { color: var(--terracotta); }
+  .dark .accent { color: var(--gold); }
+  .spacer { height: 24px; }
+  .spacer-lg { height: 44px; }
+  .center { text-align: center; }
+
+  ul { list-style: none; padding: 0; }
+  li { font-family: var(--serif-cn); font-size: 26px; line-height: 1.58; padding: 8px 0 8px 34px; position: relative; }
+  li::before { content: ""; position: absolute; left: 0; top: 20px; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--terracotta); }
+  .dark li::before { border-color: var(--gold); }
+
+  .slide-question { font-family: var(--serif-cn); font-size: 47px; line-height: 1.42; padding-left: 30px; border-left: 5px solid var(--terracotta); }
+  .dark .slide-question { border-left-color: var(--gold); }
+  .terracotta .slide-question, .blue .slide-question { border-left-color: #fff; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: start; }
+  .three-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 34px; }
+  .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 32px; }
+  .six-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 28px; }
+  .card, .mini-card, .quote-card { background: rgba(31,29,26,.06); border-radius: 14px; padding: 26px 24px; }
+  .dark .card, .dark .mini-card, .dark .quote-card { background: rgba(250,248,243,.08); }
+  .blue .card, .blue .mini-card {
+    background: rgba(25,54,70,.24);
+    border: 1px solid rgba(250,248,243,.18);
+    box-shadow: 0 18px 36px rgba(31,29,26,.10);
+  }
+  .card-label, .mc-label { font-family: var(--sans); font-weight: 600; letter-spacing: .08em; color: var(--terracotta); margin-bottom: 12px; }
+  .card-label { font-size: 16px; }
+  .mc-label { font-size: 14px; }
+  .dark .card-label, .dark .mc-label { color: var(--gold); }
+  .blue .card-label, .blue .mc-label { color: #F4B27B; }
+  .card p { font-size: 18px; line-height: 1.58; color: var(--ink-soft); margin-top: 10px; }
+  .mini-card h4 { font-size: 21px; }
+  .mini-card p { font-size: 15px; line-height: 1.55; color: var(--ink-soft); margin-top: 7px; }
+  .dark .card p, .dark .mini-card p { color: rgba(250,248,243,.6); }
+  .blue .card h4, .blue .mini-card h4 { color: #fff; }
+  .blue .card p, .blue .mini-card p { color: rgba(250,248,243,.76); }
+  .quote { font-family: var(--serif-cn); font-size: 30px; line-height: 1.55; border-left: 5px solid var(--terracotta); padding-left: 30px; }
+  .dark .quote { border-left-color: var(--gold); }
+  .source { font-family: var(--sans); font-size: 17px; color: var(--ink-soft); margin-top: 18px; }
+  .dark .source { color: rgba(250,248,243,.58); }
+  .table { width: 100%; border-collapse: collapse; font-family: var(--serif-cn); font-size: 21px; line-height: 1.45; margin-top: 28px; }
+  .table th { font-family: var(--sans); font-size: 16px; text-align: left; color: var(--terracotta); border-bottom: 2px solid var(--rule); padding: 10px 12px; }
+  .table td { border-bottom: 1px solid var(--rule); padding: 10px 12px; vertical-align: top; }
+  .table.compact { font-size: 17px; line-height: 1.38; margin-top: 22px; }
+  .table.compact th { font-size: 13px; padding: 8px 10px; }
+  .table.compact td { padding: 8px 10px; }
+  .dark .table th { color: var(--gold); border-bottom-color: rgba(250,248,243,.28); }
+  .dark .table td { border-bottom-color: rgba(250,248,243,.15); }
+  .formula { font-size: 46px; color: var(--blue); text-align: center; margin: 32px 0; }
+  .formula mjx-container { color: var(--blue); }
+  .image-frame { background: #fff; border: 1px solid var(--rule); border-radius: 10px; padding: 14px; box-shadow: 0 18px 40px rgba(31,29,26,.12); }
+  .image-frame img { display: block; max-width: 100%; max-height: 420px; object-fit: contain; margin: 0 auto; }
+  .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 12px; background: rgba(250,248,243,.08); border: 1px solid rgba(250,248,243,.18); box-shadow: 0 18px 40px rgba(31,29,26,.18); }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .slide-link { color: var(--terracotta); text-decoration: none; border-bottom: 1px solid rgba(217,119,87,.45); padding-bottom: 2px; }
+  .dark .slide-link { color: var(--gold); border-bottom-color: rgba(201,169,97,.48); }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; }
+  .stat { border-left: 4px solid var(--terracotta); padding: 18px 20px; background: rgba(31,29,26,.05); }
+  .stat .num { font-family: var(--display); font-size: 46px; color: var(--terracotta); line-height: 1; }
+  .stat .txt { font-family: var(--sans); font-size: 16px; color: var(--ink-soft); margin-top: 10px; line-height: 1.45; }
+  .dark .stat { border-left-color: var(--gold); background: rgba(250,248,243,.08); }
+  .dark .stat .num { color: var(--gold); }
+  .dark .stat .txt { color: rgba(250,248,243,.6); }
+  .big-num { font-family: var(--display); font-size: 190px; line-height: .8; color: var(--terracotta); opacity: .12; position: absolute; right: -10px; top: -12px; }
+  .dark .big-num { color: var(--gold); opacity: .16; }
+  .progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--terracotta); transition: width .35s ease; z-index: 10; }
+  .counter { position: fixed; right: 38px; bottom: 20px; font-family: var(--mono); font-size: 13px; color: var(--ink-faint); letter-spacing: .1em; z-index: 10; mix-blend-mode: difference; }
+  .nav-hint { position: fixed; left: 38px; bottom: 20px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: .12em; text-transform: uppercase; z-index: 10; mix-blend-mode: difference; opacity: .55; transition: opacity 1.5s; }
+  body:has(.slide.blue.active) .counter,
+  body:has(.slide.blue.active) .nav-hint {
+    color: rgba(250,248,243,.78);
+    mix-blend-mode: normal;
+  }
+
+
+/* =========================
+   NBER-style recolor pass
+   ========================= */
+:root {
+  --bg: #FFFFFF;
+  --bg-cream: #F3F7FB;
+  --bg-warm: #EAF2FA;
+  --ink: #161616;
+  --ink-soft: #555B64;
+  --ink-faint: #8A9099;
+  --rule: #CBD7E6;
+  --terracotta: #A1192A; /* NBER Digest red */
+  --blue: #1C67B1;
+  --green: #4D7B93;
+  --gold: #A1192A;
+  --nber-blue: #1C67B1;
+  --nber-blue-dark: #123A63;
+  --nber-blue-soft: #EAF2FA;
+  --digest-red: #A1192A;
+  --paper: #FFFFFF;
+  --serif-cn: "Noto Serif SC", "Source Serif 4", "Songti SC", serif;
+  --sans: "Work Sans", "Noto Sans SC", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --display: "Source Serif 4", "EB Garamond", "Noto Serif SC", serif;
+}
+html, body { background: var(--paper) !important; }
+.stage { background: var(--paper) !important; }
+body:has(.slide.dark.active) .stage,
+body:has(.slide.blue.active) .stage { background: var(--nber-blue) !important; }
+body:has(.slide.terracotta.active) .stage { background: var(--paper) !important; }
+body:has(.slide.cream.active) .stage,
+body:has(.slide.warm.active),
+body:has(.slide.light.active) .stage { background: var(--paper) !important; }
+.slide { padding: 58px 96px; }
+.light { background: var(--paper); color: var(--ink); }
+.cream { background: #F7FAFD; color: var(--ink); }
+.warm { background: var(--nber-blue-soft); color: var(--ink); }
+.dark, .blue { background: var(--nber-blue); color: #fff; }
+.terracotta { background: var(--paper); color: var(--ink); }
+.dark::before, .blue::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18,58,99,.20) 0 34px, transparent 34px 92px);
+  background-size: 100% 78px, 118px 100%, 180px 100%;
+  opacity: .28;
+}
+.dark .slide-inner, .blue .slide-inner { z-index: 1; }
+h1, h2, h3, h4 { font-family: var(--serif-cn); letter-spacing: 0; }
+h1 { font-size: 88px; line-height: 1.06; font-weight: 700; }
+h2 { font-size: 60px; line-height: 1.12; font-weight: 650; }
+h3 { font-size: 42px; line-height: 1.24; font-weight: 650; }
+p { color: inherit; }
+p.small { color: var(--ink-soft); }
+.dark p.small, .blue p.small { color: rgba(255,255,255,.72); }
+.subtitle { color: rgba(255,255,255,.82); font-family: var(--display); font-style: italic; }
+.eyebrow { color: var(--ink-faint); letter-spacing: .16em; }
+.eyebrow .num { color: var(--digest-red); }
+.dark .eyebrow, .blue .eyebrow { color: rgba(255,255,255,.62); }
+.dark .eyebrow .num, .blue .eyebrow .num { color: #fff; }
+.dash { height: 1px; opacity: .7; }
+li::before { border-color: var(--nber-blue); }
+.dark li::before, .blue li::before { border-color: #fff; }
+.slide-question { border-left-color: var(--nber-blue); }
+.dark .slide-question, .blue .slide-question { border-left-color: #fff; }
+.card, .mini-card, .quote-card {
+  background: #F7FAFD;
+  border: 1px solid #D6E1EE;
+  border-radius: 0;
+  box-shadow: none;
+}
+.dark .card, .dark .mini-card, .dark .quote-card,
+.blue .card, .blue .mini-card, .blue .quote-card {
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.34);
+  box-shadow: none;
+}
+.card-label, .mc-label { color: var(--digest-red); font-weight: 650; letter-spacing: .11em; }
+.dark .card-label, .dark .mc-label,
+.blue .card-label, .blue .mc-label { color: #fff; opacity: .92; }
+.card p, .mini-card p { color: var(--ink-soft); }
+.dark .card p, .dark .mini-card p,
+.blue .card p, .blue .mini-card p { color: rgba(255,255,255,.78); }
+.stat { border-left-color: var(--nber-blue); background: #F3F7FB; }
+.stat .num { color: var(--nber-blue); }
+.table th { color: var(--digest-red); border-bottom-color: var(--rule); }
+.table td { border-bottom-color: #E1E8F1; }
+.dark .table th, .blue .table th { color: #fff; border-bottom-color: rgba(255,255,255,.42); }
+.dark .table td, .blue .table td { border-bottom-color: rgba(255,255,255,.24); }
+.quote { border-left-color: var(--nber-blue); }
+.dark .quote, .blue .quote { border-left-color: #fff; }
+.source { color: var(--ink-soft); }
+.dark .source, .blue .source { color: rgba(255,255,255,.68); }
+.formula, .formula mjx-container { color: var(--nber-blue); }
+.image-frame { border-radius: 0; border-color: #D6E1EE; box-shadow: none; }
+.video-frame { border-radius: 0; box-shadow: none; }
+.slide-link { color: var(--digest-red); border-bottom-color: rgba(161,25,42,.35); }
+.progress { background: var(--digest-red); height: 3px; }
+.counter { color: var(--ink-faint); mix-blend-mode: normal; }
+.dark.active ~ .counter, .blue.active ~ .counter { color: rgba(255,255,255,.65); }
+.nav-hint { display: none !important; }
+body:has(.slide.dark.active) .counter,
+body:has(.slide.blue.active) .counter { color: rgba(255,255,255,.72); mix-blend-mode: normal; }
+body:has(.slide.light.active) .counter,
+body:has(.slide.cream.active) .counter,
+body:has(.slide.warm.active) .counter,
+body:has(.slide.terracotta.active) .counter { color: var(--ink-faint); mix-blend-mode: normal; }
+
+/* NBER-style centered claim page, no top/bottom rules */
+.claim-slide {
+  background: var(--paper);
+  color: #4D535C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.claim-slide .claim-inner {
+  width: 1050px;
+  margin: 0 auto;
+  transform: translateY(-2px);
+}
+.claim-slide .claim-kicker {
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: .18em;
+  color: var(--digest-red);
+  text-transform: uppercase;
+  margin-bottom: 34px;
+}
+.claim-slide .claim-line {
+  font-family: var(--display);
+  font-size: 60px;
+  line-height: 1.22;
+  font-weight: 500;
+  color: #4E535D;
+}
+.claim-slide .claim-sub {
+  margin-top: 30px;
+  font-family: var(--sans);
+  font-size: 20px;
+  color: var(--ink-faint);
+}
+
+/* NBER-ish section divider without full red blocks */
+.terracotta h2 { color: var(--nber-blue); }
+.terracotta p.small { color: var(--ink-soft); }
+.terracotta .slide-inner::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #D8E4F0;
+  margin-bottom: 52px;
+}
+.terracotta .slide-inner::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #D8E4F0;
+  margin-top: 52px;
+}
+
+
+/* Light content-blue slides for sustained explanatory content */
+.soft-blue {
+  background: #EAF2FA;
+  color: var(--ink);
+}
+.soft-blue .eyebrow { color: var(--ink-faint); }
+.soft-blue .eyebrow .num { color: var(--digest-red); }
+.soft-blue p.small { color: var(--ink-soft); }
+.soft-blue li::before { border-color: var(--nber-blue); }
+.soft-blue .card, .soft-blue .mini-card, .soft-blue .quote-card {
+  background: rgba(255,255,255,.72);
+  border: 1px solid #D2DFEC;
+  box-shadow: none;
+}
+.soft-blue .card-label, .soft-blue .mc-label { color: var(--digest-red); }
+.soft-blue .card h4, .soft-blue .mini-card h4 { color: var(--ink); }
+.soft-blue .card p, .soft-blue .mini-card p { color: var(--ink-soft); }
+.soft-blue .dash { opacity: .7; }
+body:has(.slide.soft-blue.active) .stage { background: var(--paper) !important; }
+body:has(.slide.soft-blue.active) .counter { color: var(--ink-faint); mix-blend-mode: normal; }
+
+</style>
+</head>
+<body>
+<div class="stage">
+<div class="deck" id="deck">
+
+
+  <section class="slide dark active">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">TEMPLATE</span><span class="dash"></span><span>Blue Working Paper</span></div>
+      <h1>NBER 风格<br>课程模板</h1>
+      <div class="subtitle">Minimal academic slides for institutional economics</div>
+      <div class="spacer-lg"></div>
+      <p class="small">配色：NBER blue + Digest red · 基于原 deck 代码体系</p>
+    </div>
+  </section>
+
+  <section class="slide claim-slide">
+    <div class="claim-inner">
+      <div class="claim-kicker">Claim Page · 核心问题</div>
+      <div class="claim-line">如果一个东西可以被定价，<br>它就一定应该进入市场吗？</div>
+      <p class="claim-sub">适合课堂中的大问题、转折命题、讨论入口。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">OPENING</span><span class="dash"></span><span>普通内容页</span></div>
+      <h3>把一个熟悉的东西，重新变成问题</h3>
+      <div class="spacer"></div>
+      <ul>
+        <li>主背景用白色，适合长期阅读。</li>
+        <li>蓝色用于标题、线条、结构，而不是压满整页。</li>
+        <li>Digest red 用于小标签、关键词和提示，不宜大面积使用。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">SECTION</span><span class="dash"></span><span>章节页 / 大段落开场</span></div>
+      <h2>市场可以把什么东西<br>变成交易对象？</h2>
+      <div class="three-cards">
+        <div class="card"><div class="card-label">DOMAIN</div><h4>域名</h4><p>非物理对象如何被制度化为可交易资产。</p></div>
+        <div class="card"><div class="card-label">CAMEO</div><h4>明星问候</h4><p>注意力、承认与象征性互动如何被交易。</p></div>
+        <div class="card"><div class="card-label">POLYMARKET</div><h4>预测市场</h4><p>未来状态如何被写成合约。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">CASE</span><span class="dash"></span><span>案例 / 数据页</span></div>
+      <h3>一串技术后缀，如何变成财政资产？</h3>
+      <div class="stat-row">
+        <div class="stat"><div class="num">14.4万</div><div class="txt">2022 年 .ai 注册量</div></div>
+        <div class="stat"><div class="num">35.4万</div><div class="txt">2023 年 .ai 注册量</div></div>
+        <div class="stat"><div class="num">EC$227m</div><div class="txt">IMF 估计 2025 年域名收入</div></div>
+      </div>
+      <div class="spacer"></div>
+      <p>案例页要避免只讲故事。右侧或下方需要明确写出这个例子说明的制度问题。</p>
+      <p class="small">Digest red 可用在数据标签；蓝色用于结构和数字。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">CONCEPT</span><span class="dash"></span><span>概念表格页</span></div>
+      <h3>市场不是一次交易，而是一套可重复秩序</h3>
+      <table class="table compact">
+        <tr><th>市场中的特征</th><th>具体含义</th><th>对应的制度要素</th></tr>
+        <tr><td>交易对象</td><td>什么东西可以被买卖</td><td>规则界定了什么可以被占有、转让和计价</td></tr>
+        <tr><td>交易角色</td><td>买方、卖方、中介、平台、监管者</td><td>制度分配不同角色及其权利义务</td></tr>
+        <tr><td>预期与执行</td><td>交付、退款、差评、处罚、法律追责</td><td>陌生人之间形成稳定预期</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide soft-blue">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">EXPLANATION</span><span class="dash"></span><span>持续讲解页</span></div>
+      <div class="two-col">
+        <div>
+          <h3>为什么交换本身可以创造收益？</h3>
+          <div class="spacer"></div>
+          <p>这类内容页不宜用深蓝底。浅蓝底保留 NBER 气质，但更适合学生长时间阅读。</p>
+          <p class="small">适合机制解释、模型直觉、逐步推理和老师需要停留较久的页面。</p>
+        </div>
+        <div class="card">
+          <div class="card-label">BASIC LOGIC</div>
+          <h4>评价差异 → 自愿交换 → 双方改善</h4>
+          <p>小英文标签用 digest red；正文保持低对比、可读。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide cream">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">QUOTE</span><span class="dash"></span><span>思想引子 / 文献页</span></div>
+      <p class="quote">“some sort of order arises as a result of individual action but without being designed by any individual”</p>
+      <p class="source">F. A. Hayek, The Counter-Revolution of Science, 1952</p>
+      <div class="spacer"></div>
+      <p class="small">引文页用浅色背景，避免把 quote 做成演讲海报。</p>
+    </div>
+  </section>
+
+  <section class="slide light">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">LIMITS</span><span class="dash"></span><span>分类 / 对照页</span></div>
+      <div class="four-grid">
+        <div class="mini-card"><div class="mc-label">DISTRIBUTION</div><h4>支付能力不等于需求</h4><p>资源可能流向支付能力最高者。</p></div>
+        <div class="mini-card"><div class="mc-label">EXTERNALITY</div><h4>局外人承担成本</h4><p>污染、拥堵、噪音不一定进入价格。</p></div>
+        <div class="mini-card"><div class="mc-label">INFORMATION</div><h4>质量难以观察</h4><p>医疗、二手车和金融产品中的信任问题。</p></div>
+        <div class="mini-card"><div class="mc-label">MEANING</div><h4>定价改变意义</h4><p>友谊、荣誉、选票和排名嵌入社会意义。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide dark">
+    <div class="slide-inner">
+      <div class="eyebrow"><span class="num">MAP</span><span class="dash"></span><span>课程地图 / 总结页</span></div>
+      <h3>第一讲留下的问题，会在后面逐步展开</h3>
+      <table class="table">
+        <tr><th>主题</th><th>核心困难</th><th>制度回应</th></tr>
+        <tr><td>外部性</td><td>私人成本不等于社会成本</td><td>税、管制、配额、产权</td></tr>
+        <tr><td>信息不对称</td><td>质量、努力和风险可能被隐藏</td><td>认证、声誉、牌照、文凭</td></tr>
+        <tr><td>公共品与知识</td><td>非排他性带来搭便车</td><td>专利、版权、科研资助、学术声誉</td></tr>
+      </table>
+    </div>
+  </section>
+
+</div>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint" id="nav-hint"></div>
+<script>
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const navHint = document.getElementById('nav-hint');
+  let current = 0;
+  const total = slides.length;
+
+  function fitDeck() {
+    const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    deck.style.transform = `scale(${scale})`;
+  }
+  window.addEventListener('resize', fitDeck);
+  fitDeck();
+  deck.classList.add('ready');
+
+  function show(n) {
+    current = Math.max(0, Math.min(n, total - 1));
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === ' ' || event.key === 'PageDown') {
+      event.preventDefault();
+      show(current + 1);
+    }
+    if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+      event.preventDefault();
+      show(current - 1);
+    }
+    if (event.key === 'Home') {
+      event.preventDefault();
+      show(0);
+    }
+    if (event.key === 'End') {
+      event.preventDefault();
+      show(total - 1);
+    }
+    navHint.style.opacity = '0';
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0].screenX;
+  });
+  document.addEventListener('touchend', (event) => {
+    const diff = event.changedTouches[0].screenX - touchStartX;
+    if (diff < -50) show(current + 1);
+    if (diff > 50) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+  document.addEventListener('click', (event) => {
+    const x = event.clientX / window.innerWidth;
+    if (x > 0.65) show(current + 1);
+    if (x < 0.35) show(current - 1);
+    navHint.style.opacity = '0';
+  });
+
+  show(0);
+</script>
+</body>
+</html>
